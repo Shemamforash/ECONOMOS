@@ -1,6 +1,6 @@
 package economos;
 
-public class User {
+public abstract class User {
 	private String name, companyName;
 	private ResourceMap<UserResource> resourceMap = new ResourceMap<UserResource>("User");
 	

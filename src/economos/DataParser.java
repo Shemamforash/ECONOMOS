@@ -23,7 +23,7 @@ public class DataParser {
 				if(next == null){
 					break;
 				}
-				String[] resourceStrArr = next.split(",");
+				String[] resourceStrArr = next.split("#");
 				RawResourceData r = new RawResourceData(resourceStrArr[0], resourceStrArr[1], resourceStrArr[2]); //FIXME
 				if(!types.contains(resourceStrArr[2])){
 					types.add(resourceStrArr[2]);
@@ -41,15 +41,10 @@ public class DataParser {
 			Resource r = null;
 			RawResourceData rawDatum = rawResourceData.get(i);
 			
-			switch (owner){
-				case "User":
-					r = new UserResource(rawDatum.name(), rawDatum.description(), rawDatum.type()); 
-					break;
-				case "Market":
-					r = new MarketResource(rawDatum.name(), rawDatum.description(), rawDatum.type(), 0);
-					break;
-				default:
-					break;
+			if(owner.equals("User")){
+				r = new UserResource(rawDatum.name(), rawDatum.description(), rawDatum.type()); 
+			} else if(owner.equals("Market")){
+				r = new MarketResource(rawDatum.name(), rawDatum.description(), rawDatum.type(), 0);
 			}
 			if(r != null){
 				arr.add(r);

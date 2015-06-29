@@ -24,9 +24,15 @@ public class DataParser {
 					break;
 				}
 				String[] resourceStrArr = next.split("#");
-				RawResourceData r = new RawResourceData(resourceStrArr[0], resourceStrArr[1], resourceStrArr[2]); //FIXME
-				if(!types.contains(resourceStrArr[2])){
-					types.add(resourceStrArr[2]);
+				String name = resourceStrArr[0];
+				String type = resourceStrArr[1];
+				String description = "";
+				if(resourceStrArr.length > 2){
+					description = resourceStrArr[2];
+				}
+				RawResourceData r = new RawResourceData(name, type, description); //FIXME
+				if(!types.contains(type)){
+					types.add(type);
 				}
 				rawResourceData.add(r);
 			}
@@ -61,7 +67,7 @@ public class DataParser {
 	class RawResourceData{
 		private String name, description, type;
 		
-		public RawResourceData(String name, String description, String type){
+		public RawResourceData(String name, String type, String description){
 			this.name = name;
 			this.description = description;
 			this.type = type;

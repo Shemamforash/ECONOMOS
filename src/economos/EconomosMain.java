@@ -1,6 +1,8 @@
 package economos;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.TimerTask;
@@ -19,6 +21,8 @@ public class EconomosMain {
 	private JList resourceList;
 	private JList categoryList;
 	private static UserResource selectedResource = null;
+	private JTextField buyAmountTextField;
+	private JTextField sellAmountTextField;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -37,7 +41,7 @@ public class EconomosMain {
 		load();
 		initialize();
 		updateCategoryList(currentPlayer, categoryList);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 673, 994, 28);
 		frame.getContentPane().add(panel);
@@ -57,28 +61,34 @@ public class EconomosMain {
 		currentPlayer = new Player("Sam", "Potatronics");
 	}
 
-	public void updateCategoryList(User user, JList list){
+	public void updateCategoryList(User user, JList list) {
 		ArrayList<ResourceType<UserResource>> arr = new ArrayList<ResourceType<UserResource>>(user.getResourceMap().getResourceTypes().values());
 		String[] strarr = new String[arr.size()];
-		for(int i = 0; i < arr.size(); ++i){
+		for (int i = 0; i < arr.size(); ++i) {
 			strarr[i] = arr.get(i).getType();
 		}
 		list.setListData(strarr);
 	}
-	
-	public void setSelectedResource(String type, String name){
+
+	public void setSelectedResource(String type, String name) {
 		ResourceMap<UserResource> m = EconomosMain.getCurrentUser().getResourceMap();
-		ResourceType<UserResource> t = m.getResourceTypes().get(type);
-		selectedResource = (UserResource)t.getResourceOfType().get(name);
-		
-		if(selectedResource != null){
+		if (m.getResourceTypes().containsKey(type)) {
+			ResourceType<UserResource> t = m.getResourceTypes().get(type);
+			if (t.getResourceOfType().containsKey(name)) {
+				selectedResource = (UserResource) t.getResourceOfType().get(name);
+			} else {
+				selectedResource = null;
+			}
+		}
+
+		if (selectedResource != null) {
 			typeTextField.setText(selectedResource.getType());
 			nameTextField.setText(selectedResource.getName());
 			descriptionTextArea.setText(selectedResource.getDescription());
 			supplyTextField.setText(String.valueOf(selectedResource.getMarketResource().getQuantity()));
 			possessTextField.setText(String.valueOf(selectedResource.getQuantity()));
-			buyTextField.setText(String.valueOf(selectedResource.getMarketResource().getBuyPrice()));
-			sellTextField.setText(String.valueOf(selectedResource.getMarketResource().getSellPrice()));
+			buyTextField.setText(String.valueOf(selectedResource.getMarketResource().getBuyPrice(1)));
+			sellTextField.setText(String.valueOf(selectedResource.getMarketResource().getSellPrice(1)));
 		} else {
 			typeTextField.setText("");
 			typeTextField.setText("");
@@ -95,22 +105,22 @@ public class EconomosMain {
 			descriptionTextArea.setText("");
 		}
 	}
-	
-	public static UserResource getSelectedResource(){
+
+	public static UserResource getSelectedResource() {
 		return selectedResource;
 	}
-	
-	public void updateJList(User user, String type, JList list){				
-		if(EconomosMain.getCurrentUser().getResourceMap().getResourceTypes().containsKey(type)){
+
+	public void updateJList(User user, String type, JList list) {
+		if (EconomosMain.getCurrentUser().getResourceMap().getResourceTypes().containsKey(type)) {
 			ArrayList<UserResource> arr = new ArrayList<UserResource>(user.getResourceMap().getResourceTypes().get(type).getResourceOfType().values());
 			String[] strarr = new String[arr.size()];
-			for(int i = 0; i < strarr.length; ++i){
-				strarr[i] = ((Resource)arr.get(i)).getName();
+			for (int i = 0; i < strarr.length; ++i) {
+				strarr[i] = ((Resource) arr.get(i)).getName();
 			}
 			list.setListData(strarr);
 		}
 	}
-	
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -287,12 +297,6 @@ public class EconomosMain {
 		bottomDetailPanel.add(purchasePanel);
 		purchasePanel.setLayout(new GridLayout(4, 1, 0, 10));
 
-		JButton sellButton = new JButton("Sell");
-		purchasePanel.add(sellButton);
-
-		JButton buyButton = new JButton("Buy");
-		purchasePanel.add(buyButton);
-
 		demandTextField = new JTextField();
 		purchasePanel.add(demandTextField);
 		demandTextField.setEditable(false);
@@ -305,6 +309,47 @@ public class EconomosMain {
 
 		JPanel botPanel = new JPanel();
 		sl_bottomDetailPanel.putConstraint(SpringLayout.EAST, purchasePanel, -6, SpringLayout.WEST, botPanel);
+
+		JPanel sellPanel = new JPanel();
+		purchasePanel.add(sellPanel);
+		sellPanel.setLayout(null);
+
+		JButton sellButton = new JButton("Sell");
+		sellButton.setBounds(85, 0, 126, 39);
+		sellPanel.add(sellButton);
+
+		sellAmountTextField = new JTextField();
+		sellAmountTextField.setBounds(0, 0, 75, 39);
+		sellPanel.add(sellAmountTextField);
+		sellAmountTextField.setColumns(10);
+
+		JPanel buyPanel = new JPanel();
+		purchasePanel.add(buyPanel);
+		buyPanel.setLayout(null);
+
+		JButton buyButton = new JButton("Buy");
+		buyButton.setBounds(85, 0, 126, 39);
+		buyPanel.add(buyButton);
+
+		buyAmountTextField = new JTextField();
+		buyAmountTextField.setBounds(0, 0, 75, 39);
+		buyPanel.add(buyAmountTextField);
+		buyAmountTextField.setColumns(10);
+		buyButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (selectedResource != null) {
+					String response = MarketController.buyResource(100, selectedResource, currentPlayer);
+					System.out.println(response);
+				}
+			}
+		});
+		sellButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (selectedResource != null) {
+					MarketController.buyResource(1, selectedResource, currentPlayer);
+				}
+			}
+		});
 		sl_bottomDetailPanel.putConstraint(SpringLayout.SOUTH, botPanel, 0, SpringLayout.SOUTH, statsPanel);
 		sl_bottomDetailPanel.putConstraint(SpringLayout.NORTH, botPanel, 0, SpringLayout.NORTH, statsPanel);
 		sl_bottomDetailPanel.putConstraint(SpringLayout.WEST, botPanel, 433, SpringLayout.WEST, bottomDetailPanel);
@@ -320,66 +365,66 @@ public class EconomosMain {
 		JRadioButton activeRadioButton = new JRadioButton("Enable Bot (20C/s)");
 		botPanel.add(activeRadioButton);
 
-		JPanel buyPanel = new JPanel();
-		botPanel.add(buyPanel);
-		SpringLayout sl_buyPanel = new SpringLayout();
-		buyPanel.setLayout(sl_buyPanel);
+		JPanel botBuyPanel = new JPanel();
+		botPanel.add(botBuyPanel);
+		SpringLayout sl_botBuyPanel = new SpringLayout();
+		botBuyPanel.setLayout(sl_botBuyPanel);
 
 		JButton decreaseBuyButton = new JButton("-");
-		sl_buyPanel.putConstraint(SpringLayout.NORTH, decreaseBuyButton, 25, SpringLayout.NORTH, buyPanel);
-		sl_buyPanel.putConstraint(SpringLayout.SOUTH, decreaseBuyButton, 0, SpringLayout.SOUTH, buyPanel);
-		sl_buyPanel.putConstraint(SpringLayout.EAST, decreaseBuyButton, -10, SpringLayout.EAST, buyPanel);
-		buyPanel.add(decreaseBuyButton);
+		sl_botBuyPanel.putConstraint(SpringLayout.NORTH, decreaseBuyButton, 25, SpringLayout.NORTH, botBuyPanel);
+		sl_botBuyPanel.putConstraint(SpringLayout.SOUTH, decreaseBuyButton, 0, SpringLayout.SOUTH, botBuyPanel);
+		sl_botBuyPanel.putConstraint(SpringLayout.EAST, decreaseBuyButton, -10, SpringLayout.EAST, botBuyPanel);
+		botBuyPanel.add(decreaseBuyButton);
 
 		buyTextField = new JTextField();
-		sl_buyPanel.putConstraint(SpringLayout.WEST, decreaseBuyButton, 6, SpringLayout.EAST, buyTextField);
-		sl_buyPanel.putConstraint(SpringLayout.NORTH, buyTextField, 10, SpringLayout.NORTH, buyPanel);
-		sl_buyPanel.putConstraint(SpringLayout.WEST, buyTextField, 0, SpringLayout.WEST, buyPanel);
-		sl_buyPanel.putConstraint(SpringLayout.EAST, buyTextField, -84, SpringLayout.EAST, buyPanel);
-		sl_buyPanel.putConstraint(SpringLayout.SOUTH, buyTextField, -10, SpringLayout.SOUTH, buyPanel);
+		sl_botBuyPanel.putConstraint(SpringLayout.WEST, decreaseBuyButton, 6, SpringLayout.EAST, buyTextField);
+		sl_botBuyPanel.putConstraint(SpringLayout.NORTH, buyTextField, 10, SpringLayout.NORTH, botBuyPanel);
+		sl_botBuyPanel.putConstraint(SpringLayout.WEST, buyTextField, 0, SpringLayout.WEST, botBuyPanel);
+		sl_botBuyPanel.putConstraint(SpringLayout.EAST, buyTextField, -84, SpringLayout.EAST, botBuyPanel);
+		sl_botBuyPanel.putConstraint(SpringLayout.SOUTH, buyTextField, -10, SpringLayout.SOUTH, botBuyPanel);
 		buyTextField.setEnabled(false);
-		buyPanel.add(buyTextField);
+		botBuyPanel.add(buyTextField);
 		buyTextField.setColumns(10);
 
-		JPanel sellPanel = new JPanel();
-		botPanel.add(sellPanel);
-		SpringLayout sl_sellPanel = new SpringLayout();
-		sellPanel.setLayout(sl_sellPanel);
+		JPanel botSellPanel = new JPanel();
+		botPanel.add(botSellPanel);
+		SpringLayout sl_botSellPanel = new SpringLayout();
+		botSellPanel.setLayout(sl_botSellPanel);
 
 		sellTextField = new JTextField();
-		sl_sellPanel.putConstraint(SpringLayout.WEST, sellTextField, 0, SpringLayout.WEST, sellPanel);
+		sl_botSellPanel.putConstraint(SpringLayout.WEST, sellTextField, 0, SpringLayout.WEST, botSellPanel);
 		sellTextField.setEnabled(false);
-		sl_sellPanel.putConstraint(SpringLayout.NORTH, sellTextField, 10, SpringLayout.NORTH, sellPanel);
-		sl_sellPanel.putConstraint(SpringLayout.SOUTH, sellTextField, -10, SpringLayout.SOUTH, sellPanel);
-		sl_sellPanel.putConstraint(SpringLayout.EAST, sellTextField, 155, SpringLayout.WEST, sellPanel);
-		sellPanel.add(sellTextField);
+		sl_botSellPanel.putConstraint(SpringLayout.NORTH, sellTextField, 10, SpringLayout.NORTH, botSellPanel);
+		sl_botSellPanel.putConstraint(SpringLayout.SOUTH, sellTextField, -10, SpringLayout.SOUTH, botSellPanel);
+		sl_botSellPanel.putConstraint(SpringLayout.EAST, sellTextField, 155, SpringLayout.WEST, botSellPanel);
+		botSellPanel.add(sellTextField);
 		sellTextField.setColumns(10);
 
 		JButton increaseSellButton = new JButton("+");
-		sl_sellPanel.putConstraint(SpringLayout.NORTH, increaseSellButton, 0, SpringLayout.NORTH, sellPanel);
-		sl_sellPanel.putConstraint(SpringLayout.WEST, increaseSellButton, 6, SpringLayout.EAST, sellTextField);
-		sl_sellPanel.putConstraint(SpringLayout.EAST, increaseSellButton, -10, SpringLayout.EAST, sellPanel);
-		sellPanel.add(increaseSellButton);
+		sl_botSellPanel.putConstraint(SpringLayout.NORTH, increaseSellButton, 0, SpringLayout.NORTH, botSellPanel);
+		sl_botSellPanel.putConstraint(SpringLayout.WEST, increaseSellButton, 6, SpringLayout.EAST, sellTextField);
+		sl_botSellPanel.putConstraint(SpringLayout.EAST, increaseSellButton, -10, SpringLayout.EAST, botSellPanel);
+		botSellPanel.add(increaseSellButton);
 		bodyPanel.add(resourceGraphPanel);
 		resourceGraphPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		GraphPanel sellGraph = new GraphPanel(true);
+
+		GraphPanel sellGraph = new GraphPanel();
 		resourceGraphPanel.add(sellGraph);
-		
-		GraphPanel buyGraph = new GraphPanel(false);
+
+		GraphPanel buyGraph = new GraphPanel();
 		resourceGraphPanel.add(buyGraph);
 
 		JButton increaseBuyButton = new JButton("+");
-		sl_buyPanel.putConstraint(SpringLayout.NORTH, increaseBuyButton, 0, SpringLayout.NORTH, buyPanel);
-		sl_buyPanel.putConstraint(SpringLayout.WEST, increaseBuyButton, 6, SpringLayout.EAST, buyTextField);
-		sl_buyPanel.putConstraint(SpringLayout.EAST, increaseBuyButton, -10, SpringLayout.EAST, buyPanel);
-		buyPanel.add(increaseBuyButton);
+		sl_botBuyPanel.putConstraint(SpringLayout.NORTH, increaseBuyButton, 0, SpringLayout.NORTH, botBuyPanel);
+		sl_botBuyPanel.putConstraint(SpringLayout.WEST, increaseBuyButton, 6, SpringLayout.EAST, buyTextField);
+		sl_botBuyPanel.putConstraint(SpringLayout.EAST, increaseBuyButton, -10, SpringLayout.EAST, botBuyPanel);
+		botBuyPanel.add(increaseBuyButton);
 
 		JButton decreaseSellButton = new JButton("-");
-		sl_sellPanel.putConstraint(SpringLayout.WEST, decreaseSellButton, 6, SpringLayout.EAST, sellTextField);
-		sl_sellPanel.putConstraint(SpringLayout.SOUTH, decreaseSellButton, 0, SpringLayout.SOUTH, sellPanel);
-		sl_sellPanel.putConstraint(SpringLayout.EAST, decreaseSellButton, -10, SpringLayout.EAST, sellPanel);
-		sellPanel.add(decreaseSellButton);
+		sl_botSellPanel.putConstraint(SpringLayout.WEST, decreaseSellButton, 6, SpringLayout.EAST, sellTextField);
+		sl_botSellPanel.putConstraint(SpringLayout.SOUTH, decreaseSellButton, 0, SpringLayout.SOUTH, botSellPanel);
+		sl_botSellPanel.putConstraint(SpringLayout.EAST, decreaseSellButton, -10, SpringLayout.EAST, botSellPanel);
+		botSellPanel.add(decreaseSellButton);
 
 		JPanel companyPanel = new JPanel();
 		tabPane.addTab("Company", null, companyPanel, "View information about your company and player statistics");

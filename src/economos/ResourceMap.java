@@ -5,6 +5,7 @@ import java.util.*;
 public class ResourceMap<T extends Resource> {
 	private HashMap<String, ResourceType<T>> resourceTypes = new HashMap<String, ResourceType<T>>();
 	
+	@SuppressWarnings("unchecked")
 	public ResourceMap(String owner){
 		ArrayList<Resource> resources = DataParser.getResourceData(owner);		
 		ArrayList<String> types = DataParser.getTypes();

@@ -1,7 +1,5 @@
 package economos;
 
-import java.util.*;
-
 public abstract class Resource {
 	private String name, description, type;
 	protected int quantity;
@@ -16,7 +14,6 @@ public abstract class Resource {
 		this.name = name;
 		this.description = description;
 		this.type = type;
-		
 	}
 	
 	public String getType(){

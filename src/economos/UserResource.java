@@ -12,20 +12,6 @@ public class UserResource extends Resource{
 		quantity += amount;		
 	}
 
-	public void buyFromMarket(int amount){
-		if(marketResource.getQuantity() >= amount){
-			updateQuantity(amount);
-			marketResource.updateQuantity(-amount);
-		}
-	}	
-	
-	public void sellToMarket(int amount){
-		if(quantity >= amount){
-			updateQuantity(-amount);
-			marketResource.updateQuantity(amount);
-		}
-	}
-	
 	public MarketResource getMarketResource(){
 		return marketResource;
 	}

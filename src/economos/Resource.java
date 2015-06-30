@@ -8,7 +8,7 @@ public abstract class Resource {
 		return quantity;
 	}
 	
-	protected abstract void updateQuantity(int amount);
+	protected abstract void updateQuantity(int amount, float price);
 	
 	public Resource(String name, String description, String type){
 		this.name = name;

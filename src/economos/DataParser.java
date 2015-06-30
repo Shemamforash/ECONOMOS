@@ -7,6 +7,7 @@ public class DataParser {
 	private File resourceDataFile = new File("ResourceData.csv");
 	private static ArrayList<RawResourceData> rawResourceData = new ArrayList<RawResourceData>();
 	private static ArrayList<String> types = new ArrayList<String>();
+	private static ArrayList<MarketResource> allMarketResources = new ArrayList<MarketResource>();
 	
 	public DataParser() throws IOException{
 		FileReader reader = null;
@@ -51,6 +52,7 @@ public class DataParser {
 				r = new UserResource(rawDatum.name(), rawDatum.description(), rawDatum.type()); 
 			} else if(owner.equals("Market")){
 				r = new MarketResource(rawDatum.name(), rawDatum.description(), rawDatum.type(), 0);
+				allMarketResources.add((MarketResource)r);
 			}
 			if(r != null){
 				arr.add(r);
@@ -62,6 +64,10 @@ public class DataParser {
 	
 	public static ArrayList<String> getTypes(){
 		return types;
+	}
+	
+	public static ArrayList<MarketResource> getAllMarketResources(){
+		return allMarketResources;
 	}
 	
 	class RawResourceData{

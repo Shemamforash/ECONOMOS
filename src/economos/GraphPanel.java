@@ -10,24 +10,6 @@ import javax.swing.*;
 import economos.MarketResource.UpdateResource;
 
 public class GraphPanel extends JPanel{
-	
-	public GraphPanel(){
-		Timer t = new Timer();
-		t.schedule(new UpdateGUI(this), 0, 1000);
-	}
-	
-	class UpdateGUI extends TimerTask{
-		GraphPanel p;
-		
-		public UpdateGUI(GraphPanel p){
-			this.p = p;
-		}
-		
-		public void run(){
-			p.repaint();
-		}
-	}
-	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		

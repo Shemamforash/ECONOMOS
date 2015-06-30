@@ -5,15 +5,15 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MarketResource extends Resource{
+public class MarketResource extends Resource implements Comparable<MarketResource> {
 	private ArrayList<Float> previousBuyPrices = new ArrayList<Float>();
 	private ArrayList<Integer> previousSupply = new ArrayList<Integer>();
 
 	private int baseSupply, supply, demand, basePrice;
 	private int boughtThisTick, soldThisTick;
-	private float maxPrice, minPrice;
+	private float maxPrice, minPrice, averagePrice;
 	private float price;
-	
+
 	public MarketResource(String name, String description, String type, int baseSupplyRate) {
 		super(name, description, type);
 		this.baseSupply = 100;
@@ -27,119 +27,137 @@ public class MarketResource extends Resource{
 		previousBuyPrices.add(price);
 		maxPrice = getPricePerUnit() + 5;
 		minPrice = getPricePerUnit() - 5;
+		averagePrice = price;
 	}
-	
-	public int getQuantity(){
+
+	public int getQuantity() {
 		return quantity;
 	}
-	
-	public float getPricePerUnit(){
+
+	public float getAveragePrice() {
+		return averagePrice;
+	}
+
+	public float getPricePerUnit() {
 		float supplyDemandModifier;
-		if(demand < supply){
-			supplyDemandModifier =  demand/supply;
+		if (demand < supply) {
+			supplyDemandModifier = demand / supply;
 		} else {
 			supplyDemandModifier = 0;
 		}
 		float supplyBaseModifier;
-		if(baseSupply > supply){
-			supplyBaseModifier = 1 - (supply/baseSupply);
+		if (baseSupply > supply) {
+			supplyBaseModifier = 1 - (supply / baseSupply);
 		} else {
 			supplyBaseModifier = 0;
 		}
 		float surplusModifier;
-		if(quantity > 0 && quantity < 1000000000f){
-			surplusModifier = 1f - (float)Math.log10(quantity) / 10f;
-		} else if (quantity > 0){
+		if (quantity > 0 && quantity < 1000000000f) {
+			surplusModifier = 1f - (float) Math.log10(quantity) / 10f;
+		} else if (quantity > 0) {
 			surplusModifier = 0.01f;
 		} else {
 			surplusModifier = 1;
 		}
-		if(supplyDemandModifier == 0 && supplyBaseModifier == 0){
+		if (supplyDemandModifier == 0 && supplyBaseModifier == 0) {
 			return surplusModifier * basePrice;
 		}
 		return (supplyDemandModifier + supplyBaseModifier) * surplusModifier * basePrice;
 	}
-	
-	public void adjustMaxMinPrices(){
-		if(price < minPrice){
+
+	public void adjustMaxMinPrices() {
+		if (price < minPrice) {
 			minPrice = price;
-		}
-		else if(price > maxPrice){
+		} else if (price > maxPrice) {
 			maxPrice = price;
 		}
 	}
-	
-	public void putPrice(){		
-		price = getPricePerUnit(); 
-		if(getName().equals("Ambrosia")){
-			System.out.println(price);
-		}
+
+	public void putPrice() {
+		price = getPricePerUnit();
 		quantity += supply;
+		averagePrice -= (previousBuyPrices.get(0) + price) / 672;
 		previousBuyPrices.add(price);
-		if(previousBuyPrices.size() > 672){
+		if (previousBuyPrices.size() > 672) {
 			previousBuyPrices.remove(0);
 		}
 		adjustMaxMinPrices();
 	}
-	
-	public float getBuyPrice(int quantity){
+
+	public float getBuyPrice(int quantity) {
 		return price * quantity;
 	}
-	
-	public float getSellPrice(int quantity){
-		if(quantity <= 0){
+
+	public float getSellPrice(int quantity) {
+		if (quantity <= 0) {
 			return -1;
 		}
-		if(quantity < 100){
+		if (quantity < 100) {
 			return (price * quantity * 1.1f);
-		} else if (quantity < 1000){
+		} else if (quantity < 1000) {
 			return ((price * 110) + (price * (quantity - 100) * 1.05f));
 		} else {
 			return ((price * 110) + (price * 945) + (price * (quantity - 1000) * 1.02f));
 		}
 	}
-	
-	class UpdateResource extends TimerTask{	
+
+	class UpdateResource extends TimerTask {
 		private MarketResource marketResource;
-		
-		public UpdateResource(MarketResource marketResource){
+
+		public UpdateResource(MarketResource marketResource) {
 			this.marketResource = marketResource;
 		}
-		
-		public void run(){
+
+		public void run() {
 			marketResource.putPrice();
 			demand = soldThisTick;
 			soldThisTick = 0;
 		}
 	}
-	
-	public float getPriceDiff(){
+
+	public float getPriceDiff() {
 		return maxPrice - minPrice;
 	}
-	
-	public float getMinPrice(){
+
+	public float getMinPrice() {
 		return minPrice;
 	}
-	
-	public float getMaxPrice(){
+
+	public float getMaxPrice() {
 		return maxPrice;
 	}
 
-	
-	public ArrayList<Float> getPrices(){
+	public ArrayList<Float> getPrices() {
 		return previousBuyPrices;
 	}
-	
-	public void setSupplyRate(int supplyRate){
+
+	public int getDemand() {
+		return demand;
+	}
+
+	public int getSupply() {
+		return supply;
+	}
+
+	public void setSupplyRate(int supplyRate) {
 		this.supply += supplyRate;
 	}
 
-	public void updateQuantity(int amount) {
-		if(amount > 0){
+	public void updateQuantity(int amount, float price) {
+		if (amount > 0) {
 			boughtThisTick += amount;
 		} else {
 			soldThisTick += Math.abs(amount);
 		}
-		quantity += amount;		
+		quantity += amount;
+	}
+
+	public int compareTo(MarketResource arg0) {
+		if (this.price < arg0.price) {
+			return -1;
+		} else if (this.price > arg0.price) {
+			return 1;
+		}
+		return 0;
 	}
 }

@@ -16,18 +16,18 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 
 	public MarketResource(String name, String description, String type, int baseSupplyRate) {
 		super(name, description, type);
-		this.baseSupply = 100;
+		this.baseSupply = new Random().nextInt(75);
 		supply = this.baseSupply;
 		quantity = new Random().nextInt(1000);
-		basePrice = 100;
-		demand = 250;
-		Timer timer = new Timer();
-		timer.schedule(new UpdateResource(this), 0, 1000);
+		basePrice = new Random().nextInt(200);
+		demand = new Random().nextInt(200);
 		price = getPricePerUnit();
 		previousBuyPrices.add(price);
 		maxPrice = getPricePerUnit() + 5;
 		minPrice = getPricePerUnit() - 5;
 		averagePrice = price;
+		Timer timer = new Timer();
+		timer.schedule(new UpdateResource(this), 0, 250);
 	}
 
 	public int getQuantity() {
@@ -76,16 +76,24 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 	public void putPrice() {
 		price = getPricePerUnit();
 		quantity += supply;
-		averagePrice -= (previousBuyPrices.get(0) + price) / 672;
+		averagePrice = ((averagePrice * previousBuyPrices.size()) - previousBuyPrices.get(0) + price) / previousBuyPrices.size();
 		previousBuyPrices.add(price);
 		if (previousBuyPrices.size() > 672) {
 			previousBuyPrices.remove(0);
 		}
+		int supplyChange = new Random().nextInt(10) - 5;
+		if(supply + supplyChange > baseSupply * 1.1f){
+			supply = (int)(baseSupply * 1.1f);
+		} else if (supply + supplyChange < baseSupply * 0.9f){
+			supply = (int)(baseSupply * 0.9f);
+		} else {
+			supply = supply + supplyChange;
+		}
 		adjustMaxMinPrices();
 	}
 
-	public float getBuyPrice(int quantity) {
-		return price * quantity;
+	public float getBuyPrice(int amount) {
+		return price * amount;
 	}
 
 	public float getSellPrice(int quantity) {
@@ -93,11 +101,11 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 			return -1;
 		}
 		if (quantity < 100) {
-			return (price * quantity * 1.1f);
+			return (price * quantity * 0.90f);
 		} else if (quantity < 1000) {
-			return ((price * 110) + (price * (quantity - 100) * 1.05f));
+			return ((price * 90) + (price * (quantity - 100) * 0.95f));
 		} else {
-			return ((price * 110) + (price * 945) + (price * (quantity - 1000) * 1.02f));
+			return ((price * 90) + (price * 855) + (price * (quantity - 1000) * 0.98f));
 		}
 	}
 

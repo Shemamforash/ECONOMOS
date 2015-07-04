@@ -31,7 +31,7 @@ public class DataParser {
 				if(resourceStrArr.length > 2){
 					description = resourceStrArr[2];
 				}
-				RawResourceData r = new RawResourceData(name, type, description); //FIXME
+				RawResourceData r = new RawResourceData(name, type, description);
 				if(!types.contains(type)){
 					types.add(type);
 				}
@@ -48,11 +48,13 @@ public class DataParser {
 			Resource r = null;
 			RawResourceData rawDatum = rawResourceData.get(i);
 			
-			if(owner.equals("User")){
-				r = new UserResource(rawDatum.name(), rawDatum.description(), rawDatum.type()); 
+			if(owner.equals("Player")){
+				r = new PlayerResource(rawDatum.name(), rawDatum.description(), rawDatum.type()); 
 			} else if(owner.equals("Market")){
 				r = new MarketResource(rawDatum.name(), rawDatum.description(), rawDatum.type(), 0);
 				allMarketResources.add((MarketResource)r);
+			} else if(owner.equals("AI")){
+				r = new AIResource(rawDatum.name(), rawDatum.description(), rawDatum.type());
 			}
 			if(r != null){
 				arr.add(r);

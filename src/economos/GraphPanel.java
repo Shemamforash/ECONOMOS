@@ -17,23 +17,22 @@ public class GraphPanel extends JPanel{
 		
 		if(userR != null){
 			MarketResource marketR = userR.getMarketResource();
-			ArrayList<Float> temp = marketR.getPrices();
+			ArrayList<Float> previousPrices = marketR.getPrices();
 			BufferedImage bImg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 			Graphics bGraphics = bImg.createGraphics();
 			bGraphics.setColor(Color.GRAY);
 			bGraphics.fillRect(0, 0, this.getWidth(), this.getHeight());
-			for(int i = 1; i < temp.size(); ++i){
+			for(int i = previousPrices.size() - 1; i > 0; --i){
 				bGraphics.setColor(Color.RED);
-				int curX = (temp.size() - (temp.size() - 1 - i));
-				int lastX = (temp.size() - (temp.size() - i));
 				
-				float priceDiff = marketR.getPriceDiff();
-				float minPrice = marketR.getMinPrice();
+				int curX = this.getWidth() - i;
+				int lastX = this.getWidth() - i - 1;
 												
-				int curY = (int)(((float)this.getHeight() / marketR.getMaxPrice()) * ((float)temp.get(i) - marketR.getPricePerUnit()));
-				int lastY = (int)(((float)this.getHeight() / marketR.getMaxPrice()) * ((float)temp.get(i - 1) - marketR.getPricePerUnit()));
+				float pricePerPixel = (float)this.getHeight() / marketR.getMaxPrice();
+				int curY = (int)(pricePerPixel * (float)previousPrices.get(i));
+				int lastY = (int)(this.getHeight() / marketR.getMaxPrice() * previousPrices.get(i - 1));
 								
-				bGraphics.drawLine(this.getWidth() - lastX, lastY, this.getWidth() - curX, curY);
+				bGraphics.drawLine(lastX, lastY, curX, curY);
 			}
 			
 			g.drawImage(bImg, 0, 0, null);

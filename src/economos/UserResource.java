@@ -18,9 +18,7 @@ public class UserResource extends Resource{
 			averageBuy = ((averageBuy * bought) + (price * amount)) / (bought + amount);
 			bought += amount;
 		}
-		quantity += amount;		
-		System.out.println(quantity);
-
+		quantity += amount;
 	}
 
 	public MarketResource getMarketResource(){
@@ -38,4 +36,5 @@ public class UserResource extends Resource{
 	public int getSold(){
 		return sold;
 	}
+
 }

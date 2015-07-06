@@ -26,4 +26,12 @@ public class ResourceMap<T extends Resource> {
 	public HashMap<String, ResourceType<T>> getResourceTypes(){
 		return resourceTypes;
 	}
+	
+	public T getResource(String type, String name){
+		if(resourceTypes.containsKey(type)){
+			ResourceType<T> tempResourceType = resourceTypes.get(type);
+			return tempResourceType.findResource(name);
+		}
+		return null;
+	}
 }

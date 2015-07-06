@@ -9,17 +9,17 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 	private ArrayList<Float> previousBuyPrices = new ArrayList<Float>();
 	private ArrayList<Integer> previousSupply = new ArrayList<Integer>();
 
-	private int baseSupply, supply, demand, basePrice;
+	private int baseSupply, supply, demand, basePrice, ticks = 1;
 	private int boughtThisTick, soldThisTick;
 	private float maxPrice, minPrice, averagePrice;
-	private float price;
+	private float price, trend;
 
 	public MarketResource(String name, String description, String type, int baseSupplyRate) {
 		super(name, description, type);
-		this.baseSupply = new Random().nextInt(75);
+		this.baseSupply = new Random().nextInt(75) + 25;
 		supply = this.baseSupply;
 		quantity = new Random().nextInt(1000);
-		basePrice = new Random().nextInt(200);
+		basePrice = new Random().nextInt(1000);
 		demand = new Random().nextInt(200);
 		price = getPricePerUnit();
 		previousBuyPrices.add(price);
@@ -27,7 +27,7 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		minPrice = getPricePerUnit() - 5;
 		averagePrice = price;
 		Timer timer = new Timer();
-		timer.schedule(new UpdateResource(this), 0, 250);
+		timer.schedule(new UpdateResource(this), 0, EconomosMain.timeStep);
 	}
 
 	public int getQuantity() {
@@ -89,6 +89,11 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		} else {
 			supply = supply + supplyChange;
 		}
+		if(previousBuyPrices.size() < 10){
+			trend = previousBuyPrices.get(previousBuyPrices.size() - 1) - previousBuyPrices.get(0);
+		} else {
+			trend = previousBuyPrices.get(previousBuyPrices.size() - 1) - previousBuyPrices.get(previousBuyPrices.size() - 10);
+		}
 		adjustMaxMinPrices();
 	}
 
@@ -118,7 +123,8 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 
 		public void run() {
 			marketResource.putPrice();
-			demand = soldThisTick;
+			++ticks;
+			demand = (((ticks - 1) * demand) + (soldThisTick)) / ticks;
 			soldThisTick = 0;
 		}
 	}
@@ -147,17 +153,23 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		return supply;
 	}
 
+	public float getTrend(){
+		return trend;
+	}
+	
 	public void setSupplyRate(int supplyRate) {
 		this.supply += supplyRate;
 	}
 
 	public void updateQuantity(int amount, float price) {
-		if (amount > 0) {
-			boughtThisTick += amount;
-		} else {
-			soldThisTick += Math.abs(amount);
+		synchronized(this){
+			if (amount > 0) {
+				boughtThisTick += amount;
+			} else {
+				soldThisTick += Math.abs(amount);
+			}
+			quantity += amount;
 		}
-		quantity += amount;
 	}
 
 	public int compareTo(MarketResource arg0) {

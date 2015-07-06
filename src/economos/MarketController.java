@@ -32,7 +32,7 @@ public class MarketController {
 			if(r.getQuantity() >= quantity){
 				float price = r.getMarketResource().getSellPrice(quantity);
 				r.updateQuantity(-quantity, price);
-				r.getMarketResource().updateQuantity(quantity, price);
+//				r.getMarketResource().updateQuantity(quantity, price);
 				u.updateMoney(price);
 				return "Sold " + quantity + " units of " + r.getName() + " for C" + price;
 			}

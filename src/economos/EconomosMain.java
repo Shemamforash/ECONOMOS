@@ -43,6 +43,7 @@ public class EconomosMain {
 	private JTextField txtUnitsAtC;
 	private JTextField txtSell;
 	private JTextField txtUnitsAt;
+	public static int timeStep = 100;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -61,9 +62,10 @@ public class EconomosMain {
 		load();
 		initialize();
 		updateCategoryList(categoryList);
-		for(int i = 0; i < 1; ++i){
+		for(int i = 0; i < 100; ++i){
 			AI ai = new AI("Potato", "Potato Industries");
 		}
+		AI ai = new AI("Sam's AI", "Sam's AI");
 
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 673, 994, 28);
@@ -101,14 +103,7 @@ public class EconomosMain {
 
 	public void setSelectedResource(String type, String name) {
 		ResourceMap<PlayerResource> m = currentPlayer.getPlayerResourceMap();
-		if (m.getResourceTypes().containsKey(type)) {
-			ResourceType<PlayerResource> t = m.getResourceTypes().get(type);
-			if (t.getResourceOfType().containsKey(name)) {
-				selectedResource = (PlayerResource) t.getResourceOfType().get(name);
-			} else {
-				selectedResource = null;
-			}
-		}
+		selectedResource = m.getResource(type, name);
 
 		if (selectedResource != null) {
 			MarketResource mr = selectedResource.getMarketResource();
@@ -173,7 +168,7 @@ public class EconomosMain {
 
 	public void updateJList(String type, JList list) {
 		if (currentPlayer.getPlayerResourceMap().getResourceTypes().containsKey(type)) {
-			ArrayList<PlayerResource> arr = new ArrayList<PlayerResource>(currentPlayer.getPlayerResourceMap().getResourceTypes().get(type).getResourceOfType().values());
+			ArrayList<PlayerResource> arr = new ArrayList<PlayerResource>(currentPlayer.getPlayerResourceMap().getResourceTypes().get(type).getResourcesInType());
 			String[] strarr = new String[arr.size()];
 			for (int i = 0; i < strarr.length; ++i) {
 				strarr[i] = ((Resource) arr.get(i)).getName();

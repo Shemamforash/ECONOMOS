@@ -1,13 +1,12 @@
 package economos;
 
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
 public abstract class User {
 	private String name, companyName, playTime;
 	private UserResource companyShare;
-	private float money = 100000f, moneyMade, moneySpent, value;
+	protected float money = 100000f;
+	private float moneyMade;
+	private float moneySpent;
+	private float value;
 
 	public User(String name, String companyName) {
 		this.name = name;
@@ -20,5 +19,9 @@ public abstract class User {
 
 	public void updateMoney(float amount) {
 		money += amount;
+	}
+	
+	public String getName(){
+		return name;
 	}
 }

@@ -1,13 +1,14 @@
 package economos;
 
-public class UserResource extends Resource{
+public abstract class UserResource extends Resource{
 	private MarketResource marketResource;
-	private int sold, bought;
+	protected int sold;
+	private int bought;
 	private float averageSell, averageBuy, averageProfit;
 	
 	public UserResource(String name, String description, String type) {
 		super(name, description, type);
-		marketResource = MarketController.getMarketResources().getResourceTypes().get(type).getResourceOfType().get(name);
+		marketResource = MarketController.getMarketResources().getResource(type, name);
 	}
 
 	protected void updateQuantity(int amount, float price) { 

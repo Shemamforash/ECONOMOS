@@ -14,7 +14,7 @@ public class Player extends User{
 		super(name, company);
 		loadUserResources();
 		Timer t = new Timer();
-		t.schedule(new UpdateUser(), 0, 1000);
+		t.schedule(new UpdateUser(), 0, EconomosMain.timeStep);
 	}
 	
 	class UpdateUser extends TimerTask {
@@ -30,7 +30,7 @@ public class Player extends User{
 	public void loadUserResources(){
 		ArrayList<ResourceType<PlayerResource>> rMap = new ArrayList<ResourceType<PlayerResource>>(resourceMap.getResourceTypes().values());
 		for(ResourceType<PlayerResource> rType : rMap){
-			ArrayList<PlayerResource> resources = new ArrayList<PlayerResource>(rType.getResourceOfType().values());
+			ArrayList<PlayerResource> resources = new ArrayList<PlayerResource>(rType.getResourcesInType());
 			for(int i = 0; i < resources.size(); ++i){
 				userResources.add((PlayerResource)resources.get(i));
 			}

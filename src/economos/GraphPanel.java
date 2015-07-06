@@ -3,11 +3,7 @@ package economos;
 import java.awt.*;
 import java.awt.image.*;
 import java.util.*;
-import java.util.Timer;
-
 import javax.swing.*;
-
-import economos.MarketResource.UpdateResource;
 
 public class GraphPanel extends JPanel{
 	public void paintComponent(Graphics g){
@@ -25,14 +21,14 @@ public class GraphPanel extends JPanel{
 			for(int i = previousPrices.size() - 1; i > 0; --i){
 				bGraphics.setColor(Color.RED);
 				
-				int curX = this.getWidth() - i;
-				int lastX = this.getWidth() - i - 1;
+				int curX = i;
+				int lastX = i - 1;
 												
 				float pricePerPixel = (float)this.getHeight() / marketR.getMaxPrice();
 				int curY = (int)(pricePerPixel * (float)previousPrices.get(i));
 				int lastY = (int)(this.getHeight() / marketR.getMaxPrice() * previousPrices.get(i - 1));
 								
-				bGraphics.drawLine(lastX, lastY, curX, curY);
+				bGraphics.drawLine(lastX, this.getHeight() - lastY, curX, this.getHeight() - curY);
 			}
 			
 			g.drawImage(bImg, 0, 0, null);

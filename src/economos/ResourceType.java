@@ -14,8 +14,15 @@ class ResourceType<T extends Resource>{
 		resources.put(name, resource);
 	}
 
-	public HashMap<String, T> getResourceOfType(){
-		return resources;
+	public T findResource(String name){
+		if(resources.containsKey(name)){
+			return resources.get(name);
+		}
+		return null;
+	}
+	
+	public ArrayList<T> getResourcesInType(){
+		return new ArrayList<T>(resources.values());
 	}
 	
 	public String getType(){

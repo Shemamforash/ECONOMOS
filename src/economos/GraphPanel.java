@@ -24,9 +24,9 @@ public class GraphPanel extends JPanel{
 				int curX = i;
 				int lastX = i - 1;
 												
-				float pricePerPixel = (float)this.getHeight() / marketR.getMaxPrice();
+				float pricePerPixel = (float)this.getHeight() / (marketR.getMaxPrice() - marketR.getMinPrice());
 				int curY = (int)(pricePerPixel * (float)previousPrices.get(i));
-				int lastY = (int)(this.getHeight() / marketR.getMaxPrice() * previousPrices.get(i - 1));
+				int lastY = (int)(this.getHeight() / (marketR.getMaxPrice() - marketR.getMinPrice()) * previousPrices.get(i - 1));
 								
 				bGraphics.drawLine(lastX, this.getHeight() - lastY, curX, this.getHeight() - curY);
 			}

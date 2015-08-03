@@ -43,7 +43,7 @@ public class EconomosMain {
 	private JTextField txtUnitsAtC;
 	private JTextField txtSell;
 	private JTextField txtUnitsAt;
-	public static int timeStep = 100;
+	public static int timeStep = 10;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

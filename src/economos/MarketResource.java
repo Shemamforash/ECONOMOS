@@ -7,10 +7,9 @@ import java.util.TimerTask;
 
 public class MarketResource extends Resource implements Comparable<MarketResource> {
 	private ArrayList<Float> previousBuyPrices = new ArrayList<Float>();
-	private ArrayList<Integer> previousSupply = new ArrayList<Integer>();
 
 	private int baseSupply, supply, demand, basePrice, ticks = 1;
-	private int boughtThisTick, soldThisTick;
+	private int desiredThisTick, timeSinceEvent;
 	private float maxPrice, minPrice, averagePrice;
 	private float price, trend;
 
@@ -20,7 +19,7 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		supply = this.baseSupply;
 		quantity = new Random().nextInt(1000);
 		basePrice = new Random().nextInt(1000);
-		demand = new Random().nextInt(200);
+		demand = supply;
 		price = getPricePerUnit();
 		previousBuyPrices.add(price);
 		maxPrice = getPricePerUnit() + 5;
@@ -30,70 +29,59 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		timer.schedule(new UpdateResource(this), 0, EconomosMain.timeStep);
 	}
 
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public float getAveragePrice() {
-		return averagePrice;
-	}
-
 	public float getPricePerUnit() {
-		float supplyDemandModifier;
 		if (demand < supply) {
-			supplyDemandModifier = demand / supply;
-		} else {
-			supplyDemandModifier = 0;
+			supply = demand;
+		} else if (demand > supply && supply > 0 && new Random().nextInt(20) == 0) {
+			int supplyChange = new Random().nextInt(demand - supply + (int) (0.75f * supply));
+			supplyChange = supplyChange - (int) (0.75f * supply);
+			supply = supply + supplyChange;
 		}
-		float supplyBaseModifier;
-		if (baseSupply > supply) {
-			supplyBaseModifier = 1 - (supply / baseSupply);
-		} else {
-			supplyBaseModifier = 0;
+		if (supply < 1) {
+			supply = 1;
 		}
-		float surplusModifier;
-		if (quantity > 0 && quantity < 1000000000f) {
-			surplusModifier = 1f - (float) Math.log10(quantity) / 10f;
-		} else if (quantity > 0) {
-			surplusModifier = 0.01f;
-		} else {
-			surplusModifier = 1;
+		if (demand / supply * basePrice < 1) {
+			return 1;
 		}
-		if (supplyDemandModifier == 0 && supplyBaseModifier == 0) {
-			return surplusModifier * basePrice;
-		}
-		return (supplyDemandModifier + supplyBaseModifier) * surplusModifier * basePrice;
+		return demand / supply * basePrice;
 	}
 
 	public void adjustMaxMinPrices() {
-		if (price < minPrice) {
-			minPrice = price;
-		} else if (price > maxPrice) {
-			maxPrice = price;
+		float tempMin = previousBuyPrices.get(0), tempMax = previousBuyPrices.get(0);
+		for(float i : previousBuyPrices){
+			if(i < tempMin) {
+				tempMin = i;
+			}
+			if(i > tempMax){
+				tempMax = i;
+			}
 		}
+		minPrice = tempMin - 10;
+		maxPrice = tempMax + 10;
 	}
 
 	public void putPrice() {
 		price = getPricePerUnit();
 		quantity += supply;
-		averagePrice = ((averagePrice * previousBuyPrices.size()) - previousBuyPrices.get(0) + price) / previousBuyPrices.size();
 		previousBuyPrices.add(price);
 		if (previousBuyPrices.size() > 672) {
+			averagePrice = (averagePrice + price - previousBuyPrices.get(0)) / previousBuyPrices.size();
 			previousBuyPrices.remove(0);
+		} else { 
+			averagePrice = (averagePrice + price) / previousBuyPrices.size();
 		}
-		int supplyChange = new Random().nextInt(10) - 5;
-		if(supply + supplyChange > baseSupply * 1.1f){
-			supply = (int)(baseSupply * 1.1f);
-		} else if (supply + supplyChange < baseSupply * 0.9f){
-			supply = (int)(baseSupply * 0.9f);
+		
+		int dx = previousBuyPrices.size();
+		float angle, dy;
+		if (previousBuyPrices.size() < 30) {
+			dy = previousBuyPrices.get(dx - 1) - previousBuyPrices.get(0);
+//			trend = previousBuyPrices.get(previousBuyPrices.size() - 1) - previousBuyPrices.get(0);
 		} else {
-			supply = supply + supplyChange;
+			dy = previousBuyPrices.get(dx - 1) - previousBuyPrices.get(previousBuyPrices.size() - 30);
+//			trend = previousBuyPrices.get(previousBuyPrices.size() - 1) - previousBuyPrices.get(previousBuyPrices.size() - 30);
 		}
-		if(previousBuyPrices.size() < 10){
-			trend = previousBuyPrices.get(previousBuyPrices.size() - 1) - previousBuyPrices.get(0);
-		} else {
-			trend = previousBuyPrices.get(previousBuyPrices.size() - 1) - previousBuyPrices.get(previousBuyPrices.size() - 10);
-		}
+		angle = (float) Math.toDegrees(Math.atan(dx/dy));
+		trend = angle / 90;
 		adjustMaxMinPrices();
 	}
 
@@ -114,6 +102,12 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		}
 	}
 
+	public void updateQuantity(int amount, float price) {
+		synchronized (this) {
+			quantity += amount;
+		}
+	}
+
 	class UpdateResource extends TimerTask {
 		private MarketResource marketResource;
 
@@ -124,8 +118,12 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		public void run() {
 			marketResource.putPrice();
 			++ticks;
-			demand = (((ticks - 1) * demand) + (soldThisTick)) / ticks;
-			soldThisTick = 0;
+			// if(getName().equals("Ambrosia")){
+			// System.out.println("Demand " + demand + " desired " +
+			// desiredThisTick + " tick " + ticks);
+			// }
+			demand = (((ticks - 1) * demand) + (desiredThisTick)) / ticks;
+			desiredThisTick = 0;
 		}
 	}
 
@@ -153,23 +151,20 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		return supply;
 	}
 
-	public float getTrend(){
+	public float getTrend() {
 		return trend;
 	}
-	
+
 	public void setSupplyRate(int supplyRate) {
 		this.supply += supplyRate;
 	}
 
-	public void updateQuantity(int amount, float price) {
-		synchronized(this){
-			if (amount > 0) {
-				boughtThisTick += amount;
-			} else {
-				soldThisTick += Math.abs(amount);
-			}
-			quantity += amount;
-		}
+	public float getAveragePrice() {
+		return averagePrice;
+	}
+
+	public void updateDesiredThisTick(int amount) {
+		desiredThisTick += amount;
 	}
 
 	public int compareTo(MarketResource arg0) {
@@ -179,5 +174,10 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 			return 1;
 		}
 		return 0;
+	}
+
+	public int getTmeSinceEvent() {
+		++timeSinceEvent;
+		return timeSinceEvent;
 	}
 }

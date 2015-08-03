@@ -13,28 +13,32 @@ public class MarketController {
 
 	public static String buyResource(int quantity, UserResource r, User u) {
 		synchronized (lock) {
-			if (r.getMarketResource().getQuantity() >= quantity) {
-				float price = r.getMarketResource().getBuyPrice(quantity);
-				if (u.getMoney() >= price) {
-					r.updateQuantity(quantity, price);
-					r.getMarketResource().updateQuantity(-quantity, price);
-					u.updateMoney(-price);
-					return "Purchased " + quantity + " units of " + r.getName() + " for C" + price;
-				}
+			r.getMarketResource().updateDesiredThisTick(quantity);
+			if (r.getMarketResource().getQuantity() > 0) {
+				quantity = r.getMarketResource().getQuantity();
+			}
+			float price = r.getMarketResource().getBuyPrice(quantity);
+			if (u.getMoney() >= price) {
+				r.updateQuantity(quantity, price);
+				r.getMarketResource().updateQuantity(-quantity, price);
+				u.updateMoney(-price);
+				return "Purchased " + quantity + " units of " + r.getName() + " for C" + price;
+			} else {
 				return "Insufficient funds for transaction, attain " + (price - u.getMoney()) + " more credits";
 			}
-			return "Quantity entered exceeds market quantity";
 		}
 	}
 
 	public static String sellResource(int quantity, UserResource r, User u) {
 		synchronized (lock) {
-			if(r.getQuantity() >= quantity){
+			if (r.getQuantity() >= quantity) {
 				float price = r.getMarketResource().getSellPrice(quantity);
-				r.updateQuantity(-quantity, price);
-//				r.getMarketResource().updateQuantity(quantity, price);
-				u.updateMoney(price);
-				return "Sold " + quantity + " units of " + r.getName() + " for C" + price;
+				if (price > 0) {
+					r.updateQuantity(-quantity, price);
+					r.getMarketResource().updateQuantity(quantity, price);
+					u.updateMoney(price);
+					return "Sold " + quantity + " units of " + r.getName() + " for C" + price;
+				}
 			}
 			return "Quantity entered exceeds quantity you own.";
 		}

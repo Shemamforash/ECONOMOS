@@ -19,7 +19,12 @@ public abstract class UserResource extends Resource{
 			averageBuy = ((averageBuy * bought) + (price * amount)) / (bought + amount);
 			bought += amount;
 		}
+		averageProfit = getPredictedProfit(amount, price);
 		quantity += amount;
+	}
+	
+	public float getPredictedProfit(int amount, float price){
+		return averageProfit - price / (float)amount;
 	}
 
 	public MarketResource getMarketResource(){
@@ -27,10 +32,6 @@ public abstract class UserResource extends Resource{
 	}
 	
 	public float getAverageProfit(){
-		if(sold == 0){
-			return 0;
-		}
-		averageProfit = averageSell - averageBuy;
 		return averageProfit;
 	}
 	

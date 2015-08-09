@@ -8,8 +8,10 @@ import javax.swing.*;
 public class GraphPanel extends JPanel{
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
+		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	    ((Graphics2D) g).setRenderingHints(rh);
 		
-		UserResource userR = EconomosMain.getSelectedResource();
+		UserResource userR = EconomosGUI.getSelectedResource();
 		
 		if(userR != null){
 			MarketResource marketR = userR.getMarketResource();

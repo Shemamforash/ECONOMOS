@@ -14,7 +14,7 @@ public class Player extends User{
 		super(name, company);
 		loadUserResources();
 		Timer t = new Timer();
-		t.schedule(new UpdateUser(), 0, EconomosMain.timeStep);
+		t.schedule(new UpdateUser(), 0, EconomosGUI.timeStep);
 	}
 	
 	class UpdateUser extends TimerTask {

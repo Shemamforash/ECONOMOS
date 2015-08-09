@@ -43,52 +43,56 @@ public class AI extends User {
 		money = 100000;
 		setPreferredResource();
 		Timer t = new Timer();
-		t.schedule(new AITimer(this), 0, EconomosMain.timeStep);
+		t.schedule(new AITimer(this), 0, EconomosGUI.timeStep);
 	}
 
 	public void tick() {
 		Collections.sort(aiResources);
 		boolean hasSold = false, hasBought = false;
-		
+
 		for (AIResource r : aiResources) {
-			if(hasBought == true && hasSold == true){
+			if (hasBought == true && hasSold == true) {
 				break;
 			}
 			MarketResource mr = r.getMarketResource();
 			float predictedProfit = r.getPredictedProfit(-1, mr.getSellPrice(1));
 			float percentageProfit = predictedProfit / r.getAverageProfit();
 			int action;
-			if (mr.getTrend() > 0) {
-				action = priceIncreasing(r, percentageProfit, mr.getTrend());
-			} else {
-				action = priceDecreasing(percentageProfit, mr.getTrend());
-			}
-			if(action == 1 && !hasSold){
-				sell(r);
-				hasSold = true;
-			} else if (action == 2 && !hasBought){
-				if(buy(r, mr.getTrend())){
-					hasBought = true;
+			if (r.getPreferenceValue() > rnd.nextFloat()) {
+				if (mr.getTrend() > 0) {
+					action = priceIncreasing(r, percentageProfit, mr.getTrend());
+				} else {
+					action = priceDecreasing(percentageProfit, mr.getTrend());
+				}
+				if (action == 1 && !hasSold) {
+					sell(r);
+//					hasSold = true;
+				} else if (action == 2 && !hasBought) {
+					if (buy(r, mr.getTrend())) {
+//						hasBought = true;
+					}
 				}
 			}
 		}
 	}
 
+	public boolean testIntelligence() {
+		if (intelligence > rnd.nextFloat()) {
+			return true;
+		}
+		return false;
+	}
+
 	public int priceIncreasing(AIResource ar, float percentageProfit, float trend) {
 		if (percentageProfit > 0) {
 			if (percentageProfit > aggressiveness) {
-				if(trend < wariness){
-					return 1;
-				}
-				float intelligenceTest = rnd.nextFloat();
-				if(intelligence > intelligenceTest){
+				if (trend < wariness || testIntelligence()) {
 					return 1;
 				}
 			}
 		}
-		if(trend > wariness || aggressiveness > rnd.nextFloat()){
-			float intelligenceTest = rnd.nextFloat();
-			if (intelligence > intelligenceTest) {
+		if (trend > wariness || trend > aggressiveness) {
+			if (testIntelligence()) {
 				return 2;
 			}
 		}
@@ -97,24 +101,30 @@ public class AI extends User {
 
 	public int priceDecreasing(float percentageProfit, float trend) {
 		if (percentageProfit > 0) {
-			float intelligenceTest = rnd.nextFloat();
-			if (intelligence > intelligenceTest) {
+			if (testIntelligence()) {
 				return 1;
 			}
-		} if (-wariness > trend){
+		}
+		if (-wariness > trend) {
 			return 1;
+		}
+		if (trend < 1) {
+			if (!testIntelligence()) {
+				return 2;
+			}
 		}
 		return 0;
 	}
 
 	public void sell(AIResource r) {
 		MarketController.sellResource(r.getQuantity(), r, this);
+		money = 1000;
 	}
 
-	public boolean buy(AIResource r, float trend){
+	public boolean buy(AIResource r, float trend) {
 		float amountToSpend = rnd.nextFloat() * intelligence * (1 - wariness);
 		int quantity = (int) Math.ceil((amountToSpend * getMoney()) / r.getMarketResource().getBuyPrice(1));
-		if(quantity > 0) {
+		if (quantity > 0) {
 			MarketController.buyResource(quantity, r, this);
 			return true;
 		}
@@ -134,7 +144,8 @@ public class AI extends User {
 				resourcePreferenceValue = 1;
 			}
 			aiResources.add(aiMap.getResource(resources.get(i).getType(), resources.get(i).getName()));
-			aiMap.getResource(resources.get(i).getType(), resources.get(i).getName()).setPreferenceValue(resourcePreferenceValue);
+			aiMap.getResource(resources.get(i).getType(), resources.get(i).getName())
+					.setPreferenceValue(resourcePreferenceValue);
 		}
 	}
 

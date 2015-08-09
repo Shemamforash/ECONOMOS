@@ -3,7 +3,7 @@ package economos;
 public abstract class User {
 	private String name, companyName, playTime;
 	private UserResource companyShare;
-	protected float money = 100000f;
+	protected float money = 100f;
 	private float moneyMade;
 	private float moneySpent;
 	private float value;

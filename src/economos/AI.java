@@ -26,7 +26,7 @@ public class AI extends User {
 				}
 				break;
 			case 2:
-				if (intelligence < 1f) {
+				if (intelligence < 0.6f) {
 					intelligence += 0.02f;
 				}
 				break;
@@ -40,7 +40,6 @@ public class AI extends User {
 			}
 			--personalityPoints;
 		}
-		money = 100000;
 		setPreferredResource();
 		Timer t = new Timer();
 		t.schedule(new AITimer(this), 0, EconomosGUI.timeStep);
@@ -91,10 +90,8 @@ public class AI extends User {
 				}
 			}
 		}
-		if (trend > wariness || trend > aggressiveness) {
-			if (testIntelligence()) {
-				return 2;
-			}
+		if (trend > wariness || trend > aggressiveness || !testIntelligence()) {
+			return 2;
 		}
 		return 0;
 	}
@@ -118,7 +115,7 @@ public class AI extends User {
 
 	public void sell(AIResource r) {
 		MarketController.sellResource(r.getQuantity(), r, this);
-		money = 1000;
+		money = 10000;
 	}
 
 	public boolean buy(AIResource r, float trend) {

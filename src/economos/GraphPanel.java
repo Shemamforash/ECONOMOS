@@ -23,12 +23,12 @@ public class GraphPanel extends JPanel{
 			for(int i = previousPrices.size() - 1; i > 0; --i){
 				bGraphics.setColor(Color.RED);
 				
-				int curX = i;
-				int lastX = i - 1;
+				int curX = this.getWidth() - i;
+				int lastX = this.getWidth() - (i - 1);
 												
 				float pricePerPixel = (float)this.getHeight() / (marketR.getMaxPrice() - marketR.getMinPrice());
 				int curY = (int)(pricePerPixel * (float)previousPrices.get(i));
-				int lastY = (int)(this.getHeight() / (marketR.getMaxPrice() - marketR.getMinPrice()) * previousPrices.get(i - 1));
+				int lastY = (int)(pricePerPixel * (float)previousPrices.get(i - 1));
 								
 				bGraphics.drawLine(lastX, this.getHeight() - lastY, curX, this.getHeight() - curY);
 			}

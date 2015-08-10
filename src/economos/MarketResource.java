@@ -12,13 +12,13 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 	private int desiredThisTick, timeSinceEvent;
 	private float maxPrice, minPrice, averagePrice, supply, demand;
 	private float price, trend;
-	float changeTrend = 0; //between 0 and 1
+	float changeTrend = 1; //between 0 and 1
 	int timer = 0; //timer to ensure non constant decrease
 	int trendDirection = 1; //true is up/false is down
 
 	public MarketResource(String name, String description, String type, int baseSupplyRate) {
 		super(name, description, type);
-		this.baseSupply = new Random().nextInt(5) + 3;
+		this.baseSupply = new Random().nextInt(75) + 10;
 		supply = baseSupply;
 		demand = baseSupply;
 		desiredThisTick = baseSupply;
@@ -35,27 +35,28 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 
 	private float getSupplyChange(){	
 		int difference = baseSupply * 10;
-		float supplyModifier = (1f / difference) * (supply - difference);
-		supplyModifier = supplyModifier * supplyModifier;
-		if(supplyModifier > 1){
-			supplyModifier = 1;
-		}
-//		if(supply > baseSupply * 10){
-//			supplyModifier = -1 - supplyModifier;
-//		} else {
-//			supplyModifier = 1 - supplyModifier;
-//		}
-//		
-		if (new Random().nextInt(50) < timer) {
-			trendDirection = -trendDirection;
+		
+		if (new Random().nextInt(1000) < timer) {
+			supply -= new Random().nextFloat() - 1f * (supply / 2f);
+			changeTrend = -changeTrend;
 			timer = 0;
 		}  
+		
+		float supplyModifier = (1f / difference) * (supply - difference);;
+		supplyModifier = supplyModifier * supplyModifier;
+		
+		if(supply > baseSupply * 10){
+			supplyModifier = -1 + supplyModifier;
+		} else {
+			supplyModifier = 1 - supplyModifier;
+		}
+		
 		++timer;
 
 		float supplyChange = 0.01f * supply;
-		supplyChange = supplyChange * supplyModifier * new Random().nextFloat();
+		supplyChange = supplyChange * supplyModifier * changeTrend;
 		if(getName().equals("Ambrosia")){
-//			System.out.println("Supply = " + supply + " / supplyChange = " + supplyChange + " / supplymodifier = " + supplyModifier + " / basesupply = " + baseSupply);
+			System.out.println("Supply = " + supply + " / supplyChange = " + supplyChange + " / supplymodifier = " + supplyModifier + " / basesupply = " + baseSupply);
 		}
 		return supply + supplyChange;
 	}
@@ -78,7 +79,7 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		if (demand / supply * basePrice < 1) {
 			return 1;
 		}
-		return (demand / supply * basePrice) / 1000;
+		return (demand / supply * basePrice) / 100;
 	}
 
 	public void adjustMaxMinPrices() {
@@ -99,17 +100,25 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		price = getPricePerUnit();
 		quantity += supply;
 
+		boolean recordData = false;
+		if(previousBuyPrices.size() % 4 == 0){
+			recordData = true;
+		}
+		
 		int totalStoredPrices = previousBuyPrices.size();
 		float totalPrice = averagePrice * totalStoredPrices;
 
 		if (previousBuyPrices.size() == 672) {
 			totalPrice -= previousBuyPrices.get(0);
-			previousBuyPrices.remove(0);
+			if(recordData){
+				previousBuyPrices.remove(0);
+			}
 		}
 
 		totalPrice += price;
-		averagePrice = totalPrice / totalStoredPrices;
-
+		if(recordData){
+			averagePrice = totalPrice / totalStoredPrices;
+		}
 		previousBuyPrices.add(price);
 
 		int dx = previousBuyPrices.size();

@@ -20,8 +20,8 @@ import javax.swing.event.*;
 
 public class EconomosGUI {
 	private JFrame frame;
-	private GUIElements.MyTextField typeTextField, nameTextField, possessTextField, soldTextField, averageProfitTextField,
-			averagePriceTextField, demandTextField, supplyTextField;
+	private GUIElements.MyTextField typeTextField, nameTextField, possessTextField, soldTextField,
+			averageProfitTextField, averagePriceTextField, demandTextField, supplyTextField;
 	private GUIElements.MyFormattedTextField botBuyQuantityTextField;
 	private GUIElements.MyButton setPriceButton;
 	private GUIElements.MyFormattedTextField botBuyPriceTextField;
@@ -29,20 +29,20 @@ public class EconomosGUI {
 	private GUIElements.MyFormattedTextField botSellPriceTextField;
 	private GUIElements.MyFormattedTextField sellAmountTextField;
 	private GUIElements.MyFormattedTextField buyAmountTextField;
-	private JTextArea descriptionTextArea;
+	private GUIElements.MyTextArea descriptionTextArea;
 	private static Player currentPlayer;
 	private JList resourceList, categoryList;
 	private GUIElements.MyButton sellButton = new GUIElements.MyButton("Sell");
 	private GUIElements.MyButton buyButton = new GUIElements.MyButton("Buy");
 	private static PlayerResource selectedResource = null;
-	private NumberFormat d = NumberFormat.getIntegerInstance();
+	private NumberFormat decimalFormatter = NumberFormat.getIntegerInstance();
 	private GraphPanel buyGraph = new GraphPanel();
 	private JCheckBox botCheckBox = new JCheckBox("Enable Bot (20C/s)");
 	private GUIElements.MyTextField txtBuy;
 	private GUIElements.MyTextField txtUnitsAtC;
 	private GUIElements.MyTextField txtSell;
 	private GUIElements.MyTextField txtUnitsAt;
-	public static int timeStep = 10;
+	public static int timeStep = 17;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -100,7 +100,7 @@ public class EconomosGUI {
 			System.exit(0);
 		}
 		currentPlayer = new Player("Sam", "Potatronics");
-		d.setMaximumFractionDigits(2);
+		decimalFormatter.setMaximumFractionDigits(2);
 	}
 
 	class UpdateGUI extends TimerTask {
@@ -138,15 +138,25 @@ public class EconomosGUI {
 				buyAmountTextField.setText("1");
 			}
 			demandTextField.setText("Demand: " + mr.getDemand() + "p/s");
-			averagePriceTextField.setText("Average Price: C" + d.format(mr.getAveragePrice()));
-			averageProfitTextField.setText("Average Profit: C" + d.format(selectedResource.getAverageProfit()));
+			averagePriceTextField.setText("Average Price: C" + decimalFormatter.format(mr.getAveragePrice()));
+			averageProfitTextField
+					.setText("Average Profit: C" + decimalFormatter.format(selectedResource.getAverageProfit()));
 			soldTextField.setText("Sold " + selectedResource.getSold() + " units");
 			botCheckBox.setEnabled(true);
 			botCheckBox.setSelected(selectedResource.isBotActive());
-			buyButton.setText("Buy: C" + d.format(
+			try{
+				buyButton.setText("Buy: C" + decimalFormatter.format(
 					selectedResource.getMarketResource().getBuyPrice(Integer.parseInt(buyAmountTextField.getText()))));
-			sellButton.setText("Sell: C" + d.format(selectedResource.getMarketResource()
-					.getSellPrice(Integer.parseInt(sellAmountTextField.getText()))));
+			} catch (NumberFormatException n){
+				//DOSOMETHING
+			}
+
+			try {
+				sellButton.setText("Sell: C" + decimalFormatter.format(selectedResource.getMarketResource()
+						.getSellPrice(Integer.parseInt(sellAmountTextField.getText()))));
+			} catch (NumberFormatException n) {
+				//DOSOMETHING
+			}
 			if (selectedResource.isBotActive()) {
 				botSellPriceTextField.setEnabled(true);
 				botSellQuantityTextField.setEnabled(true);
@@ -209,13 +219,16 @@ public class EconomosGUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setBackground(new Color(40, 40, 40));
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 1000, 730);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		d.setGroupingUsed(false);
+		decimalFormatter.setGroupingUsed(false);
 
-		JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP);
+		GUIElements.MyTabbedPane tabPane = new GUIElements.MyTabbedPane(JTabbedPane.TOP);
+		tabPane.setOpaque(false);
+
 		tabPane.setBounds(0, 0, 994, 663);
 		frame.getContentPane().add(tabPane);
 
@@ -329,7 +342,7 @@ public class EconomosGUI {
 		nameTextField.setEditable(false);
 		nameTextField.setColumns(10);
 
-		descriptionTextArea = new JTextArea();
+		descriptionTextArea = new GUIElements.MyTextArea();
 		descriptionTextArea.setLineWrap(true);
 		descriptionTextArea.setWrapStyleWord(true);
 		sl_topDetailPanel.putConstraint(SpringLayout.EAST, descriptionTextArea, -10, SpringLayout.EAST, topDetailPanel);
@@ -420,7 +433,7 @@ public class EconomosGUI {
 		});
 		sellPanel.add(sellButton);
 
-		sellAmountTextField = new GUIElements.MyFormattedTextField(d);
+		sellAmountTextField = new GUIElements.MyFormattedTextField(decimalFormatter);
 		sellAmountTextField.setEnabled(false);
 		sellAmountTextField.setValue(1);
 		sellAmountTextField.setBounds(0, 0, 75, 39);
@@ -434,7 +447,7 @@ public class EconomosGUI {
 		buyButton.setBounds(85, 0, 126, 39);
 		buyPanel.add(buyButton);
 
-		buyAmountTextField = new GUIElements.MyFormattedTextField(d);
+		buyAmountTextField = new GUIElements.MyFormattedTextField(decimalFormatter);
 		buyAmountTextField.setEnabled(false);
 		buyAmountTextField.setValue(1);
 		buyAmountTextField.setBounds(0, 0, 75, 39);
@@ -472,7 +485,7 @@ public class EconomosGUI {
 		SpringLayout sl_botBuyPanel = new SpringLayout();
 		botBuyPanel.setLayout(sl_botBuyPanel);
 
-		botBuyQuantityTextField = new GUIElements.MyFormattedTextField(d);
+		botBuyQuantityTextField = new GUIElements.MyFormattedTextField(decimalFormatter);
 		botBuyQuantityTextField.setValue(1);
 
 		sl_botBuyPanel.putConstraint(SpringLayout.NORTH, botBuyQuantityTextField, 10, SpringLayout.NORTH, botBuyPanel);
@@ -480,7 +493,7 @@ public class EconomosGUI {
 		botBuyPanel.add(botBuyQuantityTextField);
 		botBuyQuantityTextField.setColumns(10);
 
-		botBuyPriceTextField = new GUIElements.MyFormattedTextField(d);
+		botBuyPriceTextField = new GUIElements.MyFormattedTextField(decimalFormatter);
 		botBuyPriceTextField.setValue(1);
 
 		sl_botBuyPanel.putConstraint(SpringLayout.WEST, botBuyPriceTextField, 161, SpringLayout.WEST, botBuyPanel);
@@ -526,7 +539,7 @@ public class EconomosGUI {
 		botSellPanel.add(txtSell);
 		txtSell.setColumns(10);
 
-		botSellQuantityTextField = new GUIElements.MyFormattedTextField(d);
+		botSellQuantityTextField = new GUIElements.MyFormattedTextField(decimalFormatter);
 		botSellQuantityTextField.setValue(1);
 
 		sl_botSellPanel.putConstraint(SpringLayout.NORTH, botSellQuantityTextField, 0, SpringLayout.NORTH, txtSell);
@@ -544,7 +557,7 @@ public class EconomosGUI {
 		botSellPanel.add(txtUnitsAt);
 		txtUnitsAt.setColumns(10);
 
-		botSellPriceTextField = new GUIElements.MyFormattedTextField(d);
+		botSellPriceTextField = new GUIElements.MyFormattedTextField(decimalFormatter);
 		botSellPriceTextField.setValue(1);
 
 		sl_botSellPanel.putConstraint(SpringLayout.WEST, botSellPriceTextField, 161, SpringLayout.WEST, botSellPanel);
@@ -580,7 +593,7 @@ public class EconomosGUI {
 		pastTransactionsScrollPane.setBounds(0, 0, 989, 153);
 		companyPanel.add(pastTransactionsScrollPane);
 
-		JTextArea pastTransactionsTextArea = new JTextArea();
+		GUIElements.MyTextArea pastTransactionsTextArea = new GUIElements.MyTextArea();
 		pastTransactionsTextArea.setEditable(false);
 		pastTransactionsScrollPane.setViewportView(pastTransactionsTextArea);
 
@@ -589,7 +602,7 @@ public class EconomosGUI {
 		playerStatsScrollPane.setBounds(710, 164, 279, 471);
 		companyPanel.add(playerStatsScrollPane);
 
-		JTextArea playerStatsTextArea = new JTextArea();
+		GUIElements.MyTextArea playerStatsTextArea = new GUIElements.MyTextArea();
 		playerStatsScrollPane.setViewportView(playerStatsTextArea);
 
 		GUIElements.MyPanel constructionPanel = new GUIElements.MyPanel();

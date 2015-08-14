@@ -76,7 +76,7 @@ public class AI extends User {
 	}
 
 	public boolean testIntelligence() {
-		if (intelligence > rnd.nextFloat()) {
+		if (intelligence / 4 > rnd.nextFloat()) {
 			return true;
 		}
 		return false;
@@ -84,7 +84,7 @@ public class AI extends User {
 
 	public int priceIncreasing(AIResource ar, float percentageProfit, float trend) {
 		if (percentageProfit > 0) {
-			if (percentageProfit > aggressiveness) {
+			if (percentageProfit * percentageProfit * 4 > aggressiveness) {
 				if (trend < wariness || testIntelligence()) {
 					return 1;
 				}
@@ -119,7 +119,7 @@ public class AI extends User {
 	}
 
 	public boolean buy(AIResource r, float trend) {
-		float amountToSpend = rnd.nextFloat() * intelligence * (1 - wariness);
+		float amountToSpend = rnd.nextFloat() * (1 - intelligence) * (1 - wariness);
 		int quantity = (int) Math.ceil((amountToSpend * getMoney()) / r.getMarketResource().getBuyPrice(1));
 		if (quantity > 0) {
 			MarketController.buyResource(quantity, r, this);

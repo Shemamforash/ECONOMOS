@@ -31,7 +31,7 @@ public class EconomosGUI {
 	private GUIElements.MyFormattedTextField buyAmountTextField;
 	private GUIElements.MyTextArea descriptionTextArea;
 	private static Player currentPlayer;
-	private JList resourceList, categoryList;
+	private JList<String> resourceList;
 	private GUIElements.MyButton sellButton = new GUIElements.MyButton("Sell");
 	private GUIElements.MyButton buyButton = new GUIElements.MyButton("Buy");
 	private static PlayerResource selectedResource = null;
@@ -43,6 +43,7 @@ public class EconomosGUI {
 	private GUIElements.MyTextField txtSell;
 	private GUIElements.MyTextField txtUnitsAt;
 	public static int timeStep = 17;
+	private JButton selectedGuild;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -78,7 +79,6 @@ public class EconomosGUI {
 	public EconomosGUI() {
 		load();
 		initialize();
-		updateCategoryList(categoryList);
 		int aiCount = 100;
 		Timer t = new Timer();
 		t.schedule(new AIExecutor(aiCount), 0, 1000 / aiCount);
@@ -105,19 +105,10 @@ public class EconomosGUI {
 
 	class UpdateGUI extends TimerTask {
 		public void run() {
-			setSelectedResource((String) categoryList.getSelectedValue(),
-					String.valueOf(resourceList.getSelectedValue()));
+			if(selectedGuild != null) {
+				setSelectedResource(selectedGuild.getText(), String.valueOf(resourceList.getSelectedValue()));
+			}
 		}
-	}
-
-	public void updateCategoryList(JList list) {
-		ArrayList<ResourceType<PlayerResource>> arr = new ArrayList<ResourceType<PlayerResource>>(
-				currentPlayer.getPlayerResourceMap().getResourceTypes().values());
-		String[] strarr = new String[arr.size()];
-		for (int i = 0; i < arr.size(); ++i) {
-			strarr[i] = arr.get(i).getType();
-		}
-		list.setListData(strarr);
 	}
 
 	public void setSelectedResource(String type, String name) {
@@ -144,18 +135,18 @@ public class EconomosGUI {
 			soldTextField.setText("Sold " + selectedResource.getSold() + " units");
 			botCheckBox.setEnabled(true);
 			botCheckBox.setSelected(selectedResource.isBotActive());
-			try{
-				buyButton.setText("Buy: C" + decimalFormatter.format(
-					selectedResource.getMarketResource().getBuyPrice(Integer.parseInt(buyAmountTextField.getText()))));
-			} catch (NumberFormatException n){
-				//DOSOMETHING
+			try {
+				buyButton.setText("Buy: C" + decimalFormatter.format(selectedResource.getMarketResource()
+						.getBuyPrice(Integer.parseInt(buyAmountTextField.getText()))));
+			} catch (NumberFormatException n) {
+				// DOSOMETHING
 			}
 
 			try {
 				sellButton.setText("Sell: C" + decimalFormatter.format(selectedResource.getMarketResource()
 						.getSellPrice(Integer.parseInt(sellAmountTextField.getText()))));
 			} catch (NumberFormatException n) {
-				//DOSOMETHING
+				// DOSOMETHING
 			}
 			if (selectedResource.isBotActive()) {
 				botSellPriceTextField.setEnabled(true);
@@ -202,7 +193,7 @@ public class EconomosGUI {
 		return selectedResource;
 	}
 
-	public void updateJList(String type, JList list) {
+	public void updateJList(String type) {
 		if (currentPlayer.getPlayerResourceMap().getResourceTypes().containsKey(type)) {
 			ArrayList<PlayerResource> arr = new ArrayList<PlayerResource>(
 					currentPlayer.getPlayerResourceMap().getResourceTypes().get(type).getResourcesInType());
@@ -210,7 +201,7 @@ public class EconomosGUI {
 			for (int i = 0; i < strarr.length; ++i) {
 				strarr[i] = ((Resource) arr.get(i)).getName();
 			}
-			list.setListData(strarr);
+			resourceList.setListData(strarr);
 		}
 	}
 
@@ -220,16 +211,14 @@ public class EconomosGUI {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBackground(new Color(40, 40, 40));
-		frame.setResizable(false);
 		frame.setBounds(100, 100, 1000, 730);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		decimalFormatter.setGroupingUsed(false);
 
 		GUIElements.MyTabbedPane tabPane = new GUIElements.MyTabbedPane(JTabbedPane.TOP);
-		tabPane.setOpaque(false);
 
-		tabPane.setBounds(0, 0, 994, 663);
+		tabPane.setBounds(0, 0, frame.getWidth(), frame.getHeight() - 20);
 		frame.getContentPane().add(tabPane);
 
 		GUIElements.MyPanel marketPanel = new GUIElements.MyPanel();
@@ -246,28 +235,10 @@ public class EconomosGUI {
 		SpringLayout sl_listPanel = new SpringLayout();
 		listPanel.setLayout(sl_listPanel);
 
-		JScrollPane categoryScrollPane = new JScrollPane();
-		sl_listPanel.putConstraint(SpringLayout.NORTH, categoryScrollPane, 0, SpringLayout.NORTH, listPanel);
-		sl_listPanel.putConstraint(SpringLayout.WEST, categoryScrollPane, 0, SpringLayout.WEST, listPanel);
-		sl_listPanel.putConstraint(SpringLayout.SOUTH, categoryScrollPane, 220, SpringLayout.NORTH, listPanel);
-		sl_listPanel.putConstraint(SpringLayout.EAST, categoryScrollPane, 300, SpringLayout.WEST, listPanel);
-		categoryScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		listPanel.add(categoryScrollPane);
-
-		categoryList = new JList(new String[] { "Empty" });
-		categoryList.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent arg0) {
-				if (!arg0.getValueIsAdjusting()) {
-					updateJList((String) categoryList.getSelectedValue(), resourceList);
-				}
-			}
-		});
-		categoryScrollPane.setViewportView(categoryList);
-
 		JScrollPane resourceScrollPane = new JScrollPane();
-		sl_listPanel.putConstraint(SpringLayout.NORTH, resourceScrollPane, 6, SpringLayout.SOUTH, categoryScrollPane);
-		sl_listPanel.putConstraint(SpringLayout.WEST, resourceScrollPane, 0, SpringLayout.WEST, listPanel);
-		sl_listPanel.putConstraint(SpringLayout.SOUTH, resourceScrollPane, 632, SpringLayout.NORTH, listPanel);
+		sl_listPanel.putConstraint(SpringLayout.NORTH, resourceScrollPane, 10, SpringLayout.NORTH, listPanel);
+		sl_listPanel.putConstraint(SpringLayout.WEST, resourceScrollPane, 84, SpringLayout.WEST, listPanel);
+		sl_listPanel.putConstraint(SpringLayout.SOUTH, resourceScrollPane, -1, SpringLayout.SOUTH, listPanel);
 		sl_listPanel.putConstraint(SpringLayout.EAST, resourceScrollPane, 300, SpringLayout.WEST, listPanel);
 		resourceScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		listPanel.add(resourceScrollPane);
@@ -275,9 +246,8 @@ public class EconomosGUI {
 		resourceList = new JList(new String[] { "Empty" });
 		resourceList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
-				if (!arg0.getValueIsAdjusting() && categoryList.getSelectedValue() != "Empty") {
-					setSelectedResource((String) categoryList.getSelectedValue(),
-							String.valueOf(resourceList.getSelectedValue()));
+				if (!arg0.getValueIsAdjusting() && selectedGuild != null) {
+					setSelectedResource(selectedGuild.getText(), String.valueOf(resourceList.getSelectedValue()));
 				}
 			}
 		});
@@ -287,6 +257,54 @@ public class EconomosGUI {
 		sl_marketPanel.putConstraint(SpringLayout.NORTH, bodyPanel, 0, SpringLayout.NORTH, marketPanel);
 		sl_marketPanel.putConstraint(SpringLayout.WEST, bodyPanel, 6, SpringLayout.EAST, listPanel);
 		sl_marketPanel.putConstraint(SpringLayout.SOUTH, bodyPanel, 0, SpringLayout.SOUTH, listPanel);
+
+		JPanel guildButtonPanel = new JPanel();
+		sl_listPanel.putConstraint(SpringLayout.NORTH, guildButtonPanel, 10, SpringLayout.NORTH, listPanel);
+		sl_listPanel.putConstraint(SpringLayout.WEST, guildButtonPanel, 0, SpringLayout.WEST, listPanel);
+		sl_listPanel.putConstraint(SpringLayout.SOUTH, guildButtonPanel, -1, SpringLayout.SOUTH, listPanel);
+		sl_listPanel.putConstraint(SpringLayout.EAST, guildButtonPanel, -6, SpringLayout.WEST, resourceScrollPane);
+		listPanel.add(guildButtonPanel);
+		guildButtonPanel.setLayout(new GridLayout(8, 1, 0, 0));
+
+		class MyGuildButton extends GUIElements.MyButton {
+			public MyGuildButton thisButton;
+
+			public MyGuildButton(String text) {
+				super(text);
+				thisButton = this;
+				this.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						selectedGuild = thisButton;
+						updateJList(selectedGuild.getText());
+					}
+				});
+			}
+		}
+
+		MyGuildButton btnWeaver = new MyGuildButton("Weaver");
+		guildButtonPanel.add(btnWeaver);
+
+		MyGuildButton btnSpicer = new MyGuildButton("Spicer");
+		guildButtonPanel.add(btnSpicer);
+
+		MyGuildButton btnTemperer = new MyGuildButton("Temperer");
+		guildButtonPanel.add(btnTemperer);
+
+		MyGuildButton btnMercer = new MyGuildButton("Mercer");
+		guildButtonPanel.add(btnMercer);
+
+		MyGuildButton btnPurifier = new MyGuildButton("Purifier");
+		guildButtonPanel.add(btnPurifier);
+
+		MyGuildButton btnSmelter = new MyGuildButton("Smelter");
+		guildButtonPanel.add(btnSmelter);
+
+		MyGuildButton btnCrofter = new MyGuildButton("Crofter");
+		guildButtonPanel.add(btnCrofter);
+
+		MyGuildButton btnMason = new MyGuildButton("Mason");
+		guildButtonPanel.add(btnMason);
+
 		sl_marketPanel.putConstraint(SpringLayout.EAST, bodyPanel, 0, SpringLayout.EAST, marketPanel);
 		marketPanel.add(bodyPanel);
 		SpringLayout sl_bodyPanel = new SpringLayout();

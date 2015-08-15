@@ -1,43 +1,168 @@
-Ambrosia#Organics#Delicious honey-like liquid. May cause immortality.
-Abyssus Titanicus#Organics#
-Sweetvine#Organics#
-Terra Preta#Organics#
-Liquid Fire#Organics#
-Fruit#Organics#
-Vegetables#Organics#
-Cereals#Organics#
-Spice#Organics#Everyone seemed to like this stuff... until they realised it's worm faeces. Still fetches a good price on modern markets.
-Bio-Oil#Organics#
-Hyperium#Metals#A blue greyish material- warm to the touch. Keep away from flammable liquids.
-Electrum#Metals#Pretty useless in most areas of industry. Looks pretty though.
-Adamantine#Metals#Really hard. I mean really, really hard. Fairly useless in industry. Quite hard though.
-Thorium#Metals#
-Platinum#Metals#
-Silver#Metals#
-Neodymium#Metals#
-Octirite#Precious Minerals#
-Diamondium#Precious Minerals#
-Trinitite#Precious Minerals#Boxes full of this sharp radioactive material are frequently shipped around the galaxy. No one knows why.
-Immobile Smoke#Precious Minerals#
-Gold#Precious Minerals#
-Nanocrystals#Precious Minerals#
-Calcium#Simple Minerals#
-Deuterium#Simple Minerals#
-Ethanol#Simple Minerals#
-Cobalt#Simple Minerals#
-Osmium#Simple Minerals#
-LH2#Simple Minerals#
-Carbon#Simple Minerals#
-Pure Water#Simple Minerals#
-Clay#Simple Minerals#
-Silica#Simple Minerals#
-Dark Matter#Exotics#An ironic creamy colour.
-Mortusite#Exotics#This material decays into a colourless vapour combined with it's half life of about 10 minutes it's a wonder people pay for it.
-Cobalt Thorium G#Exotics#Primary fuel for old nuclear power stations. Causes instant death. Delicious.
-Element Zero#Exotics#Zero protons, zero neutrons, zero electrons. Surprisingly heavy.
-Negative Matter#Exotics#
-Meat#Animal Products#
-Spider Silk#Animal Products#
-Behemoth Ivory#Animal Products#
-Venusid Leather#Animal Products#
-Blood#Animal Products#
+TYPE,Spicer,
+Epinephrine,Increased response time,
+Panacea,Heals wounds,
+Oxytocin,Mental soothing,
+Lubricants,For industrial use,
+Neverclear,Medicinal alcohol,
+Aphroditus,Aphrodisiac and sensory enhancer,
+Nectar,Psychotropic drug,
+Orpheus Slumber,Sleep inducer,
+Ocean Blue,Natural cleaning fluid,
+GM Precusor,Industrial precursor to GMOs,
+Morteks,Prevents fear responses,
+Antiballistic Serum,Natural gel with antiballistic properties,
+Confusia,Clears confusion and mental health issues,
+Bioluminescents,Natural lighting,
+Immobile Smoke,Can contain smoke and pollutants,
+Ambrosia,Amber based nootropic drug,
+Chronomorph,Slows users perception of time,
+Epiphos,Allows greater concentration and insight,
+Nidrfoenix,Can resuscitate recently deceased,
+Athelas,Very rare tobacco alternative,
+TYPE,Weaver,
+Jute,Food transportation. Precursor.,
+Cloth,Weaving. Clothing.,
+Cotton,Thread. Insulation. Comfort. Bandages.,
+Nylite,Temperature control. Civilian clothing.,
+eFabric,Expensive clothing. Military applications.,
+Aramid,Sports wear. Underarmour. Protection.,
+Linen,Rugs. Decoration. Clothing.,
+Elastics,Industrial and commercial applications.,
+Cashmere,Luxury clothing.,
+Nydian Fur,Luxury clothing.,
+Soft Leather,Luxury clothing.,
+Adamantis,Armour. Civilian defense clothing.,
+Silk,Luxury clothing.,
+Mokros Skin,Armour. Decoration.,
+Plaited Amber,Amber-based. Wear resistant. Luxury clothing.,
+Nagl Hide,Trophies. Luxury clothing.,
+Boreal Gossamer,Luxury clothing.,
+Woven Metal,Military and industrial applications. Luxury clothing.,
+Liquid Cloth,Luxury clothing.,
+Hera's Tears,Luxury clothing. Decoration.,
+TYPE,Temperer,
+Clay,Industrial applications. Base for other materials.,
+Carbon Fibre,Strong structural material.,
+Silica Glass,Ordinary glass.,
+Alumina,Purification. Catalysis. Base for other materials.,
+Hologlass,3D displays and laser refractors.,
+Nanotubes,High tensile strength applications.,
+Heatpads,Very high temperature heat absorbers.,
+Boron-Carbide,Structural reinforcement.,
+Vac-Glass,Ship windows.,
+Data Glass,Data storage.,
+Graphene,Medical. Military. Civilian. Electronics.,
+Ceramic Cloth,Low weight/cost structural material.,
+Permacarbon,Wearproof heat absorbers.,
+Fluorocin,Self illuminating glass. Displays.,
+Trinitite,Safe radioactive material storage.,
+Ceramiglass,Extreme heat resistance and transparency.,
+Pellucidic Glass,Laser light promotion/protection.,
+Obsidian,Optics. Jewellery.,
+Semisolids,Mouldable/bendable yet strong products.,
+Photophilic Glass,Photon capture and storage.,
+TYPE,Purifier,
+Tin,,
+LOx,Chemical rocket fuel. Oxygen storage.,
+Carbon,,
+Lead,,
+Mercury,,
+Gallium,,
+Copper,Basic conductor. Heat dissipator.,
+Indium,,
+Silver,,
+Titanium,,
+Deuterium,Fusion generators.,
+Aluminium,,
+Palladium,,
+Iridium,,
+Earth Metals,Fusion reactors. Superconductor component.,
+Gold,,
+Platinum,,
+Radioactives,Radioactive sources. Military. Scientific.,
+Cobalt,,
+Tantalum,,
+TYPE,Mercer,
+Sand,,
+Paper,,
+Slag,,
+Liquid Concrete,,
+Softwood,,
+Pure Water,,
+Dye Base,,
+Hydrocarbons,,
+Dark Matter,,
+Hardwood,,
+Magnacauterium,,
+Fungal Foam,,
+Crystalline Organisms,,
+Frost Birch,,
+Raw Amber,,
+Antimatter,,
+Black Amber,,
+Negative Matter,,
+Maliphitus Nariphon,,
+Tempereal Gland,,
+TYPE,Smelter,
+Ferrous Alloys,Simple iron base metals.,
+Hydrogen Peroxide,Corrosion and abrasion. Solvent. Explosives.,
+Ammonia,Textiles. Antimicrobials. Nitrogenous base.,
+Inox,Structural support.,
+Intermetallics,Base for electronic circuits.,
+NiMH,Hydrogen storage.,
+Semiconductors,Electronics.,
+Manganosite,Fertilisers.,
+Neodymium,High strength natural magnets.,
+Damascan Steel,Military and civilian blades.,
+Memorite,Memory retention for deformable structures.,
+Staballoy,Base metal for artillery.,
+Ultradarks,Perfect light absorption.,
+Superconductors,Low temperature superconduting.,
+Warpalloy,Rare amber alloy used to make warp coils.,
+Ambroids,Extremely strong and light material. Brittle.,
+Impermite,Antientropic alloy. Ship construction.,
+Lustre,Very expensive alloy of gold and silver and amber.,
+Transreal Alloys,Not fully understood.,
+Protonite,Alloy with proton retaining properties.,
+TYPE,Mason,
+Chalk,,
+Silicates,,
+Gypsum,,
+Limestone,,
+Salts,,
+Lignite,,
+Sulphur,DNA synthesis. Acids. Anti bacterials.,
+Diatomite,,
+Granite,,
+Universal Catalysts,Industrial applications. Material and chemical production.,
+Unstable Compounds,Explosives. Material production.,
+Precious Gems,Jewellery.,
+Lapis Lazuli,Dye. Jewellery.,
+Apsum,,
+Marble,,
+Ambronite,Amber infused metals. Jewellery.,
+Bifrostite,,
+Indigo,,
+Helenite,,
+Diamond,Jewellery. Some minor industrial applications.,
+TYPE,Crofter,
+Algae,Cheap protein source.,
+Cereals,Cheap carbohydrate source.,
+Legumes,Cheap fibre and vitamin source.,
+Syrup,Cheap sugar source.,
+Chocolate,Luxury cooking and foodstuff.,
+Soybeans,High protein source and base for complex meals.,
+Micoprotein,Used for meat simulation. Does not go off.,
+Fruit,Expensive foodstuff. Base for puddings.,
+Auroch Meat,Most widely available meat.,
+Sweetvine,Fruit used for making alcoholic beverages.,
+Coffee,Reasonable rare drink.,
+Nutmeg,All purpose cooking spice.,
+Saffron,Very rare cooking ingredient.,
+Oliolis,Fragrant oil for cooking.,
+Lychnusberry,Rare and refreshing berry with healing properties.,
+Nattslangen,Very dark root used in fermentation.,
+Worldspice,Universally rare spice used in restaurants.,
+Summer Dust,Lentil like bean used in stews and curries.,
+Pearls of Uriel,Very rare caviar from fish on Uriel III.,
+Melculum Sac,Fruit sack filled with fruit juice.,

@@ -24,18 +24,18 @@ public class DataParser {
 				if(next == null){
 					break;
 				}
-				String[] resourceStrArr = next.split("#");
-				String name = resourceStrArr[0];
-				String type = resourceStrArr[1];
-				String description = "";
-				if(resourceStrArr.length > 2){
-					description = resourceStrArr[2];
+				String[] resourceStrArr = next.split(",");
+				
+				if(resourceStrArr[0].equals("TYPE")){
+					types.add(resourceStrArr[1]);
+				} else {
+					String description = "";
+					if(resourceStrArr.length > 1){
+						description = resourceStrArr[1];
+					}
+					RawResourceData r = new RawResourceData(resourceStrArr[0], types.get(types.size() - 1), description);
+					rawResourceData.add(r);
 				}
-				RawResourceData r = new RawResourceData(name, type, description);
-				if(!types.contains(type)){
-					types.add(type);
-				}
-				rawResourceData.add(r);
 			}
 			reader.close();
 		}

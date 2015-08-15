@@ -36,11 +36,11 @@ public class GraphPanel extends JPanel {
 
 			plotLine(pricePerPixel, 1, marketResource.getMinPrice());
 			
-			pricePerPixel = (float)this.getHeight() / (marketResource.getMaxDemand() - marketResource.getMinDemand());
+			pricePerPixel = (float)this.getHeight() / (marketResource.getMaxSupply());// - marketResource.getMinSupply());
 			
 			plotLine(pricePerPixel, 2, 0);
 			
-			pricePerPixel = (float)this.getHeight() / (marketResource.getMaxDemand() - marketResource.getMinDemand());
+			pricePerPixel = (float)this.getHeight() / (marketResource.getMaxDemand());// - marketResource.getMinDemand());
 
 			plotLine(pricePerPixel, 3, 0);
 

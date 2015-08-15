@@ -12,7 +12,7 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 	private int desiredThisTick, timeSinceEvent;
 	private float maxPrice, minPrice, maxDemand, minDemand, maxSupply, minSupply, averagePrice, supply, demand;
 	private float price, trend;
-	float changeTrend = 0, changeTrendModifier = 0f; // between 0 and 1
+	float changeTrend = 1, changeTrendModifier = 0f; // between 0 and 1
 	int timer = 0, timerMax; // timer to ensure non constant decrease
 	int trendDirection = 1; // true is up/false is down
 	private Random rnd = new Random();
@@ -37,45 +37,38 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 
 	private float getSupplyChange() {
 		if (timerMax < timer) {
-			changeTrend -= changeTrend / (rnd.nextFloat() * 5f + 1f);
+			changeTrend = -changeTrend;
 			timer = 0;
 			timerMax = rnd.nextInt(400);
 		}
-
-		++timer;
-
-		float temp = (float) (Math.pow(rnd.nextFloat(), 2)) * 0.02f - 0.01f;
 		
-		if (changeTrendModifier + temp < -0.2f || changeTrendModifier + temp > 0.2f) {
+		++timer;
+		
+		float temp = (float)(Math.pow(rnd.nextFloat(), 2)) * 2f - 1f;
+		if(changeTrendModifier + temp < -1f || changeTrendModifier + temp > 1f){
 			changeTrendModifier = changeTrendModifier - temp;
 		} else {
 			changeTrendModifier = changeTrendModifier + temp;
 		}
 		
-		if (changeTrend + changeTrendModifier < -1f || changeTrend + changeTrendModifier > 1f) {
-			changeTrend = changeTrend - changeTrendModifier;
-			changeTrendModifier = -changeTrendModifier;
-		} else {
-			changeTrend = changeTrend + changeTrendModifier;
-		}
-
 		float supplyChange = 0.03f * baseSupply;
-
-		if ((changeTrend > 0 && supply >= baseSupply * 20f) || (changeTrend < 0 && supply <= 5)) {
-			changeTrend = -changeTrend / (rnd.nextFloat() * 5f + 1f);
-			changeTrendModifier = -changeTrendModifier / (rnd.nextFloat() * 5f + 1);
-		}
 		
-		supplyChange = supplyChange * changeTrend;	
-
+		if ((changeTrend * changeTrendModifier > 0 && supply >= baseSupply * 20f) || (changeTrend * changeTrendModifier < 0 && supply <= baseSupply * 0.2f)) {
+			changeTrend = -changeTrend;
+		} 
+		
+		changeTrendModifier = changeTrend * changeTrendModifier;
+		
+		supplyChange = supplyChange * changeTrendModifier;
+		
 		return supply + supplyChange;
 	}
-
+	
 	public float getPricePerUnit() {
-		if (supply < 5) {
-			supply = 5;
-			supply = getSupplyChange();
-		} else if (demand < supply && supply < baseSupply * 20) {
+		if (supply < baseSupply * 0.1f && demand > baseSupply * 0.5f) {
+			supply = baseSupply * 0.1f;
+		}
+		if (demand < supply && supply < baseSupply * 20) {
 			supply = demand;
 		} else {
 			supply = getSupplyChange();

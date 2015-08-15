@@ -65,10 +65,10 @@ public class AI extends User {
 				}
 				if (action == 1 && !hasSold) {
 					sell(r);
-//					hasSold = true;
+					// hasSold = true;
 				} else if (action == 2 && !hasBought) {
 					if (buy(r, mr.getTrend())) {
-//						hasBought = true;
+						// hasBought = true;
 					}
 				}
 			}
@@ -105,21 +105,19 @@ public class AI extends User {
 		if (-wariness > trend) {
 			return 1;
 		}
-		if (trend < 1) {
-			if (!testIntelligence()) {
-				return 2;
-			}
+		if (!testIntelligence()) {
+			return 2;
 		}
 		return 0;
 	}
 
 	public void sell(AIResource r) {
 		MarketController.sellResource(r.getQuantity(), r, this);
-		money = 10000;
+		money = 100000;
 	}
 
 	public boolean buy(AIResource r, float trend) {
-		float amountToSpend = rnd.nextFloat() * (1 - intelligence) * (1 - wariness);
+		float amountToSpend = rnd.nextFloat() * (1 - intelligence) * (1 - wariness) * 0.3f;
 		int quantity = (int) Math.ceil((amountToSpend * getMoney()) / r.getMarketResource().getBuyPrice(1));
 		if (quantity > 0) {
 			MarketController.buyResource(quantity, r, this);

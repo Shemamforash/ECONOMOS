@@ -40,7 +40,7 @@ public class GraphPanel extends JPanel {
 		super.paintComponent(g);
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		((Graphics2D) g).setRenderingHints(rh);
-		UserResource userR = EconomosGUI.getSelectedResource();
+		UserResource userR = EconomosGUI.getCurrentResource();
 
 		if (userR != null) {
 			marketResource = userR.getMarketResource();

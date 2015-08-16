@@ -1,168 +1,168 @@
 TYPE,Spicer,
-Epinephrine,Increased response time,
-Panacea,Heals wounds,
-Oxytocin,Mental soothing,
-Lubricants,For industrial use,
-Neverclear,Medicinal alcohol,
-Aphroditus,Aphrodisiac and sensory enhancer,
-Nectar,Psychotropic drug,
-Orpheus Slumber,Sleep inducer,
-Ocean Blue,Natural cleaning fluid,
-GM Precusor,Industrial precursor to GMOs,
-Morteks,Prevents fear responses,
-Antiballistic Serum,Natural gel with antiballistic properties,
-Confusia,Clears confusion and mental health issues,
-Bioluminescents,Natural lighting,
-Immobile Smoke,Can contain smoke and pollutants,
-Ambrosia,Amber based nootropic drug,
-Chronomorph,Slows users perception of time,
-Epiphos,Allows greater concentration and insight,
-Nidrfoenix,Can resuscitate recently deceased,
-Athelas,Very rare tobacco alternative,
+Epinephrine,Increased response time,Commonplace
+Panacea,Heals wounds,Commonplace
+Oxytocin,Mental soothing,Commonplace
+Lubricants,For industrial use,Commonplace
+Neverclear,Medicinal alcohol,Unusual
+Aphroditus,Aphrodisiac and sensory enhancer,Unusual
+Nectar,Psychotropic drug,Unusual
+Orpheus Slumber,Sleep inducer,Unusual
+Ocean Blue,Natural cleaning fluid,Soughtafter
+GM Precusor,Industrial precursor to GMOs,Soughtafter
+Morteks,Prevents fear responses,Soughtafter
+Antiballistic Serum,Natural gel with antiballistic properties,Soughtafter
+Confusia,Clears confusion and mental health issues,Coveted
+Bioluminescents,Natural lighting,Coveted
+Immobile Smoke,Can contain smoke and pollutants,Coveted
+Ambrosia,Amber based nootropic drug,Coveted
+Chronomorph,Slows users perception of time,Legendary
+Epiphos,Allows greater concentration and insight,Legendary
+Nidrfoenix,Can resuscitate recently deceased,Legendary
+Athelas,Very rare tobacco alternative,Legendary
 TYPE,Weaver,
-Jute,Food transportation. Precursor.,
-Cloth,Weaving. Clothing.,
-Cotton,Thread. Insulation. Comfort. Bandages.,
-Nylite,Temperature control. Civilian clothing.,
-eFabric,Expensive clothing. Military applications.,
-Aramid,Sports wear. Underarmour. Protection.,
-Linen,Rugs. Decoration. Clothing.,
-Elastics,Industrial and commercial applications.,
-Cashmere,Luxury clothing.,
-Nydian Fur,Luxury clothing.,
-Soft Leather,Luxury clothing.,
-Adamantis,Armour. Civilian defense clothing.,
-Silk,Luxury clothing.,
-Mokros Skin,Armour. Decoration.,
-Plaited Amber,Amber-based. Wear resistant. Luxury clothing.,
-Nagl Hide,Trophies. Luxury clothing.,
-Boreal Gossamer,Luxury clothing.,
-Woven Metal,Military and industrial applications. Luxury clothing.,
-Liquid Cloth,Luxury clothing.,
-Hera's Tears,Luxury clothing. Decoration.,
+Jute,Food transportation. Precursor.,Commonplace
+Cloth,Weaving. Clothing.,Commonplace
+Cotton,Thread. Insulation. Comfort. Bandages.,Commonplace
+Nylite,Temperature control. Civilian clothing.,Commonplace
+eFabric,Expensive clothing. Military applications.,Unusual
+Aramid,Sports wear. Underarmour. Protection.,Unusual
+Linen,Rugs. Decoration. Clothing.,Unusual
+Elastics,Industrial and commercial applications.,Unusual
+Cashmere,Luxury clothing.,Soughtafter
+Nydian Fur,Luxury clothing.,Soughtafter
+Soft Leather,Luxury clothing.,Soughtafter
+Adamantis,Armour. Civilian defense clothing.,Soughtafter
+Silk,Luxury clothing.,Coveted
+Mokros Skin,Armour. Decoration.,Coveted
+Plaited Amber,Amber-based. Wear resistant. Luxury clothing.,Coveted
+Nagl Hide,Trophies. Luxury clothing.,Coveted
+Boreal Gossamer,Luxury clothing.,Legendary
+Woven Metal,Military and industrial applications. Luxury clothing.,Legendary
+Liquid Cloth,Luxury clothing.,Legendary
+Hera's Tears,Luxury clothing. Decoration.,Legendary
 TYPE,Temperer,
-Clay,Industrial applications. Base for other materials.,
-Carbon Fibre,Strong structural material.,
-Silica Glass,Ordinary glass.,
-Alumina,Purification. Catalysis. Base for other materials.,
-Hologlass,3D displays and laser refractors.,
-Nanotubes,High tensile strength applications.,
-Heatpads,Very high temperature heat absorbers.,
-Boron-Carbide,Structural reinforcement.,
-Vac-Glass,Ship windows.,
-Data Glass,Data storage.,
-Graphene,Medical. Military. Civilian. Electronics.,
-Ceramic Cloth,Low weight/cost structural material.,
-Permacarbon,Wearproof heat absorbers.,
-Fluorocin,Self illuminating glass. Displays.,
-Trinitite,Safe radioactive material storage.,
-Ceramiglass,Extreme heat resistance and transparency.,
-Pellucidic Glass,Laser light promotion/protection.,
-Obsidian,Optics. Jewellery.,
-Semisolids,Mouldable/bendable yet strong products.,
-Photophilic Glass,Photon capture and storage.,
+Clay,Industrial applications. Base for other materials.,Commonplace
+Carbon Fibre,Strong structural material.,Commonplace
+Silica Glass,Ordinary glass.,Commonplace
+Alumina,Purification. Catalysis. Base for other materials.,Commonplace
+Hologlass,3D displays and laser refractors.,Unusual
+Nanotubes,High tensile strength applications.,Unusual
+Heatpads,Very high temperature heat absorbers.,Unusual
+Boron-Carbide,Structural reinforcement.,Unusual
+Vac-Glass,Ship windows.,Soughtafter
+Data Glass,Data storage.,Soughtafter
+Graphene,Medical. Military. Civilian. Electronics.,Soughtafter
+Ceramic Cloth,Low weight/cost structural material.,Soughtafter
+Permacarbon,Wearproof heat absorbers.,Coveted
+Fluorocin,Self illuminating glass. Displays.,Coveted
+Trinitite,Safe radioactive material storage.,Coveted
+Ceramiglass,Extreme heat resistance and transparency.,Coveted
+Pellucidic Glass,Laser light promotion/protection.,Legendary
+Obsidian,Optics. Jewellery.,Legendary
+Semisolids,Mouldable/bendable yet strong products.,Legendary
+Photophilic Glass,Photon capture and storage.,Legendary
 TYPE,Purifier,
-Tin,,
-LOx,Chemical rocket fuel. Oxygen storage.,
-Carbon,,
-Lead,,
-Mercury,,
-Gallium,,
-Copper,Basic conductor. Heat dissipator.,
-Indium,,
-Silver,,
-Titanium,,
-Deuterium,Fusion generators.,
-Aluminium,,
-Palladium,,
-Iridium,,
-Earth Metals,Fusion reactors. Superconductor component.,
-Gold,,
-Platinum,,
-Radioactives,Radioactive sources. Military. Scientific.,
-Cobalt,,
-Tantalum,,
+Tin,,Commonplace
+LOx,Chemical rocket fuel. Oxygen storage.,Commonplace
+Carbon,,Commonplace
+Lead,,Commonplace
+Mercury,,Unusual
+Gallium,,Unusual
+Copper,Basic conductor. Heat dissipator.,Unusual
+Indium,,Unusual
+Silver,,Soughtafter
+Titanium,,Soughtafter
+Deuterium,Fusion generators.,Soughtafter
+Aluminium,,Soughtafter
+Palladium,,Coveted
+Iridium,,Coveted
+Earth Metals,Fusion reactors. Superconductor component.,Coveted
+Gold,,Coveted
+Platinum,,Legendary
+Radioactives,Radioactive sources. Military. Scientific.,Legendary
+Cobalt,,Legendary
+Tantalum,,Legendary
 TYPE,Mercer,
-Sand,,
-Paper,,
-Slag,,
-Liquid Concrete,,
-Softwood,,
-Pure Water,,
-Dye Base,,
-Hydrocarbons,,
-Dark Matter,,
-Hardwood,,
-Magnacauterium,,
-Fungal Foam,,
-Crystalline Organisms,,
-Frost Birch,,
-Raw Amber,,
-Antimatter,,
-Black Amber,,
-Negative Matter,,
-Maliphitus Nariphon,,
-Tempereal Gland,,
+Sand,,Commonplace
+Paper,,Commonplace
+Slag,,Commonplace
+Liquid Concrete,,Commonplace
+Softwood,,Unusual
+Pure Water,,Unusual
+Dye Base,,Unusual
+Hydrocarbons,,Unusual
+Dark Matter,,Soughtafter
+Hardwood,,Soughtafter
+Magnacauterium,,Soughtafter
+Fungal Foam,,Soughtafter
+Crystalline Organisms,,Coveted
+Frost Birch,,Coveted
+Raw Amber,,Coveted
+Antimatter,,Coveted
+Black Amber,,Legendary
+Negative Matter,,Legendary
+Maliphitus Nariphon,,Legendary
+Tempereal Gland,,Legendary
 TYPE,Smelter,
-Ferrous Alloys,Simple iron base metals.,
-Hydrogen Peroxide,Corrosion and abrasion. Solvent. Explosives.,
-Ammonia,Textiles. Antimicrobials. Nitrogenous base.,
-Inox,Structural support.,
-Intermetallics,Base for electronic circuits.,
-NiMH,Hydrogen storage.,
-Semiconductors,Electronics.,
-Manganosite,Fertilisers.,
-Neodymium,High strength natural magnets.,
-Damascan Steel,Military and civilian blades.,
-Memorite,Memory retention for deformable structures.,
-Staballoy,Base metal for artillery.,
-Ultradarks,Perfect light absorption.,
-Superconductors,Low temperature superconduting.,
-Warpalloy,Rare amber alloy used to make warp coils.,
-Ambroids,Extremely strong and light material. Brittle.,
-Impermite,Antientropic alloy. Ship construction.,
-Lustre,Very expensive alloy of gold and silver and amber.,
-Transreal Alloys,Not fully understood.,
-Protonite,Alloy with proton retaining properties.,
+Ferrous Alloys,Simple iron base metals.,Commonplace
+Hydrogen Peroxide,Corrosion and abrasion. Solvent. Explosives.,Commonplace
+Ammonia,Textiles. Antimicrobials. Nitrogenous base.,Commonplace
+Inox,Structural support.,Commonplace
+Intermetallics,Base for electronic circuits.,Unusual
+NiMH,Hydrogen storage.,Unusual
+Semiconductors,Electronics.,Unusual
+Manganosite,Fertilisers.,Unusual
+Neodymium,High strength natural magnets.,Soughtafter
+Damascan Steel,Military and civilian blades.,Soughtafter
+Memorite,Memory retention for deformable structures.,Soughtafter
+Staballoy,Base metal for artillery.,Soughtafter
+Ultradarks,Perfect light absorption.,Coveted
+Superconductors,Low temperature superconduting.,Coveted
+Warpalloy,Rare amber alloy used to make warp coils.,Coveted
+Ambroids,Extremely strong and light material. Brittle.,Coveted
+Impermite,Antientropic alloy. Ship construction.,Legendary
+Lustre,Very expensive alloy of gold and silver and amber.,Legendary
+Transreal Alloys,Not fully understood.,Legendary
+Protonite,Alloy with proton retaining properties.,Legendary
 TYPE,Mason,
-Chalk,,
-Silicates,,
-Gypsum,,
-Limestone,,
-Salts,,
-Lignite,,
-Sulphur,DNA synthesis. Acids. Anti bacterials.,
-Diatomite,,
-Granite,,
-Universal Catalysts,Industrial applications. Material and chemical production.,
-Unstable Compounds,Explosives. Material production.,
-Precious Gems,Jewellery.,
-Lapis Lazuli,Dye. Jewellery.,
-Apsum,,
-Marble,,
-Ambronite,Amber infused metals. Jewellery.,
-Bifrostite,,
-Indigo,,
-Helenite,,
-Diamond,Jewellery. Some minor industrial applications.,
+Chalk,,Commonplace
+Silicates,,Commonplace
+Gypsum,,Commonplace
+Limestone,,Commonplace
+Salts,,Unusual
+Lignite,,Unusual
+Sulphur,DNA synthesis. Acids. Anti bacterials.,Unusual
+Diatomite,,Unusual
+Granite,,Soughtafter
+Universal Catalysts,Industrial applications. Material and chemical production.,Soughtafter
+Unstable Compounds,Explosives. Material production.,Soughtafter
+Precious Gems,Jewellery.,Soughtafter
+Lapis Lazuli,Dye. Jewellery.,Coveted
+Apsum,,Coveted
+Marble,,Coveted
+Ambronite,Amber infused metals. Jewellery.,Coveted
+Bifrostite,,Legendary
+Indigo,,Legendary
+Helenite,,Legendary
+Diamond,Jewellery. Some minor industrial applications.,Legendary
 TYPE,Crofter,
-Algae,Cheap protein source.,
-Cereals,Cheap carbohydrate source.,
-Legumes,Cheap fibre and vitamin source.,
-Syrup,Cheap sugar source.,
-Chocolate,Luxury cooking and foodstuff.,
-Soybeans,High protein source and base for complex meals.,
-Micoprotein,Used for meat simulation. Does not go off.,
-Fruit,Expensive foodstuff. Base for puddings.,
-Auroch Meat,Most widely available meat.,
-Sweetvine,Fruit used for making alcoholic beverages.,
-Coffee,Reasonable rare drink.,
-Nutmeg,All purpose cooking spice.,
-Saffron,Very rare cooking ingredient.,
-Oliolis,Fragrant oil for cooking.,
-Lychnusberry,Rare and refreshing berry with healing properties.,
-Nattslangen,Very dark root used in fermentation.,
-Worldspice,Universally rare spice used in restaurants.,
-Summer Dust,Lentil like bean used in stews and curries.,
-Pearls of Uriel,Very rare caviar from fish on Uriel III.,
-Melculum Sac,Fruit sack filled with fruit juice.,
+Algae,Cheap protein source.,Commonplace
+Cereals,Cheap carbohydrate source.,Commonplace
+Legumes,Cheap fibre and vitamin source.,Commonplace
+Syrup,Cheap sugar source.,Commonplace
+Chocolate,Luxury cooking and foodstuff.,Unusual
+Soybeans,High protein source and base for complex meals.,Unusual
+Micoprotein,Used for meat simulation. Does not go off.,Unusual
+Fruit,Expensive foodstuff. Base for puddings.,Unusual
+Auroch Meat,Most widely available meat.,Soughtafter
+Sweetvine,Fruit used for making alcoholic beverages.,Soughtafter
+Coffee,Reasonable rare drink.,Soughtafter
+Nutmeg,All purpose cooking spice.,Soughtafter
+Saffron,Very rare cooking ingredient.,Coveted
+Oliolis,Fragrant oil for cooking.,Coveted
+Lychnusberry,Rare and refreshing berry with healing properties.,Coveted
+Nattslangen,Very dark root used in fermentation.,Coveted
+Worldspice,Universally rare spice used in restaurants.,Legendary
+Summer Dust,Lentil like bean used in stews and curries.,Legendary
+Pearls of Uriel,Very rare caviar from fish on Uriel III.,Legendary
+Melculum Sac,Fruit sack filled with fruit juice.,Legendary

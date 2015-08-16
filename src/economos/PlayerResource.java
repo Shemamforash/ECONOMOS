@@ -5,8 +5,8 @@ public class PlayerResource extends UserResource{
 	private boolean botActive = false;
 	private float botBuy = 1, botSell = 1;
 	
-	public PlayerResource(String name, String description, String type) {
-		super(name, description, type);
+	public PlayerResource(String name, String description, String type, String rarity) {
+		super(name, description, type, rarity);
 	}
 	
 	public void activeBot(boolean botActive){

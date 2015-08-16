@@ -6,8 +6,8 @@ public abstract class UserResource extends Resource{
 	private int bought;
 	private float averageSell, averageBuy, averageProfit;
 	
-	public UserResource(String name, String description, String type) {
-		super(name, description, type);
+	public UserResource(String name, String description, String type, String rarity) {
+		super(name, description, type, rarity);
 		marketResource = MarketController.getMarketResources().getResource(type, name);
 	}
 

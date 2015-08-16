@@ -21,29 +21,25 @@ import javax.swing.event.*;
 public class EconomosGUI {
 	private JFrame frame;
 	private GUIElements.MyTextField typeTextField, nameTextField, possessTextField, soldTextField,
-			averageProfitTextField, averagePriceTextField, demandTextField, supplyTextField;
-	private GUIElements.MyFormattedTextField botBuyQuantityTextField;
-	private GUIElements.MyButton setPriceButton;
-	private GUIElements.MyFormattedTextField botBuyPriceTextField;
-	private GUIElements.MyFormattedTextField botSellQuantityTextField;
-	private GUIElements.MyFormattedTextField botSellPriceTextField;
-	private GUIElements.MyFormattedTextField sellAmountTextField;
-	private GUIElements.MyFormattedTextField buyAmountTextField;
+			averageProfitTextField, averagePriceTextField, demandTextField, supplyTextField, rarityTextField, headlineTextField;
+	private GUIElements.MyFormattedTextField sellAmountTextField, buyAmountTextField;
 	private GUIElements.MyTextArea descriptionTextArea;
 	private static Player currentPlayer;
-	private JList<String> resourceList;
-	private GUIElements.MyButton sellButton = new GUIElements.MyButton("Sell");
-	private GUIElements.MyButton buyButton = new GUIElements.MyButton("Buy");
-	private static PlayerResource selectedResource = null;
+	private GUIElements.MyPanel resourceList;
+	private GUIElements.MyButton sellButton = new GUIElements.MyButton("Sell", true);
+	private GUIElements.MyButton buyButton = new GUIElements.MyButton("Buy", true);
+	private static PlayerResource currentResource = null;
 	private NumberFormat decimalFormatter = NumberFormat.getIntegerInstance();
 	private GraphPanel buyGraph = new GraphPanel();
-	private JCheckBox botCheckBox = new JCheckBox("Enable Bot (20C/s)");
-	private GUIElements.MyTextField txtBuy;
-	private GUIElements.MyTextField txtUnitsAtC;
-	private GUIElements.MyTextField txtSell;
-	private GUIElements.MyTextField txtUnitsAt;
-	public static int timeStep = 17;
-	private JButton selectedGuild;
+	public static int timeStep = 4;
+	private JButton selectedGuild, selectedResource;
+	private SpringLayout springLayout;
+	private GUIElements.MyPanel marketPanel;
+	private boolean fieldsReset = false;
+
+	public void postNewHeadline(String txt) {
+		headlineTextField.setText(txt);
+	}
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -85,10 +81,6 @@ public class EconomosGUI {
 
 		AI ai = new AI("Sam's AI", "Sam's AI");
 
-		GUIElements.MyPanel panel = new GUIElements.MyPanel();
-		panel.setBounds(0, 673, 994, 28);
-		frame.getContentPane().add(panel);
-
 		t.schedule(new UpdateGUI(), 0, 17);
 	}
 
@@ -105,23 +97,24 @@ public class EconomosGUI {
 
 	class UpdateGUI extends TimerTask {
 		public void run() {
-			if(selectedGuild != null) {
-				setSelectedResource(selectedGuild.getText(), String.valueOf(resourceList.getSelectedValue()));
+			if (selectedGuild != null && selectedResource != null) {
+				setSelectedResource(selectedGuild.getText(), selectedResource.getText());
 			}
 		}
 	}
 
 	public void setSelectedResource(String type, String name) {
 		ResourceMap<PlayerResource> m = currentPlayer.getPlayerResourceMap();
-		selectedResource = m.getResource(type, name);
+		currentResource = m.getResource(type, name);
 
-		if (selectedResource != null) {
-			MarketResource mr = selectedResource.getMarketResource();
-			typeTextField.setText(selectedResource.getType());
-			nameTextField.setText(selectedResource.getName());
-			descriptionTextArea.setText(selectedResource.getDescription());
+		if (currentResource != null) {
+			MarketResource mr = currentResource.getMarketResource();
+			typeTextField.setText(currentResource.getType());
+			nameTextField.setText(currentResource.getName());
+			rarityTextField.setText(currentResource.getRarity());
+			descriptionTextArea.setText(currentResource.getDescription());
 			supplyTextField.setText("Supply: " + mr.getSupply() + "p/s");
-			possessTextField.setText("Owned: " + selectedResource.getQuantity());
+			possessTextField.setText("Owned: " + currentResource.getQuantity());
 			if (!sellAmountTextField.isEnabled()) {
 				sellAmountTextField.setEnabled(true);
 				sellAmountTextField.setText("1");
@@ -131,40 +124,27 @@ public class EconomosGUI {
 			demandTextField.setText("Demand: " + mr.getDemand() + "p/s");
 			averagePriceTextField.setText("Average Price: C" + decimalFormatter.format(mr.getAveragePrice()));
 			averageProfitTextField
-					.setText("Average Profit: C" + decimalFormatter.format(selectedResource.getAverageProfit()));
-			soldTextField.setText("Sold " + selectedResource.getSold() + " units");
-			botCheckBox.setEnabled(true);
-			botCheckBox.setSelected(selectedResource.isBotActive());
+					.setText("Average Profit: C" + decimalFormatter.format(currentResource.getAverageProfit()));
+			soldTextField.setText("Sold " + currentResource.getSold() + " units");
 			try {
-				buyButton.setText("Buy: C" + decimalFormatter.format(selectedResource.getMarketResource()
+				buyButton.setText("Buy: C" + decimalFormatter.format(currentResource.getMarketResource()
 						.getBuyPrice(Integer.parseInt(buyAmountTextField.getText()))));
 			} catch (NumberFormatException n) {
 				// DOSOMETHING
 			}
 
 			try {
-				sellButton.setText("Sell: C" + decimalFormatter.format(selectedResource.getMarketResource()
+				sellButton.setText("Sell: C" + decimalFormatter.format(currentResource.getMarketResource()
 						.getSellPrice(Integer.parseInt(sellAmountTextField.getText()))));
 			} catch (NumberFormatException n) {
 				// DOSOMETHING
 			}
-			if (selectedResource.isBotActive()) {
-				botSellPriceTextField.setEnabled(true);
-				botSellQuantityTextField.setEnabled(true);
-				botBuyPriceTextField.setEnabled(true);
-				botBuyQuantityTextField.setEnabled(true);
-				setPriceButton.setEnabled(true);
-			} else {
-				botSellPriceTextField.setEnabled(false);
-				botSellQuantityTextField.setEnabled(false);
-				botBuyPriceTextField.setEnabled(false);
-				botBuyQuantityTextField.setEnabled(false);
-				setPriceButton.setEnabled(false);
-			}
+
 			buyGraph.repaint();
-		} else {
+			fieldsReset = false;
+		} else if(!fieldsReset){
 			typeTextField.setText("");
-			typeTextField.setText("");
+			rarityTextField.setText("");
 			nameTextField.setText("");
 			possessTextField.setText("");
 			soldTextField.setText("");
@@ -172,7 +152,6 @@ public class EconomosGUI {
 			averagePriceTextField.setText("");
 			demandTextField.setText("");
 			supplyTextField.setText("");
-			setPriceButton.setText("");
 			descriptionTextArea.setText("");
 			sellButton.setText("Sell");
 			buyButton.setText("Buy");
@@ -180,28 +159,57 @@ public class EconomosGUI {
 			buyAmountTextField.setValue(1);
 			sellAmountTextField.setEnabled(false);
 			buyAmountTextField.setEnabled(false);
-			botSellPriceTextField.setEnabled(false);
-			botSellQuantityTextField.setEnabled(false);
-			botBuyPriceTextField.setEnabled(false);
-			botBuyQuantityTextField.setEnabled(false);
-			setPriceButton.setEnabled(false);
-			botCheckBox.setEnabled(false);
+			buyGraph.repaint();
+			fieldsReset = true;
 		}
 	}
 
 	public static UserResource getSelectedResource() {
-		return selectedResource;
+		return currentResource;
 	}
 
-	public void updateJList(String type) {
+	private class ResourceButton extends GUIElements.MyButton {
+		private ResourceButton thisButton;
+		
+		public ResourceButton(String text, boolean enabled, boolean darker){
+			super(text, enabled, new Color(30, 30, 30), new Color(25, 25, 25));
+			if(!enabled){
+				setForeground(Color.white);
+			}
+			thisButton = this;
+			this.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent arg0) {
+					if(selectedResource != null){
+						selectedResource.setSelected(false);
+					}
+					selectedResource = thisButton;
+					selectedResource.setSelected(true);
+				}				
+			});
+		}
+	}
+	
+	public void updateMyList(String type) {
 		if (currentPlayer.getPlayerResourceMap().getResourceTypes().containsKey(type)) {
+			resourceList.removeAll();
 			ArrayList<PlayerResource> arr = new ArrayList<PlayerResource>(
 					currentPlayer.getPlayerResourceMap().getResourceTypes().get(type).getResourcesInType());
-			String[] strarr = new String[arr.size()];
-			for (int i = 0; i < strarr.length; ++i) {
-				strarr[i] = ((Resource) arr.get(i)).getName();
+			String[] rarities = new String[]{"Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary"};
+			int ctr = 0;
+			boolean setDarker = false;
+			for (int i = 0; i < arr.size(); ++i) {
+				setDarker = !setDarker;
+				ResourceButton tempButton;
+				if(i % 4 == 0){
+					tempButton = new ResourceButton(rarities[ctr], false, setDarker);
+					resourceList.add(tempButton);
+					++ctr;
+				}
+				tempButton = new ResourceButton(arr.get(i).getName(), true, setDarker);
+				resourceList.add(tempButton);
 			}
-			resourceList.setListData(strarr);
+			resourceList.validate();
+			resourceList.repaint();
 		}
 	}
 
@@ -213,69 +221,77 @@ public class EconomosGUI {
 		frame.setBackground(new Color(40, 40, 40));
 		frame.setBounds(100, 100, 1000, 730);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
 		decimalFormatter.setGroupingUsed(false);
+		springLayout = new SpringLayout();
+		frame.getContentPane().setLayout(springLayout);
 
-		GUIElements.MyTabbedPane tabPane = new GUIElements.MyTabbedPane(JTabbedPane.TOP);
-
-		tabPane.setBounds(0, 0, frame.getWidth(), frame.getHeight() - 20);
-		frame.getContentPane().add(tabPane);
-
-		GUIElements.MyPanel marketPanel = new GUIElements.MyPanel();
-		tabPane.addTab("Market", null, marketPanel, "Access the market to buy and sell resources");
+		marketPanel = new GUIElements.MyPanel(true);
+		springLayout.putConstraint(SpringLayout.NORTH, marketPanel, 0, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, marketPanel, 0, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, marketPanel, 0, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, marketPanel, 0, SpringLayout.EAST, frame.getContentPane());
+		frame.getContentPane().add(marketPanel);
 		SpringLayout sl_marketPanel = new SpringLayout();
 		marketPanel.setLayout(sl_marketPanel);
 
-		GUIElements.MyPanel listPanel = new GUIElements.MyPanel();
-		sl_marketPanel.putConstraint(SpringLayout.NORTH, listPanel, 0, SpringLayout.NORTH, marketPanel);
-		sl_marketPanel.putConstraint(SpringLayout.WEST, listPanel, 0, SpringLayout.WEST, marketPanel);
-		sl_marketPanel.putConstraint(SpringLayout.SOUTH, listPanel, 633, SpringLayout.NORTH, marketPanel);
+		GUIElements.MyPanel listPanel = new GUIElements.MyPanel(true);
+		sl_marketPanel.putConstraint(SpringLayout.NORTH, listPanel, 18, SpringLayout.NORTH, marketPanel);
+		sl_marketPanel.putConstraint(SpringLayout.WEST, listPanel, 6, SpringLayout.WEST, marketPanel);
+		sl_marketPanel.putConstraint(SpringLayout.SOUTH, listPanel, -44, SpringLayout.SOUTH, marketPanel);
 		sl_marketPanel.putConstraint(SpringLayout.EAST, listPanel, 300, SpringLayout.WEST, marketPanel);
 		marketPanel.add(listPanel);
 		SpringLayout sl_listPanel = new SpringLayout();
 		listPanel.setLayout(sl_listPanel);
 
 		JScrollPane resourceScrollPane = new JScrollPane();
-		sl_listPanel.putConstraint(SpringLayout.NORTH, resourceScrollPane, 10, SpringLayout.NORTH, listPanel);
+		sl_listPanel.putConstraint(SpringLayout.NORTH, resourceScrollPane, 0, SpringLayout.NORTH, listPanel);
+		resourceScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		sl_listPanel.putConstraint(SpringLayout.WEST, resourceScrollPane, 84, SpringLayout.WEST, listPanel);
 		sl_listPanel.putConstraint(SpringLayout.SOUTH, resourceScrollPane, -1, SpringLayout.SOUTH, listPanel);
 		sl_listPanel.putConstraint(SpringLayout.EAST, resourceScrollPane, 300, SpringLayout.WEST, listPanel);
-		resourceScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		resourceScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		resourceScrollPane.setBorder(null);
 		listPanel.add(resourceScrollPane);
 
-		resourceList = new JList(new String[] { "Empty" });
-		resourceList.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent arg0) {
-				if (!arg0.getValueIsAdjusting() && selectedGuild != null) {
-					setSelectedResource(selectedGuild.getText(), String.valueOf(resourceList.getSelectedValue()));
-				}
-			}
-		});
+		resourceList = new GUIElements.MyPanel(false);
+//		resourceList.addListSelectionListener(new ListSelectionListener() {
+//			public void valueChanged(ListSelectionEvent arg0) {
+//				if (!arg0.getValueIsAdjusting() && selectedGuild != null) {
+//					setSelectedResource(selectedGuild.getText(), String.valueOf(resourceList.getSelectedValue()));
+//				}
+//			}
+//		});
 		resourceScrollPane.setViewportView(resourceList);
+		resourceList.setLayout(new GridLayout(25, 1, 0, 0));
 
-		GUIElements.MyPanel bodyPanel = new GUIElements.MyPanel();
+		GUIElements.MyPanel bodyPanel = new GUIElements.MyPanel(true);
 		sl_marketPanel.putConstraint(SpringLayout.NORTH, bodyPanel, 0, SpringLayout.NORTH, marketPanel);
-		sl_marketPanel.putConstraint(SpringLayout.WEST, bodyPanel, 6, SpringLayout.EAST, listPanel);
-		sl_marketPanel.putConstraint(SpringLayout.SOUTH, bodyPanel, 0, SpringLayout.SOUTH, listPanel);
+		sl_marketPanel.putConstraint(SpringLayout.WEST, bodyPanel, 12, SpringLayout.EAST, listPanel);
+		sl_marketPanel.putConstraint(SpringLayout.SOUTH, bodyPanel, -44, SpringLayout.SOUTH, marketPanel);
+		sl_marketPanel.putConstraint(SpringLayout.EAST, bodyPanel, -12, SpringLayout.EAST, marketPanel);
 
-		JPanel guildButtonPanel = new JPanel();
-		sl_listPanel.putConstraint(SpringLayout.NORTH, guildButtonPanel, 10, SpringLayout.NORTH, listPanel);
+		GUIElements.MyPanel guildButtonPanel = new GUIElements.MyPanel(true);
+		sl_listPanel.putConstraint(SpringLayout.NORTH, guildButtonPanel, 0, SpringLayout.NORTH, listPanel);
 		sl_listPanel.putConstraint(SpringLayout.WEST, guildButtonPanel, 0, SpringLayout.WEST, listPanel);
-		sl_listPanel.putConstraint(SpringLayout.SOUTH, guildButtonPanel, -1, SpringLayout.SOUTH, listPanel);
+		sl_listPanel.putConstraint(SpringLayout.SOUTH, guildButtonPanel, 0, SpringLayout.SOUTH, listPanel);
 		sl_listPanel.putConstraint(SpringLayout.EAST, guildButtonPanel, -6, SpringLayout.WEST, resourceScrollPane);
 		listPanel.add(guildButtonPanel);
-		guildButtonPanel.setLayout(new GridLayout(8, 1, 0, 0));
+		guildButtonPanel.setLayout(new GridLayout(8, 1, 6, 0));
 
 		class MyGuildButton extends GUIElements.MyButton {
 			public MyGuildButton thisButton;
 
 			public MyGuildButton(String text) {
-				super(text);
+				super(text, true);
 				thisButton = this;
 				this.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						if(selectedGuild != null){
+							selectedGuild.setSelected(false);
+						}
 						selectedGuild = thisButton;
-						updateJList(selectedGuild.getText());
+						selectedGuild.setSelected(true);
+						updateMyList(selectedGuild.getText());
 					}
 				});
 			}
@@ -304,41 +320,39 @@ public class EconomosGUI {
 
 		MyGuildButton btnMason = new MyGuildButton("Mason");
 		guildButtonPanel.add(btnMason);
-
-		sl_marketPanel.putConstraint(SpringLayout.EAST, bodyPanel, 0, SpringLayout.EAST, marketPanel);
 		marketPanel.add(bodyPanel);
 		SpringLayout sl_bodyPanel = new SpringLayout();
 		bodyPanel.setLayout(sl_bodyPanel);
 
-		GUIElements.MyPanel resourceDetailPanel = new GUIElements.MyPanel();
+		GUIElements.MyPanel resourceDetailPanel = new GUIElements.MyPanel(true);
 		sl_bodyPanel.putConstraint(SpringLayout.NORTH, resourceDetailPanel, 0, SpringLayout.NORTH, bodyPanel);
 		sl_bodyPanel.putConstraint(SpringLayout.WEST, resourceDetailPanel, 0, SpringLayout.WEST, bodyPanel);
 		sl_bodyPanel.putConstraint(SpringLayout.SOUTH, resourceDetailPanel, -299, SpringLayout.SOUTH, bodyPanel);
 		sl_bodyPanel.putConstraint(SpringLayout.EAST, resourceDetailPanel, 672, SpringLayout.WEST, bodyPanel);
 		bodyPanel.add(resourceDetailPanel);
 
-		GUIElements.MyPanel resourceGraphPanel = new GUIElements.MyPanel();
+		GUIElements.MyPanel resourceGraphPanel = new GUIElements.MyPanel(true);
 		sl_bodyPanel.putConstraint(SpringLayout.NORTH, resourceGraphPanel, 6, SpringLayout.SOUTH, resourceDetailPanel);
-		sl_bodyPanel.putConstraint(SpringLayout.WEST, resourceGraphPanel, 0, SpringLayout.WEST, bodyPanel);
-		sl_bodyPanel.putConstraint(SpringLayout.SOUTH, resourceGraphPanel, -1, SpringLayout.SOUTH, bodyPanel);
-		sl_bodyPanel.putConstraint(SpringLayout.EAST, resourceGraphPanel, 0, SpringLayout.EAST, resourceDetailPanel);
+		sl_bodyPanel.putConstraint(SpringLayout.WEST, resourceGraphPanel, 6, SpringLayout.WEST, bodyPanel);
+		sl_bodyPanel.putConstraint(SpringLayout.SOUTH, resourceGraphPanel, -12, SpringLayout.SOUTH, bodyPanel);
+		sl_bodyPanel.putConstraint(SpringLayout.EAST, resourceGraphPanel, -12, SpringLayout.EAST, resourceDetailPanel);
 		SpringLayout sl_resourceDetailPanel = new SpringLayout();
 		resourceDetailPanel.setLayout(sl_resourceDetailPanel);
 
-		GUIElements.MyPanel topDetailPanel = new GUIElements.MyPanel();
-		sl_resourceDetailPanel.putConstraint(SpringLayout.NORTH, topDetailPanel, 0, SpringLayout.NORTH,
+		GUIElements.MyPanel topDetailPanel = new GUIElements.MyPanel(true);
+		sl_resourceDetailPanel.putConstraint(SpringLayout.NORTH, topDetailPanel, 6, SpringLayout.NORTH,
 				resourceDetailPanel);
 		sl_resourceDetailPanel.putConstraint(SpringLayout.WEST, topDetailPanel, 0, SpringLayout.WEST,
 				resourceDetailPanel);
 		sl_resourceDetailPanel.putConstraint(SpringLayout.SOUTH, topDetailPanel, 141, SpringLayout.NORTH,
 				resourceDetailPanel);
-		sl_resourceDetailPanel.putConstraint(SpringLayout.EAST, topDetailPanel, 0, SpringLayout.EAST,
+		sl_resourceDetailPanel.putConstraint(SpringLayout.EAST, topDetailPanel, -233, SpringLayout.EAST,
 				resourceDetailPanel);
 		resourceDetailPanel.add(topDetailPanel);
 		SpringLayout sl_topDetailPanel = new SpringLayout();
 		topDetailPanel.setLayout(sl_topDetailPanel);
 
-		GUIElements.MyPanel iconPanel = new GUIElements.MyPanel();
+		GUIElements.MyPanel iconPanel = new GUIElements.MyPanel(true);
 		sl_topDetailPanel.putConstraint(SpringLayout.NORTH, iconPanel, 10, SpringLayout.NORTH, topDetailPanel);
 		sl_topDetailPanel.putConstraint(SpringLayout.WEST, iconPanel, 10, SpringLayout.WEST, topDetailPanel);
 		sl_topDetailPanel.putConstraint(SpringLayout.EAST, iconPanel, 141, SpringLayout.WEST, topDetailPanel);
@@ -347,34 +361,20 @@ public class EconomosGUI {
 		typeTextField = new GUIElements.MyTextField();
 		sl_topDetailPanel.putConstraint(SpringLayout.NORTH, typeTextField, 10, SpringLayout.NORTH, topDetailPanel);
 		sl_topDetailPanel.putConstraint(SpringLayout.WEST, typeTextField, 6, SpringLayout.EAST, iconPanel);
-		sl_topDetailPanel.putConstraint(SpringLayout.SOUTH, typeTextField, -69, SpringLayout.SOUTH, topDetailPanel);
+		sl_topDetailPanel.putConstraint(SpringLayout.EAST, typeTextField, -6, SpringLayout.EAST, topDetailPanel);
 		topDetailPanel.add(typeTextField);
 		typeTextField.setEditable(false);
 		typeTextField.setColumns(10);
 
 		nameTextField = new GUIElements.MyTextField();
-		sl_topDetailPanel.putConstraint(SpringLayout.NORTH, nameTextField, 6, SpringLayout.SOUTH, typeTextField);
-		sl_topDetailPanel.putConstraint(SpringLayout.SOUTH, nameTextField, 0, SpringLayout.SOUTH, topDetailPanel);
+		sl_topDetailPanel.putConstraint(SpringLayout.SOUTH, typeTextField, -6, SpringLayout.NORTH, nameTextField);
 		sl_topDetailPanel.putConstraint(SpringLayout.WEST, nameTextField, 6, SpringLayout.EAST, iconPanel);
+		sl_topDetailPanel.putConstraint(SpringLayout.EAST, nameTextField, 0, SpringLayout.EAST, typeTextField);
 		topDetailPanel.add(nameTextField);
 		nameTextField.setEditable(false);
 		nameTextField.setColumns(10);
 
-		descriptionTextArea = new GUIElements.MyTextArea();
-		descriptionTextArea.setLineWrap(true);
-		descriptionTextArea.setWrapStyleWord(true);
-		sl_topDetailPanel.putConstraint(SpringLayout.EAST, descriptionTextArea, -10, SpringLayout.EAST, topDetailPanel);
-		sl_topDetailPanel.putConstraint(SpringLayout.EAST, nameTextField, -6, SpringLayout.WEST, descriptionTextArea);
-		sl_topDetailPanel.putConstraint(SpringLayout.EAST, typeTextField, -6, SpringLayout.WEST, descriptionTextArea);
-		sl_topDetailPanel.putConstraint(SpringLayout.WEST, descriptionTextArea, 343, SpringLayout.WEST, topDetailPanel);
-		sl_topDetailPanel.putConstraint(SpringLayout.SOUTH, iconPanel, 0, SpringLayout.SOUTH, descriptionTextArea);
-		sl_topDetailPanel.putConstraint(SpringLayout.NORTH, descriptionTextArea, 10, SpringLayout.NORTH,
-				topDetailPanel);
-		sl_topDetailPanel.putConstraint(SpringLayout.SOUTH, descriptionTextArea, 0, SpringLayout.SOUTH, topDetailPanel);
-		topDetailPanel.add(descriptionTextArea);
-		descriptionTextArea.setEditable(false);
-
-		GUIElements.MyPanel bottomDetailPanel = new GUIElements.MyPanel();
+		GUIElements.MyPanel bottomDetailPanel = new GUIElements.MyPanel(true);
 		sl_resourceDetailPanel.putConstraint(SpringLayout.NORTH, bottomDetailPanel, 6, SpringLayout.SOUTH,
 				topDetailPanel);
 		sl_resourceDetailPanel.putConstraint(SpringLayout.WEST, bottomDetailPanel, 0, SpringLayout.WEST,
@@ -387,13 +387,13 @@ public class EconomosGUI {
 		SpringLayout sl_bottomDetailPanel = new SpringLayout();
 		bottomDetailPanel.setLayout(sl_bottomDetailPanel);
 
-		GUIElements.MyPanel statsPanel = new GUIElements.MyPanel();
-		sl_bottomDetailPanel.putConstraint(SpringLayout.NORTH, statsPanel, 0, SpringLayout.NORTH, bottomDetailPanel);
-		sl_bottomDetailPanel.putConstraint(SpringLayout.WEST, statsPanel, 10, SpringLayout.WEST, bottomDetailPanel);
-		sl_bottomDetailPanel.putConstraint(SpringLayout.SOUTH, statsPanel, 187, SpringLayout.NORTH, bottomDetailPanel);
-		sl_bottomDetailPanel.putConstraint(SpringLayout.EAST, statsPanel, 210, SpringLayout.WEST, bottomDetailPanel);
+		GUIElements.MyPanel statsPanel = new GUIElements.MyPanel(false);
+		sl_bottomDetailPanel.putConstraint(SpringLayout.NORTH, statsPanel, 6, SpringLayout.NORTH, bottomDetailPanel);
+		sl_bottomDetailPanel.putConstraint(SpringLayout.WEST, statsPanel, 6, SpringLayout.WEST, bottomDetailPanel);
+		sl_bottomDetailPanel.putConstraint(SpringLayout.SOUTH, statsPanel, 181, SpringLayout.NORTH, bottomDetailPanel);
+		sl_bottomDetailPanel.putConstraint(SpringLayout.EAST, statsPanel, 204, SpringLayout.WEST, bottomDetailPanel);
 		bottomDetailPanel.add(statsPanel);
-		statsPanel.setLayout(new GridLayout(4, 1, 0, 10));
+		statsPanel.setLayout(new GridLayout(4, 1, 6, 6));
 
 		possessTextField = new GUIElements.MyTextField();
 		possessTextField.setEditable(false);
@@ -415,12 +415,15 @@ public class EconomosGUI {
 		statsPanel.add(averagePriceTextField);
 		averagePriceTextField.setColumns(10);
 
-		GUIElements.MyPanel purchasePanel = new GUIElements.MyPanel();
-		sl_bottomDetailPanel.putConstraint(SpringLayout.NORTH, purchasePanel, 0, SpringLayout.NORTH, statsPanel);
-		sl_bottomDetailPanel.putConstraint(SpringLayout.WEST, purchasePanel, 6, SpringLayout.EAST, statsPanel);
-		sl_bottomDetailPanel.putConstraint(SpringLayout.SOUTH, purchasePanel, 0, SpringLayout.SOUTH, statsPanel);
+		GUIElements.MyPanel purchasePanel = new GUIElements.MyPanel(false);
+		sl_bottomDetailPanel.putConstraint(SpringLayout.NORTH, purchasePanel, 6, SpringLayout.NORTH, bottomDetailPanel);
+		sl_bottomDetailPanel.putConstraint(SpringLayout.WEST, purchasePanel, 12, SpringLayout.EAST, statsPanel);
+		sl_bottomDetailPanel.putConstraint(SpringLayout.SOUTH, purchasePanel, -6, SpringLayout.SOUTH, bottomDetailPanel);
+		sl_bottomDetailPanel.putConstraint(SpringLayout.EAST, purchasePanel, -6, SpringLayout.EAST, bottomDetailPanel);
 		bottomDetailPanel.add(purchasePanel);
-		purchasePanel.setLayout(new GridLayout(4, 1, 0, 10));
+		GridLayout gl_purchasePanel = new GridLayout();
+		gl_purchasePanel.setRows(4);
+		purchasePanel.setLayout(gl_purchasePanel);
 
 		demandTextField = new GUIElements.MyTextField();
 		purchasePanel.add(demandTextField);
@@ -432,20 +435,17 @@ public class EconomosGUI {
 		supplyTextField.setEditable(false);
 		supplyTextField.setColumns(10);
 
-		GUIElements.MyPanel botPanel = new GUIElements.MyPanel();
-		sl_bottomDetailPanel.putConstraint(SpringLayout.EAST, purchasePanel, -6, SpringLayout.WEST, botPanel);
-
-		GUIElements.MyPanel sellPanel = new GUIElements.MyPanel();
+		GUIElements.MyPanel sellPanel = new GUIElements.MyPanel(false);
 		purchasePanel.add(sellPanel);
 		sellPanel.setLayout(null);
 
-		sellButton.setBounds(85, 0, 126, 39);
+		sellButton.setBounds(85, 0, 138, 39);
 		sellButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (selectedResource != null) {
+				if (currentResource != null) {
 					String response = MarketController.sellResource(Integer.valueOf(sellAmountTextField.getText()),
-							selectedResource, currentPlayer);
-					System.out.println(response);
+							currentResource, currentPlayer);
+					postNewHeadline(response);
 				}
 			}
 		});
@@ -458,11 +458,11 @@ public class EconomosGUI {
 
 		sellPanel.add(sellAmountTextField);
 
-		GUIElements.MyPanel buyPanel = new GUIElements.MyPanel();
+		GUIElements.MyPanel buyPanel = new GUIElements.MyPanel(false);
 		purchasePanel.add(buyPanel);
 		buyPanel.setLayout(null);
 
-		buyButton.setBounds(85, 0, 126, 39);
+		buyButton.setBounds(85, 0, 138, 39);
 		buyPanel.add(buyButton);
 
 		buyAmountTextField = new GUIElements.MyFormattedTextField(decimalFormatter);
@@ -471,159 +471,60 @@ public class EconomosGUI {
 		buyAmountTextField.setBounds(0, 0, 75, 39);
 
 		buyPanel.add(buyAmountTextField);
+		GUIElements.MyPanel descriptionPanel = new GUIElements.MyPanel(false);
+		sl_resourceDetailPanel.putConstraint(SpringLayout.NORTH, descriptionPanel, 12, SpringLayout.NORTH,
+				resourceDetailPanel);
+		sl_resourceDetailPanel.putConstraint(SpringLayout.WEST, descriptionPanel, 6, SpringLayout.EAST, topDetailPanel);
+		sl_resourceDetailPanel.putConstraint(SpringLayout.SOUTH, descriptionPanel, -6, SpringLayout.SOUTH,
+				bottomDetailPanel);
+		sl_resourceDetailPanel.putConstraint(SpringLayout.EAST, descriptionPanel, -12, SpringLayout.EAST,
+				resourceDetailPanel);
+		resourceDetailPanel.add(descriptionPanel);
+		descriptionPanel.setLayout(null);
+
+		descriptionTextArea = new GUIElements.MyTextArea();
+		descriptionTextArea.setBounds(0, 0, 215, 316);
+		descriptionPanel.add(descriptionTextArea);
+		sl_topDetailPanel.putConstraint(SpringLayout.NORTH, descriptionTextArea, 10, SpringLayout.NORTH,
+				topDetailPanel);
+		sl_topDetailPanel.putConstraint(SpringLayout.WEST, descriptionTextArea, 343, SpringLayout.WEST, topDetailPanel);
+		sl_topDetailPanel.putConstraint(SpringLayout.SOUTH, descriptionTextArea, 0, SpringLayout.SOUTH, topDetailPanel);
+		sl_topDetailPanel.putConstraint(SpringLayout.EAST, descriptionTextArea, -10, SpringLayout.EAST, topDetailPanel);
+		descriptionTextArea.setLineWrap(true);
+		descriptionTextArea.setWrapStyleWord(true);
+		sl_topDetailPanel.putConstraint(SpringLayout.SOUTH, iconPanel, 0, SpringLayout.SOUTH, descriptionTextArea);
+		
+		rarityTextField = new GUIElements.MyTextField();
+		sl_topDetailPanel.putConstraint(SpringLayout.NORTH, nameTextField, -45, SpringLayout.NORTH, rarityTextField);
+		sl_topDetailPanel.putConstraint(SpringLayout.NORTH, rarityTextField, -39, SpringLayout.SOUTH, iconPanel);
+		sl_topDetailPanel.putConstraint(SpringLayout.SOUTH, nameTextField, -6, SpringLayout.NORTH, rarityTextField);
+		sl_topDetailPanel.putConstraint(SpringLayout.WEST, rarityTextField, 6, SpringLayout.EAST, iconPanel);
+		sl_topDetailPanel.putConstraint(SpringLayout.EAST, rarityTextField, 0, SpringLayout.EAST, typeTextField);
+		sl_topDetailPanel.putConstraint(SpringLayout.SOUTH, rarityTextField, 0, SpringLayout.SOUTH, iconPanel);
+		topDetailPanel.add(rarityTextField);
+		rarityTextField.setColumns(10);
+		descriptionTextArea.setEditable(false);
+
 		buyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (selectedResource != null) {
+				if (currentResource != null) {
 					String response = MarketController.buyResource(Integer.valueOf(buyAmountTextField.getText()),
-							selectedResource, currentPlayer);
-					System.out.println(response);
+							currentResource, currentPlayer);
+					postNewHeadline(response);
 				}
 			}
 		});
-		sl_bottomDetailPanel.putConstraint(SpringLayout.SOUTH, botPanel, 0, SpringLayout.SOUTH, statsPanel);
-		sl_bottomDetailPanel.putConstraint(SpringLayout.NORTH, botPanel, 0, SpringLayout.NORTH, statsPanel);
-		sl_bottomDetailPanel.putConstraint(SpringLayout.WEST, botPanel, 433, SpringLayout.WEST, bottomDetailPanel);
-		sl_bottomDetailPanel.putConstraint(SpringLayout.EAST, botPanel, 0, SpringLayout.EAST, bottomDetailPanel);
-		bottomDetailPanel.add(botPanel);
-		botPanel.setLayout(new GridLayout(4, 1, 0, 0));
-
-		botCheckBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				if (arg0.getStateChange() == ItemEvent.SELECTED) {
-					selectedResource.activeBot(true);
-				} else {
-					selectedResource.activeBot(false);
-				}
-			}
-		});
-		botPanel.add(botCheckBox);
-
-		GUIElements.MyPanel botBuyPanel = new GUIElements.MyPanel();
-		botPanel.add(botBuyPanel);
-		SpringLayout sl_botBuyPanel = new SpringLayout();
-		botBuyPanel.setLayout(sl_botBuyPanel);
-
-		botBuyQuantityTextField = new GUIElements.MyFormattedTextField(decimalFormatter);
-		botBuyQuantityTextField.setValue(1);
-
-		sl_botBuyPanel.putConstraint(SpringLayout.NORTH, botBuyQuantityTextField, 10, SpringLayout.NORTH, botBuyPanel);
-		sl_botBuyPanel.putConstraint(SpringLayout.SOUTH, botBuyQuantityTextField, -10, SpringLayout.SOUTH, botBuyPanel);
-		botBuyPanel.add(botBuyQuantityTextField);
-		botBuyQuantityTextField.setColumns(10);
-
-		botBuyPriceTextField = new GUIElements.MyFormattedTextField(decimalFormatter);
-		botBuyPriceTextField.setValue(1);
-
-		sl_botBuyPanel.putConstraint(SpringLayout.WEST, botBuyPriceTextField, 161, SpringLayout.WEST, botBuyPanel);
-		sl_botBuyPanel.putConstraint(SpringLayout.EAST, botBuyPriceTextField, 0, SpringLayout.EAST, botBuyPanel);
-		sl_botBuyPanel.putConstraint(SpringLayout.NORTH, botBuyPriceTextField, 10, SpringLayout.NORTH, botBuyPanel);
-		sl_botBuyPanel.putConstraint(SpringLayout.SOUTH, botBuyPriceTextField, -10, SpringLayout.SOUTH, botBuyPanel);
-		botBuyPanel.add(botBuyPriceTextField);
-
-		txtBuy = new GUIElements.MyTextField();
-		sl_botBuyPanel.putConstraint(SpringLayout.EAST, txtBuy, -207, SpringLayout.EAST, botBuyPanel);
-		sl_botBuyPanel.putConstraint(SpringLayout.WEST, botBuyQuantityTextField, 6, SpringLayout.EAST, txtBuy);
-		sl_botBuyPanel.putConstraint(SpringLayout.NORTH, txtBuy, 10, SpringLayout.NORTH, botBuyPanel);
-		sl_botBuyPanel.putConstraint(SpringLayout.WEST, txtBuy, 0, SpringLayout.WEST, botBuyPanel);
-		sl_botBuyPanel.putConstraint(SpringLayout.SOUTH, txtBuy, -10, SpringLayout.SOUTH, botBuyPanel);
-		txtBuy.setEditable(false);
-		txtBuy.setText("Buy");
-		botBuyPanel.add(txtBuy);
-		txtBuy.setColumns(10);
-
-		txtUnitsAtC = new GUIElements.MyTextField();
-		sl_botBuyPanel.putConstraint(SpringLayout.EAST, botBuyQuantityTextField, -6, SpringLayout.WEST, txtUnitsAtC);
-		sl_botBuyPanel.putConstraint(SpringLayout.EAST, txtUnitsAtC, -6, SpringLayout.WEST, botBuyPriceTextField);
-		sl_botBuyPanel.putConstraint(SpringLayout.NORTH, txtUnitsAtC, 10, SpringLayout.NORTH, botBuyPanel);
-		sl_botBuyPanel.putConstraint(SpringLayout.SOUTH, txtUnitsAtC, -10, SpringLayout.SOUTH, botBuyPanel);
-		sl_botBuyPanel.putConstraint(SpringLayout.WEST, txtUnitsAtC, 110, SpringLayout.WEST, botBuyPanel);
-		txtUnitsAtC.setText("units at");
-		txtUnitsAtC.setEditable(false);
-		txtUnitsAtC.setColumns(10);
-		botBuyPanel.add(txtUnitsAtC);
-
-		GUIElements.MyPanel botSellPanel = new GUIElements.MyPanel();
-		botPanel.add(botSellPanel);
-		SpringLayout sl_botSellPanel = new SpringLayout();
-		botSellPanel.setLayout(sl_botSellPanel);
-
-		txtSell = new GUIElements.MyTextField();
-		txtSell.setText("Sell");
-		txtSell.setEditable(false);
-		sl_botSellPanel.putConstraint(SpringLayout.NORTH, txtSell, 10, SpringLayout.NORTH, botSellPanel);
-		sl_botSellPanel.putConstraint(SpringLayout.WEST, txtSell, 0, SpringLayout.WEST, botSellPanel);
-		sl_botSellPanel.putConstraint(SpringLayout.SOUTH, txtSell, -10, SpringLayout.SOUTH, botSellPanel);
-		sl_botSellPanel.putConstraint(SpringLayout.EAST, txtSell, 32, SpringLayout.WEST, botSellPanel);
-		botSellPanel.add(txtSell);
-		txtSell.setColumns(10);
-
-		botSellQuantityTextField = new GUIElements.MyFormattedTextField(decimalFormatter);
-		botSellQuantityTextField.setValue(1);
-
-		sl_botSellPanel.putConstraint(SpringLayout.NORTH, botSellQuantityTextField, 0, SpringLayout.NORTH, txtSell);
-		sl_botSellPanel.putConstraint(SpringLayout.WEST, botSellQuantityTextField, 6, SpringLayout.EAST, txtSell);
-		sl_botSellPanel.putConstraint(SpringLayout.SOUTH, botSellQuantityTextField, 0, SpringLayout.SOUTH, txtSell);
-		sl_botSellPanel.putConstraint(SpringLayout.EAST, botSellQuantityTextField, 72, SpringLayout.EAST, txtSell);
-		botSellPanel.add(botSellQuantityTextField);
-
-		txtUnitsAt = new GUIElements.MyTextField();
-		sl_botSellPanel.putConstraint(SpringLayout.NORTH, txtUnitsAt, 0, SpringLayout.NORTH, txtSell);
-		sl_botSellPanel.putConstraint(SpringLayout.WEST, txtUnitsAt, 6, SpringLayout.EAST, botSellQuantityTextField);
-		sl_botSellPanel.putConstraint(SpringLayout.SOUTH, txtUnitsAt, 0, SpringLayout.SOUTH, txtSell);
-		txtUnitsAt.setEditable(false);
-		txtUnitsAt.setText("units at");
-		botSellPanel.add(txtUnitsAt);
-		txtUnitsAt.setColumns(10);
-
-		botSellPriceTextField = new GUIElements.MyFormattedTextField(decimalFormatter);
-		botSellPriceTextField.setValue(1);
-
-		sl_botSellPanel.putConstraint(SpringLayout.WEST, botSellPriceTextField, 161, SpringLayout.WEST, botSellPanel);
-		sl_botSellPanel.putConstraint(SpringLayout.EAST, txtUnitsAt, -6, SpringLayout.WEST, botSellPriceTextField);
-		sl_botSellPanel.putConstraint(SpringLayout.NORTH, botSellPriceTextField, -26, SpringLayout.SOUTH, txtSell);
-		sl_botSellPanel.putConstraint(SpringLayout.SOUTH, botSellPriceTextField, -10, SpringLayout.SOUTH, botSellPanel);
-		sl_botSellPanel.putConstraint(SpringLayout.EAST, botSellPriceTextField, 0, SpringLayout.EAST, botSellPanel);
-		botSellPanel.add(botSellPriceTextField);
-
-		setPriceButton = new GUIElements.MyButton();
-		setPriceButton.setText("Confirm Prices");
-		setPriceButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				selectedResource.setBotBuy(Integer.valueOf(botBuyPriceTextField.getText()),
-						Integer.valueOf(botBuyQuantityTextField.getText()));
-				selectedResource.setBotSell(Integer.valueOf(botSellPriceTextField.getText()),
-						Integer.valueOf(botSellQuantityTextField.getText()));
-			}
-		});
-
-		botPanel.add(setPriceButton);
 		bodyPanel.add(resourceGraphPanel);
 		resourceGraphPanel.setLayout(new GridLayout(0, 1, 0, 0));
 
 		resourceGraphPanel.add(buyGraph);
 
-		GUIElements.MyPanel companyPanel = new GUIElements.MyPanel();
-		tabPane.addTab("Company", null, companyPanel, "View information about your company and player statistics");
-		companyPanel.setLayout(null);
-
-		JScrollPane pastTransactionsScrollPane = new JScrollPane();
-		pastTransactionsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		pastTransactionsScrollPane.setBounds(0, 0, 989, 153);
-		companyPanel.add(pastTransactionsScrollPane);
-
-		GUIElements.MyTextArea pastTransactionsTextArea = new GUIElements.MyTextArea();
-		pastTransactionsTextArea.setEditable(false);
-		pastTransactionsScrollPane.setViewportView(pastTransactionsTextArea);
-
-		JScrollPane playerStatsScrollPane = new JScrollPane();
-		playerStatsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		playerStatsScrollPane.setBounds(710, 164, 279, 471);
-		companyPanel.add(playerStatsScrollPane);
-
-		GUIElements.MyTextArea playerStatsTextArea = new GUIElements.MyTextArea();
-		playerStatsScrollPane.setViewportView(playerStatsTextArea);
-
-		GUIElements.MyPanel constructionPanel = new GUIElements.MyPanel();
-		tabPane.addTab("Construction", null, constructionPanel, "Access Construction options from this tab");
+		headlineTextField = new GUIElements.MyTextField();
+		sl_marketPanel.putConstraint(SpringLayout.NORTH, headlineTextField, -32, SpringLayout.SOUTH, marketPanel);
+		sl_marketPanel.putConstraint(SpringLayout.WEST, headlineTextField, 6, SpringLayout.WEST, marketPanel);
+		sl_marketPanel.putConstraint(SpringLayout.SOUTH, headlineTextField, -12, SpringLayout.SOUTH, marketPanel);
+		sl_marketPanel.putConstraint(SpringLayout.EAST, headlineTextField, -6, SpringLayout.EAST, marketPanel);
+		marketPanel.add(headlineTextField);
+		headlineTextField.setColumns(1);
 	}
 }

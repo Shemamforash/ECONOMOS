@@ -33,7 +33,7 @@ public class DataParser {
 					if(resourceStrArr.length > 1){
 						description = resourceStrArr[1];
 					}
-					RawResourceData r = new RawResourceData(resourceStrArr[0], types.get(types.size() - 1), description);
+					RawResourceData r = new RawResourceData(resourceStrArr[0], types.get(types.size() - 1), description, resourceStrArr[2]);
 					rawResourceData.add(r);
 				}
 			}
@@ -49,12 +49,12 @@ public class DataParser {
 			RawResourceData rawDatum = rawResourceData.get(i);
 			
 			if(owner.equals("Player")){
-				r = new PlayerResource(rawDatum.name(), rawDatum.description(), rawDatum.type()); 
+				r = new PlayerResource(rawDatum.name(), rawDatum.description(), rawDatum.type(), rawDatum.rarity()); 
 			} else if(owner.equals("Market")){
-				r = new MarketResource(rawDatum.name(), rawDatum.description(), rawDatum.type(), 0);
+				r = new MarketResource(rawDatum.name(), rawDatum.description(), rawDatum.type(), rawDatum.rarity(), 0);
 				allMarketResources.add((MarketResource)r);
 			} else if(owner.equals("AI")){
-				r = new AIResource(rawDatum.name(), rawDatum.description(), rawDatum.type());
+				r = new AIResource(rawDatum.name(), rawDatum.description(), rawDatum.type(), rawDatum.rarity());
 			}
 			if(r != null){
 				arr.add(r);
@@ -73,16 +73,21 @@ public class DataParser {
 	}
 	
 	class RawResourceData{
-		private String name, description, type;
+		private String name, description, type, rarity;
 		
-		public RawResourceData(String name, String type, String description){
+		public RawResourceData(String name, String type, String description, String rarity){
 			this.name = name;
 			this.description = description;
 			this.type = type;
+			this.rarity = rarity;
 		}
 		
 		public String name(){
 			return name;
+		}
+		
+		public String rarity(){
+			return rarity;
 		}
 		
 		public String description(){

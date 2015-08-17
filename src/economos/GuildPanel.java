@@ -7,13 +7,12 @@ import javax.swing.*;
 
 public class GuildPanel extends GUIElements.MyPanel {
 	private MyGuildButton[] buttons = new MyGuildButton[8];
-	private JButton selectedGuild, selectedResource;
-	private Player currentPlayer;
 	private GUIElements.MyPanel resourceList = new GUIElements.MyPanel(false);
+	private EconomosGUI main;
 
-	public GuildPanel(String[] guildNames, Player player) {
+	public GuildPanel(String[] guildNames, EconomosGUI main) {
 		super(true);
-		this.currentPlayer = player;
+		this.main = main;
 		setup(guildNames);
 	}
 
@@ -54,10 +53,10 @@ public class GuildPanel extends GUIElements.MyPanel {
 	}
 
 	public void updateMyList(String guildName) {
-		if (currentPlayer.getPlayerResourceMap().getResourceTypes().containsKey(guildName)) {
+		if (main.getCurrentPlayer().getPlayerResourceMap().getResourceTypes().containsKey(guildName)) {
 			resourceList.removeAll();
 			ArrayList<PlayerResource> arr = new ArrayList<PlayerResource>(
-					currentPlayer.getPlayerResourceMap().getResourceTypes().get(guildName).getResourcesInType());
+					main.getCurrentPlayer().getPlayerResourceMap().getResourceTypes().get(guildName).getResourcesInType());
 			String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
 			int ctr = 0;
 			boolean setDarker = false;
@@ -88,11 +87,11 @@ public class GuildPanel extends GUIElements.MyPanel {
 			thisButton = this;
 			this.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					if (selectedResource != null) {
-						selectedResource.setSelected(false);
+					if (main.getSelectedResource() != null) {
+						main.getSelectedResource().setSelected(false);
 					}
-					selectedResource = thisButton;
-					selectedResource.setSelected(true);
+					main.setSelectedResource(thisButton);
+					main.getSelectedResource().setSelected(true);
 				}
 			});
 		}
@@ -106,30 +105,14 @@ public class GuildPanel extends GUIElements.MyPanel {
 			thisButton = this;
 			this.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					if (selectedGuild != null) {
-						selectedGuild.setSelected(false);
+					if (main.getSelectedGuild() != null) {
+						main.getSelectedGuild().setSelected(false);
 					}
-					selectedGuild = thisButton;
-					selectedGuild.setSelected(true);
-					updateMyList(selectedGuild.getText());
+					main.setSelectedGuild(thisButton);
+					main.getSelectedGuild().setSelected(true);
+					updateMyList(thisButton.getText());
 				}
 			});
-		}
-	}
-
-	public String getSelectedGuild() {
-		if (selectedGuild != null) {
-			return selectedGuild.getText();
-		} else {
-			return null;
-		}
-	}
-
-	public String getSelectedResource() {
-		if (selectedResource != null) {
-			return selectedResource.getText();
-		} else {
-			return null;
 		}
 	}
 }

@@ -10,11 +10,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.*;
+import economos.GUIElements.PercentageSpinner;
 
 public class EconomosGUI {
 	private JFrame frame;
 	private GUIElements.MyTextField typeTextField, nameTextField, possessTextField, soldTextField,
-			averageProfitTextField, averagePriceTextField, demandTextField, supplyTextField, rarityTextField, headlineTextField;
+			averageProfitTextField, averagePriceTextField, demandTextField, supplyTextField, rarityTextField,
+			headlineTextField;
+	private GUIElements.PercentageSpinner percentageSpinner;
 	private GUIElements.MyFormattedTextField sellAmountTextField, buyAmountTextField;
 	private GUIElements.MyTextArea descriptionTextArea;
 	private static Player currentPlayer;
@@ -28,6 +31,26 @@ public class EconomosGUI {
 	private JButton selectedGuild, selectedResource;
 	private GUIElements.MyPanel merchantsPanel, gamePanel, craftersPanel, overviewPanel, infoPanel, currentPanel;
 	private boolean fieldsReset = false;
+
+	public void setSelectedGuild(JButton selectedGuild) {
+		this.selectedGuild = selectedGuild;
+	}
+
+	public JButton getSelectedGuild() {
+		return selectedGuild;
+	}
+
+	public void setSelectedResource(JButton selectedResource) {
+		this.selectedResource = selectedResource;
+	}
+
+	public JButton getSelectedResource() {
+		return selectedResource;
+	}
+
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
 
 	public void postNewHeadline(String txt) {
 		headlineTextField.setText(txt);
@@ -45,7 +68,7 @@ public class EconomosGUI {
 			}
 		});
 	}
-
+	
 	class AIExecutor extends TimerTask {
 		private int aiCount, currentAI = 0;
 		private long starttime;
@@ -92,6 +115,7 @@ public class EconomosGUI {
 			if (selectedGuild != null && selectedResource != null) {
 				setSelectedResource(selectedGuild.getText(), selectedResource.getText());
 			}
+			percentageSpinner.repaint();
 		}
 	}
 
@@ -134,7 +158,7 @@ public class EconomosGUI {
 
 			buyGraph.repaint();
 			fieldsReset = false;
-		} else if(!fieldsReset){
+		} else if (!fieldsReset) {
 			typeTextField.setText("");
 			rarityTextField.setText("");
 			nameTextField.setText("");
@@ -162,37 +186,37 @@ public class EconomosGUI {
 
 	private class ResourceButton extends GUIElements.MyButton {
 		private ResourceButton thisButton;
-		
-		public ResourceButton(String text, boolean enabled, boolean darker){
+
+		public ResourceButton(String text, boolean enabled, boolean darker) {
 			super(text, enabled, new Color(30, 30, 30), new Color(25, 25, 25));
-			if(!enabled){
+			if (!enabled) {
 				setForeground(Color.white);
 			}
 			thisButton = this;
-			this.addActionListener(new ActionListener(){
+			this.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					if(selectedResource != null){
+					if (selectedResource != null) {
 						selectedResource.setSelected(false);
 					}
 					selectedResource = thisButton;
 					selectedResource.setSelected(true);
-				}				
+				}
 			});
 		}
 	}
-	
+
 	public void updateMyList(String type) {
 		if (currentPlayer.getPlayerResourceMap().getResourceTypes().containsKey(type)) {
 			resourceList.removeAll();
 			ArrayList<PlayerResource> arr = new ArrayList<PlayerResource>(
 					currentPlayer.getPlayerResourceMap().getResourceTypes().get(type).getResourcesInType());
-			String[] rarities = new String[]{"Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary"};
+			String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
 			int ctr = 0;
 			boolean setDarker = false;
 			for (int i = 0; i < arr.size(); ++i) {
 				setDarker = !setDarker;
 				ResourceButton tempButton;
-				if(i % 4 == 0){
+				if (i % 4 == 0) {
 					tempButton = new ResourceButton(rarities[ctr], false, setDarker);
 					resourceList.add(tempButton);
 					++ctr;
@@ -223,7 +247,7 @@ public class EconomosGUI {
 		springLayout.putConstraint(SpringLayout.EAST, gamePanel, 0, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().setLayout(springLayout);
 		frame.getContentPane().setLayout(springLayout);
-	
+
 		infoPanel = new GUIElements.MyPanel(true);
 		springLayout.putConstraint(SpringLayout.NORTH, infoPanel, -30, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, infoPanel, 0, SpringLayout.WEST, frame.getContentPane());
@@ -232,7 +256,7 @@ public class EconomosGUI {
 		frame.getContentPane().add(infoPanel);
 		frame.getContentPane().add(gamePanel);
 		gamePanel.setLayout(new CardLayout(0, 0));
-		
+
 		merchantsPanel = new GUIElements.MyPanel(true);
 		currentPanel = merchantsPanel;
 		springLayout.putConstraint(SpringLayout.NORTH, merchantsPanel, 5, SpringLayout.NORTH, gamePanel);
@@ -241,8 +265,8 @@ public class EconomosGUI {
 		springLayout.putConstraint(SpringLayout.EAST, merchantsPanel, 994, SpringLayout.WEST, frame.getContentPane());
 		gamePanel.add(merchantsPanel, "Merchants");
 		SpringLayout sl_marketPanel = new SpringLayout();
-		merchantsPanel.setLayout(sl_marketPanel);	
-		
+		merchantsPanel.setLayout(sl_marketPanel);
+
 		SpringLayout sl_infoPanel = new SpringLayout();
 		infoPanel.setLayout(sl_infoPanel);
 
@@ -255,9 +279,9 @@ public class EconomosGUI {
 		headlineTextField.setColumns(10);
 
 		GUIElements.MyButton merchantsPanelButton = new GUIElements.MyButton("Merchants", true);
-		merchantsPanelButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				CardLayout cardLayout = (CardLayout)gamePanel.getLayout();
+		merchantsPanelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cardLayout = (CardLayout) gamePanel.getLayout();
 				cardLayout.show(gamePanel, "Merchants");
 			}
 		});
@@ -268,13 +292,13 @@ public class EconomosGUI {
 		infoPanel.add(merchantsPanelButton);
 
 		GUIElements.MyButton craftersPanelButton = new GUIElements.MyButton("Crafters", true);
-		craftersPanelButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				CardLayout cardLayout = (CardLayout)gamePanel.getLayout();
+		craftersPanelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cardLayout = (CardLayout) gamePanel.getLayout();
 				cardLayout.show(gamePanel, "Crafters");
 			}
 		});
-		
+
 		sl_infoPanel.putConstraint(SpringLayout.NORTH, craftersPanelButton, 0, SpringLayout.NORTH,
 				merchantsPanelButton);
 		sl_infoPanel.putConstraint(SpringLayout.WEST, craftersPanelButton, 6, SpringLayout.EAST, merchantsPanelButton);
@@ -284,9 +308,9 @@ public class EconomosGUI {
 		infoPanel.add(craftersPanelButton);
 
 		GUIElements.MyButton overviewPanelButton = new GUIElements.MyButton("Overview", true);
-		overviewPanelButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				CardLayout cardLayout = (CardLayout)gamePanel.getLayout();
+		overviewPanelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cardLayout = (CardLayout) gamePanel.getLayout();
 				cardLayout.show(gamePanel, "Overview");
 			}
 		});
@@ -297,14 +321,28 @@ public class EconomosGUI {
 		infoPanel.add(overviewPanelButton);
 
 		craftersPanel = new GUIElements.MyPanel(true);
+		GuildPanel guildPanelCrafters = new GuildPanel(new String[] { "Apothecary", "Embroider", "Artificer", "Philosopher", "Smith",
+				"Voyager", "Sage", "Chef" }, this);
+		craftersPanel.add(guildPanelCrafters);
 		springLayout.putConstraint(SpringLayout.NORTH, craftersPanel, 5, SpringLayout.NORTH, gamePanel);
 		springLayout.putConstraint(SpringLayout.WEST, craftersPanel, 15, SpringLayout.WEST, gamePanel);
 		gamePanel.add(craftersPanel, "Crafters");
 		springLayout.putConstraint(SpringLayout.SOUTH, craftersPanel, 701, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, craftersPanel, 994, SpringLayout.WEST, frame.getContentPane());
 		SpringLayout sl_craftersPanel = new SpringLayout();
+		sl_craftersPanel.putConstraint(SpringLayout.NORTH, guildPanelCrafters, 18, SpringLayout.NORTH, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.WEST, guildPanelCrafters, 6, SpringLayout.WEST, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, guildPanelCrafters, -44, SpringLayout.SOUTH, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.EAST, guildPanelCrafters, 300, SpringLayout.WEST, craftersPanel);
 		craftersPanel.setLayout(sl_craftersPanel);
 		craftersPanel.setEnabled(false);
+		
+		percentageSpinner = new PercentageSpinner(90);
+		sl_craftersPanel.putConstraint(SpringLayout.NORTH, percentageSpinner, 18, SpringLayout.NORTH, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.WEST, percentageSpinner, 12, SpringLayout.EAST, guildPanelCrafters);
+		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, percentageSpinner, 312, SpringLayout.NORTH, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.EAST, percentageSpinner, 212, SpringLayout.EAST, guildPanelCrafters);
+		craftersPanel.add(percentageSpinner);
 
 		overviewPanel = new GUIElements.MyPanel(true);
 		springLayout.putConstraint(SpringLayout.NORTH, overviewPanel, 5, SpringLayout.NORTH, gamePanel);
@@ -316,49 +354,21 @@ public class EconomosGUI {
 		overviewPanel.setLayout(sl_overviewPanel);
 		overviewPanel.setEnabled(false);
 
-		GUIElements.MyPanel listPanel = new GUIElements.MyPanel(true);
-		sl_marketPanel.putConstraint(SpringLayout.NORTH, listPanel, 18, SpringLayout.NORTH, merchantsPanel);
-		sl_marketPanel.putConstraint(SpringLayout.WEST, listPanel, 6, SpringLayout.WEST, merchantsPanel);
-		sl_marketPanel.putConstraint(SpringLayout.SOUTH, listPanel, -44, SpringLayout.SOUTH, merchantsPanel);
-		sl_marketPanel.putConstraint(SpringLayout.EAST, listPanel, 300, SpringLayout.WEST, merchantsPanel);
-		merchantsPanel.add(listPanel);
+		GuildPanel guildPanelMerchants = new GuildPanel(
+				new String[] { "Weaver", "Spicer", "Temperer", "Mercer", "Purifier", "Smelter", "Mason", "Crofter" },
+				this);
+		sl_marketPanel.putConstraint(SpringLayout.NORTH, guildPanelMerchants, 18, SpringLayout.NORTH, merchantsPanel);
+		sl_marketPanel.putConstraint(SpringLayout.WEST, guildPanelMerchants, 6, SpringLayout.WEST, merchantsPanel);
+		sl_marketPanel.putConstraint(SpringLayout.SOUTH, guildPanelMerchants, -44, SpringLayout.SOUTH, merchantsPanel);
+		sl_marketPanel.putConstraint(SpringLayout.EAST, guildPanelMerchants, 300, SpringLayout.WEST, merchantsPanel);
+		merchantsPanel.add(guildPanelMerchants);
 		SpringLayout sl_listPanel = new SpringLayout();
-		listPanel.setLayout(sl_listPanel);
-
-		JScrollPane resourceScrollPane = new JScrollPane();
-		sl_listPanel.putConstraint(SpringLayout.NORTH, resourceScrollPane, 0, SpringLayout.NORTH, listPanel);
-		resourceScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		sl_listPanel.putConstraint(SpringLayout.WEST, resourceScrollPane, 84, SpringLayout.WEST, listPanel);
-		sl_listPanel.putConstraint(SpringLayout.SOUTH, resourceScrollPane, -1, SpringLayout.SOUTH, listPanel);
-		sl_listPanel.putConstraint(SpringLayout.EAST, resourceScrollPane, 300, SpringLayout.WEST, listPanel);
-		resourceScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-		resourceScrollPane.setBorder(null);
-		listPanel.add(resourceScrollPane);
-
-		resourceList = new GUIElements.MyPanel(false);
-//		resourceList.addListSelectionListener(new ListSelectionListener() {
-//			public void valueChanged(ListSelectionEvent arg0) {
-//				if (!arg0.getValueIsAdjusting() && selectedGuild != null) {
-//					setSelectedResource(selectedGuild.getText(), String.valueOf(resourceList.getSelectedValue()));
-//				}
-//			}
-//		});
-		resourceScrollPane.setViewportView(resourceList);
-		resourceList.setLayout(new GridLayout(25, 1, 0, 0));
 
 		GUIElements.MyPanel bodyPanel = new GUIElements.MyPanel(true);
 		sl_marketPanel.putConstraint(SpringLayout.NORTH, bodyPanel, 0, SpringLayout.NORTH, merchantsPanel);
-		sl_marketPanel.putConstraint(SpringLayout.WEST, bodyPanel, 12, SpringLayout.EAST, listPanel);
+		sl_marketPanel.putConstraint(SpringLayout.WEST, bodyPanel, 12, SpringLayout.EAST, guildPanelMerchants);
 		sl_marketPanel.putConstraint(SpringLayout.SOUTH, bodyPanel, -44, SpringLayout.SOUTH, merchantsPanel);
 		sl_marketPanel.putConstraint(SpringLayout.EAST, bodyPanel, -12, SpringLayout.EAST, merchantsPanel);
-
-		GUIElements.MyPanel guildButtonPanel = new GUIElements.MyPanel(true);
-		sl_listPanel.putConstraint(SpringLayout.NORTH, guildButtonPanel, 0, SpringLayout.NORTH, listPanel);
-		sl_listPanel.putConstraint(SpringLayout.WEST, guildButtonPanel, 0, SpringLayout.WEST, listPanel);
-		sl_listPanel.putConstraint(SpringLayout.SOUTH, guildButtonPanel, 0, SpringLayout.SOUTH, listPanel);
-		sl_listPanel.putConstraint(SpringLayout.EAST, guildButtonPanel, -6, SpringLayout.WEST, resourceScrollPane);
-		listPanel.add(guildButtonPanel);
-		guildButtonPanel.setLayout(new GridLayout(8, 1, 6, 0));
 
 		class MyGuildButton extends GUIElements.MyButton {
 			public MyGuildButton thisButton;
@@ -368,7 +378,7 @@ public class EconomosGUI {
 				thisButton = this;
 				this.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						if(selectedGuild != null){
+						if (selectedGuild != null) {
 							selectedGuild.setSelected(false);
 						}
 						selectedGuild = thisButton;
@@ -379,29 +389,6 @@ public class EconomosGUI {
 			}
 		}
 
-		MyGuildButton btnWeaver = new MyGuildButton("Weaver");
-		guildButtonPanel.add(btnWeaver);
-
-		MyGuildButton btnSpicer = new MyGuildButton("Spicer");
-		guildButtonPanel.add(btnSpicer);
-
-		MyGuildButton btnTemperer = new MyGuildButton("Temperer");
-		guildButtonPanel.add(btnTemperer);
-
-		MyGuildButton btnMercer = new MyGuildButton("Mercer");
-		guildButtonPanel.add(btnMercer);
-
-		MyGuildButton btnPurifier = new MyGuildButton("Purifier");
-		guildButtonPanel.add(btnPurifier);
-
-		MyGuildButton btnSmelter = new MyGuildButton("Smelter");
-		guildButtonPanel.add(btnSmelter);
-
-		MyGuildButton btnCrofter = new MyGuildButton("Crofter");
-		guildButtonPanel.add(btnCrofter);
-
-		MyGuildButton btnMason = new MyGuildButton("Mason");
-		guildButtonPanel.add(btnMason);
 		merchantsPanel.add(bodyPanel);
 		SpringLayout sl_bodyPanel = new SpringLayout();
 		bodyPanel.setLayout(sl_bodyPanel);
@@ -500,7 +487,8 @@ public class EconomosGUI {
 		GUIElements.MyPanel purchasePanel = new GUIElements.MyPanel(false);
 		sl_bottomDetailPanel.putConstraint(SpringLayout.NORTH, purchasePanel, 6, SpringLayout.NORTH, bottomDetailPanel);
 		sl_bottomDetailPanel.putConstraint(SpringLayout.WEST, purchasePanel, 12, SpringLayout.EAST, statsPanel);
-		sl_bottomDetailPanel.putConstraint(SpringLayout.SOUTH, purchasePanel, -6, SpringLayout.SOUTH, bottomDetailPanel);
+		sl_bottomDetailPanel.putConstraint(SpringLayout.SOUTH, purchasePanel, -6, SpringLayout.SOUTH,
+				bottomDetailPanel);
 		sl_bottomDetailPanel.putConstraint(SpringLayout.EAST, purchasePanel, -6, SpringLayout.EAST, bottomDetailPanel);
 		bottomDetailPanel.add(purchasePanel);
 		GridLayout gl_purchasePanel = new GridLayout();
@@ -575,7 +563,7 @@ public class EconomosGUI {
 		descriptionTextArea.setLineWrap(true);
 		descriptionTextArea.setWrapStyleWord(true);
 		sl_topDetailPanel.putConstraint(SpringLayout.SOUTH, iconPanel, 0, SpringLayout.SOUTH, descriptionTextArea);
-		
+
 		rarityTextField = new GUIElements.MyTextField();
 		sl_topDetailPanel.putConstraint(SpringLayout.NORTH, nameTextField, -45, SpringLayout.NORTH, rarityTextField);
 		sl_topDetailPanel.putConstraint(SpringLayout.NORTH, rarityTextField, -39, SpringLayout.SOUTH, iconPanel);

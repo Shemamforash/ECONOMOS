@@ -94,7 +94,7 @@ public class GUIElements {
 
 	static class PercentageSpinner extends JPanel {
 		private int radius = 50;
-		private int currentVal = 100;
+		private float currentVal = 100;
 		private boolean spinning = false;
 		private Color buttonColor = new Color(255, 140, 0);
 		private PercentageSpinner thisSpinner;
@@ -162,6 +162,49 @@ public class GUIElements {
 			});
 		}
 
+		public void drawHollowArc(Graphics bGraphics, int radiusOffset, int value) {
+			float curValDifference = currentVal + value;
+			if (curValDifference > 100) {
+				curValDifference = 100;
+			}
+
+			if (curValDifference >= 0) {
+				bGraphics.setColor(new Color(255, (int) (curValDifference * 1.8f), 0));
+
+				int xOrigin = this.getWidth() / 2 - (radius - radiusOffset);
+				int yOrigin = this.getHeight() / 2 - (radius - radiusOffset);
+				int newRadius = (radius - radiusOffset) * 2;
+				
+				//speed = distance / time (distance = 360f) (time = 100 - value)
+				int noRevolutions = 3;
+				float totalDegrees = noRevolutions * 360f;
+				float convertedDegree = totalDegrees / (100f + (float)value);
+				int headPosition = (int)(convertedDegree * curValDifference);
+				int tailPosition = headPosition - 270;
+				
+				if(tailPosition < 0 || tailPosition > totalDegrees - 360f){
+					tailPosition = 0;
+				}
+								
+				if(tailPosition > 0 && tailPosition < totalDegrees - 360f){
+					headPosition = 270;
+				}
+				
+				while(headPosition > 360){
+					headPosition -= 360;
+				}
+				
+				bGraphics.fillArc(xOrigin, yOrigin, newRadius, newRadius, -tailPosition + 90, -headPosition);
+
+				bGraphics.setColor(darkColor);
+
+				xOrigin = xOrigin + 6;
+				yOrigin = yOrigin + 6;
+				newRadius = newRadius - 12;
+				bGraphics.fillOval(xOrigin, yOrigin, newRadius, newRadius);
+			}
+		}
+
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -171,22 +214,23 @@ public class GUIElements {
 			((Graphics2D) bGraphics).setRenderingHints(rh);
 
 			bGraphics.setColor(new Color(30, 30, 30));
-			bGraphics.fillOval(this.getWidth() / 2 - (radius - 15), this.getHeight() / 2 - (radius - 15), radius * 2 - 30, radius * 2 - 30);
+			bGraphics.fillOval(this.getWidth() / 2 - (radius - 15), this.getHeight() / 2 - (radius - 15),
+					radius * 2 - 30, radius * 2 - 30);
 
-			bGraphics.setColor(new Color(255, (int) (currentVal * 1.8f), 0));
-			bGraphics.fillArc(this.getWidth() / 2 - radius, this.getHeight() / 2 - radius, radius * 2, radius * 2, 90,
-					(int) (-3.6f * currentVal));
-			
+			drawHollowArc(bGraphics, 0, 0);
+			drawHollowArc(bGraphics, 7, -5);
+			drawHollowArc(bGraphics, 14, -10);
+			drawHollowArc(bGraphics, 21, -15);
+			drawHollowArc(bGraphics, 28, -20);
+
 			bGraphics.setColor(darkColor);
-			bGraphics.fillOval(this.getWidth() / 2 - (radius / 2 + 15), this.getHeight() / 2 - (radius / 2 + 15), radius + 30, radius + 30);
 
-			bGraphics.setColor(darkColor);
-
-			if(spinning) {
-				++currentVal;
+			if (spinning) {
+				currentVal += 0.25f;
 			}
-			if (currentVal == 100) {
+			if (currentVal >= 100f) {
 				spinning = false;
+				currentVal = 100f;
 				buttonColor = new Color(255, 140, 0);
 			}
 
@@ -194,13 +238,13 @@ public class GUIElements {
 			bGraphics.fillOval(this.getWidth() / 2 - radius / 2, this.getHeight() / 2 - radius / 2, radius, radius);
 			bGraphics.setFont(new Font("Verdana", Font.BOLD, 16));
 			bGraphics.setColor(Color.white);
-			String text = new String(currentVal + "%");
-			if(currentVal == 100){
+			String text = new String((int)currentVal + "%");
+			if (currentVal == 100) {
 				text = "Ready!";
 			}
-			
-			int stringLen = (int)bGraphics.getFontMetrics().getStringBounds(text, bGraphics).getWidth();
-		    int start = getWidth()/2 - stringLen/2;
+
+			int stringLen = (int) bGraphics.getFontMetrics().getStringBounds(text, bGraphics).getWidth();
+			int start = getWidth() / 2 - stringLen / 2;
 			bGraphics.drawString(text, start, this.getHeight() / 2 + 5);
 
 			g.drawImage(bImg, 0, 0, null);

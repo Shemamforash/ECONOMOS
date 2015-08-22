@@ -46,37 +46,27 @@ public class AI extends User {
 	}
 
 	public void tick() {
-		Collections.sort(aiResources);
-		boolean hasSold = false, hasBought = false;
-
 		for (AIResource r : aiResources) {
-			if (hasBought == true && hasSold == true) {
-				break;
-			}
 			MarketResource mr = r.getMarketResource();
 			float predictedProfit = r.getPredictedProfit(-1, mr.getSellPrice(1));
 			float percentageProfit = predictedProfit / r.getAverageProfit();
 			int action;
-			if (r.getPreferenceValue() > rnd.nextFloat()) {
-				if (mr.getTrend() > 0) {
-					action = priceIncreasing(r, percentageProfit, mr.getTrend());
-				} else {
-					action = priceDecreasing(percentageProfit, mr.getTrend());
-				}
-				if (action == 1 && !hasSold) {
-					sell(r);
-					// hasSold = true;
-				} else if (action == 2 && !hasBought) {
-					if (buy(r, mr.getTrend())) {
-						// hasBought = true;
-					}
-				}
+
+			if (mr.getTrend() > 0) {
+				action = priceIncreasing(r, percentageProfit, mr.getTrend());
+			} else {
+				action = priceDecreasing(percentageProfit, mr.getTrend());
+			}
+			if (action == 1) {
+				sell(r);
+			} else if (action == 2) {
+				buy(r, mr.getTrend());
 			}
 		}
 	}
 
 	public boolean testIntelligence() {
-		if (intelligence / 4 > rnd.nextFloat()) {
+		if (intelligence > rnd.nextFloat()) {
 			return true;
 		}
 		return false;
@@ -113,34 +103,21 @@ public class AI extends User {
 
 	public void sell(AIResource r) {
 		MarketController.sellResource(r.getQuantity(), r, this);
-		money = 100000;
+		money = 10000;
 	}
 
-	public boolean buy(AIResource r, float trend) {
+	public void buy(AIResource r, float trend) {
 		float amountToSpend = rnd.nextFloat() * (1 - intelligence) * (1 - wariness) * 0.3f;
 		int quantity = (int) Math.ceil((amountToSpend * getMoney()) / r.getMarketResource().getBuyPrice(1));
 		if (quantity > 0) {
 			MarketController.buyResource(quantity, r, this);
-			return true;
 		}
-		return false;
 	}
 
 	public void setPreferredResource() {
 		ArrayList<MarketResource> resources = DataParser.getAllMarketResources();
-		int chosenResource = new Random().nextInt(resources.size());
-		float multiplier = (float) (1f / Math.sqrt(2 * Math.PI));
 		for (int i = 0; i < resources.size(); ++i) {
-			int distanceToChosen = chosenResource - i;
-			float eExponent = (float) (Math.pow(Math.E, (-(0.1f * distanceToChosen * distanceToChosen) / 2f)));
-			float resourcePreferenceValue = multiplier * eExponent;
-			resourcePreferenceValue = 1f / 0.396f * resourcePreferenceValue * focus;
-			if (resourcePreferenceValue > 1) {
-				resourcePreferenceValue = 1;
-			}
 			aiResources.add(aiMap.getResource(resources.get(i).getType(), resources.get(i).getName()));
-			aiMap.getResource(resources.get(i).getType(), resources.get(i).getName())
-					.setPreferenceValue(resourcePreferenceValue);
 		}
 	}
 

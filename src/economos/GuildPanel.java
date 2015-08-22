@@ -49,12 +49,17 @@ public class GuildPanel extends GUIElements.MyPanel {
 
 		resourceList = new GUIElements.MyPanel(false);
 		resourceScrollPane.setViewportView(resourceList);
-		resourceList.setLayout(new GridLayout(25, 1, 0, 0));
+		resourceList.setLayout(new GridBagLayout());
 	}
 
 	public void updateMyList(String guildName) {
 		if (main.getCurrentPlayer().getPlayerResourceMap().getResourceTypes().containsKey(guildName)) {
 			resourceList.removeAll();
+			GridBagConstraints gc = new GridBagConstraints();
+			gc.gridx = 0;
+			gc.ipady = 10;
+			gc.fill = GridBagConstraints.HORIZONTAL;
+			gc.weightx = 1;
 			ArrayList<PlayerResource> arr = new ArrayList<PlayerResource>(
 					main.getCurrentPlayer().getPlayerResourceMap().getResourceTypes().get(guildName).getResourcesInType());
 			String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
@@ -65,11 +70,13 @@ public class GuildPanel extends GUIElements.MyPanel {
 				ResourceButton tempButton;
 				if (i % 4 == 0) {
 					tempButton = new ResourceButton(rarities[ctr], false, setDarker);
-					resourceList.add(tempButton);
+					resourceList.add(tempButton, gc);
+					++gc.gridy;
 					++ctr;
 				}
 				tempButton = new ResourceButton(arr.get(i).getName(), true, setDarker);
-				resourceList.add(tempButton);
+				resourceList.add(tempButton, gc);
+				++gc.gridy;
 			}
 			resourceList.validate();
 			resourceList.repaint();

@@ -27,7 +27,7 @@ public class EconomosGUI {
 	private static PlayerResource currentResource = null;
 	private NumberFormat decimalFormatter = NumberFormat.getIntegerInstance();
 	private GraphPanel buyGraph = new GraphPanel();
-	public static int timeStep = 4;
+	public static int timeStep = 17;
 	private JButton selectedGuild, selectedResource;
 	private GUIElements.MyPanel merchantsPanel, gamePanel, craftersPanel, overviewPanel, infoPanel, currentPanel;
 	private boolean fieldsReset = false;
@@ -90,12 +90,9 @@ public class EconomosGUI {
 	public EconomosGUI() {
 		load();
 		initialize();
-		int aiCount = 100;
+		int aiCount = 20;
 		Timer t = new Timer();
 		t.schedule(new AIExecutor(aiCount), 0, 1000 / aiCount);
-
-		AI ai = new AI("Sam's AI", "Sam's AI");
-
 		t.schedule(new UpdateGUI(), 0, 17);
 	}
 

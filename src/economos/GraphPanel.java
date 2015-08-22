@@ -54,13 +54,13 @@ public class GraphPanel extends JPanel {
 
 			plotLine(pricePerPixel, 1, marketResource.getMinPrice());
 			
-			pricePerPixel = (float)this.getHeight() / (marketResource.getMaxSupply());// - marketResource.getMinSupply());
+			pricePerPixel = (float)this.getHeight() / (marketResource.getMaxSupply() - marketResource.getMinSupply());
 			
-			plotLine(pricePerPixel, 2, 0);
+			plotLine(pricePerPixel, 2, marketResource.getMinSupply());
 			
-			pricePerPixel = (float)this.getHeight() / (marketResource.getMaxDemand());// - marketResource.getMinDemand());
+			pricePerPixel = (float)this.getHeight() / (marketResource.getMaxDemand() - marketResource.getMinDemand());
 
-			plotLine(pricePerPixel, 3, 0);
+			plotLine(pricePerPixel, 3, marketResource.getMinDemand());
 			
 			bGraphics.setColor(Color.white);
 			bGraphics.setFont(new Font("Verdana", Font.BOLD, 14));

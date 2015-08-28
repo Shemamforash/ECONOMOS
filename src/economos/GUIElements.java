@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.text.Format;
+import java.util.Random;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -89,6 +90,135 @@ public class GUIElements {
 		}
 
 		public void setBorder(Border border) {
+		}
+	}
+
+	static class EvaporatingButton extends JPanel {
+		private BoxTower[] towers = new BoxTower[10];
+		private boolean ready = false;
+
+		public EvaporatingButton() {
+			super();
+			for (int i = 0; i < 10; ++i) {
+				towers[i] = new BoxTower(i * 10, 10, 200);
+			}
+		}
+
+		private void resetBoxes() {
+			for (int i = 0; i < 10; ++i) {
+				towers[i].resetTower();
+			}
+		}
+
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			BufferedImage bImg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+			Graphics bGraphics = bImg.createGraphics();
+			bGraphics.setColor(new Color(15, 15, 15));
+			bGraphics.fillRect(0, 0, this.getWidth(), this.getHeight());
+
+			boolean finishedDrawing = true;
+			for (int i = 0; i < 10; ++i) {
+				towers[i].drawBoxes(bGraphics);
+				if (!towers[i].isTowerComplete()) {
+					finishedDrawing = false;
+				}
+			}
+
+			if (finishedDrawing) {
+				resetBoxes();
+				ready = true;
+			}
+
+			g.drawImage(bImg, 0, 0, null);
+		}
+
+		private class BoxTower {
+			private Box[] tower = new Box[10];
+			private int x, boxHeight;
+			private boolean towerComplete = false;
+
+			public BoxTower(int x, int boxHeight, int panelHeight) {
+				this.x = x;
+				this.boxHeight = boxHeight;
+				for (int i = tower.length - 1; i >= 0; --i) {
+					tower[i] = new Box(panelHeight - (i * boxHeight));
+				}
+			}
+
+			public void resetTower() {
+				for (int i = tower.length - 1; i >= 0; --i) {
+					tower[i].resetY();
+				}
+				towerComplete = false;
+			}
+
+			public boolean isTowerComplete() {
+				return towerComplete;
+			}
+
+			public void drawBoxes(Graphics g) {
+				moveTower();
+				for (int i = tower.length - 1; i >= 0; --i) {
+					g.setColor(tower[i].getColor());
+					g.fillRect(x, tower[i].getY(), boxHeight, boxHeight);
+				}
+			}
+
+			private void moveTower() {
+				towerComplete = true;
+				for (int i = tower.length - 1; i >= 0; --i) {
+					tower[i].increaseHeight();
+					if (!tower[i].movedEnough) {
+						for (int j = i - 1; j >= 0; --j) {
+							if (tower[j].getY() - tower[j + 1].getY() > 35) {
+								tower[j].increaseHeight();
+							}
+						}
+						towerComplete = false;
+						break;
+					}
+				}
+			}
+		}
+
+		private class Box {
+			private Color color = new Color(255, 140, 0, 255);
+			private int y, yCounter = 0;
+			private boolean movedEnough = false;
+
+			public Box(int y) {
+				this.y = y;
+			}
+
+			public void resetY() {
+				yCounter = 0;
+				movedEnough = false;
+			}
+
+			public int getY() {
+				return y - yCounter;
+			}
+
+			public boolean getHasMoved() {
+				return movedEnough;
+			}
+
+			public void increaseHeight() {
+				if (color.getAlpha() > 0) {
+					yCounter += new Random().nextInt(5);
+					if (yCounter >= 51) {
+						if (movedEnough != true) {
+							movedEnough = true;
+						}
+						yCounter = 51;
+					}
+				}
+			}
+
+			public Color getColor() {
+				return new Color(255, 140, 0, 255 - (5 * yCounter));
+			}
 		}
 	}
 
@@ -174,26 +304,27 @@ public class GUIElements {
 				int xOrigin = this.getWidth() / 2 - (radius - radiusOffset);
 				int yOrigin = this.getHeight() / 2 - (radius - radiusOffset);
 				int newRadius = (radius - radiusOffset) * 2;
-				
-				//speed = distance / time (distance = 360f) (time = 100 - value)
+
+				// speed = distance / time (distance = 360f) (time = 100 -
+				// value)
 				int noRevolutions = 3;
 				float totalDegrees = noRevolutions * 360f;
-				float convertedDegree = totalDegrees / (100f + (float)value);
-				int headPosition = (int)(convertedDegree * curValDifference);
+				float convertedDegree = totalDegrees / (100f + (float) value);
+				int headPosition = (int) (convertedDegree * curValDifference);
 				int tailPosition = headPosition - 270;
-				
-				if(tailPosition < 0 || tailPosition > totalDegrees - 360f){
+
+				if (tailPosition < 0 || tailPosition > totalDegrees - 360f) {
 					tailPosition = 0;
 				}
-								
-				if(tailPosition > 0 && tailPosition < totalDegrees - 360f){
+
+				if (tailPosition > 0 && tailPosition < totalDegrees - 360f) {
 					headPosition = 270;
 				}
-				
-				while(headPosition > 360){
+
+				while (headPosition > 360) {
 					headPosition -= 360;
 				}
-				
+
 				bGraphics.fillArc(xOrigin, yOrigin, newRadius, newRadius, -tailPosition + 90, -headPosition);
 
 				bGraphics.setColor(darkColor);
@@ -238,7 +369,7 @@ public class GUIElements {
 			bGraphics.fillOval(this.getWidth() / 2 - radius / 2, this.getHeight() / 2 - radius / 2, radius, radius);
 			bGraphics.setFont(new Font("Verdana", Font.BOLD, 16));
 			bGraphics.setColor(Color.white);
-			String text = new String((int)currentVal + "%");
+			String text = new String((int) currentVal + "%");
 			if (currentVal == 100) {
 				text = "Ready!";
 			}

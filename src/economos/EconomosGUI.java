@@ -18,6 +18,7 @@ public class EconomosGUI {
 			averageProfitTextField, averagePriceTextField, demandTextField, supplyTextField, rarityTextField,
 			headlineTextField;
 	private GUIElements.PercentageSpinner percentageSpinner;
+	private GUIElements.EvaporatingButton evaporatingButton;
 	private GUIElements.MyFormattedTextField sellAmountTextField, buyAmountTextField;
 	private GUIElements.MyTextArea descriptionTextArea;
 	private static Player currentPlayer;
@@ -113,6 +114,7 @@ public class EconomosGUI {
 				setSelectedResource(selectedGuild.getText(), selectedResource.getText());
 			}
 			percentageSpinner.repaint();
+			evaporatingButton.repaint();
 		}
 	}
 
@@ -340,6 +342,13 @@ public class EconomosGUI {
 		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, percentageSpinner, 312, SpringLayout.NORTH, craftersPanel);
 		sl_craftersPanel.putConstraint(SpringLayout.EAST, percentageSpinner, 212, SpringLayout.EAST, guildPanelCrafters);
 		craftersPanel.add(percentageSpinner);
+		
+		evaporatingButton = new GUIElements.EvaporatingButton();
+		sl_craftersPanel.putConstraint(SpringLayout.NORTH, evaporatingButton, 0, SpringLayout.NORTH, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.WEST, evaporatingButton, 6, SpringLayout.EAST, percentageSpinner);
+		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, evaporatingButton, 200, SpringLayout.NORTH, guildPanelCrafters);
+		sl_craftersPanel.putConstraint(SpringLayout.EAST, evaporatingButton, 106, SpringLayout.EAST, percentageSpinner);
+		craftersPanel.add(evaporatingButton);
 
 		overviewPanel = new GUIElements.MyPanel(true);
 		springLayout.putConstraint(SpringLayout.NORTH, overviewPanel, 5, SpringLayout.NORTH, gamePanel);

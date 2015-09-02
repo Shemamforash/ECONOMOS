@@ -382,17 +382,29 @@ public class GUIElements {
 		}
 	}
 
-	static class MyTextField extends JTextField {
+	static class MyTextField extends JTextField {		
 		public MyTextField() {
 			this(null);
-		}
-
+		}		
+		
 		public MyTextField(String text) {
 			super(text);
-			setBackground(backgroundColor);
 			setForeground(Color.white);
 			setFont(new Font("Verdana", Font.BOLD, 12));
 			this.setBorder(emptyBorder);
+			setDarker();
+		}
+		
+		private void setDarker(){
+			setBackground(backgroundColor);
+		}
+		
+		public void setColor(Color c){
+			if(c != null){
+				setBackground(c);
+			} else {
+				setDarker();
+			}
 		}
 	}
 

@@ -19,7 +19,6 @@ public class EconomosGUI {
 			headlineTextField;
 	private GUIElements.PercentageSpinner percentageSpinner;
 	private GUIElements.EvaporatingButton evaporatingButton;
-	private GUIElements.MyFormattedTextField sellAmountTextField, buyAmountTextField;
 	private GUIElements.MyTextArea descriptionTextArea;
 	private static Player currentPlayer;
 	private GUIElements.MyPanel resourceList;
@@ -69,7 +68,7 @@ public class EconomosGUI {
 			}
 		});
 	}
-	
+
 	class AIExecutor extends TimerTask {
 		private int aiCount, currentAI = 0;
 		private long starttime;
@@ -127,30 +126,43 @@ public class EconomosGUI {
 			typeTextField.setText(currentResource.getType());
 			nameTextField.setText(currentResource.getName());
 			rarityTextField.setText(currentResource.getRarity());
+			switch (currentResource.getRarity()) {
+			case "Commonplace":
+				rarityTextField.setColor(new Color(25, 200, 25));
+				break;
+			case "Unusual":
+				rarityTextField.setColor(new Color(0, 200, 100));
+				break;
+			case "Soughtafter":
+				rarityTextField.setColor(new Color(0, 80, 160));
+				break;
+			case "Coveted":
+				rarityTextField.setColor(new Color(140, 0, 230));
+				break;
+			case "Legendary":
+				rarityTextField.setColor(new Color(210, 25, 165));
+				break;
+			default:
+				break;
+			}
 			descriptionTextArea.setText(currentResource.getDescription());
 			supplyTextField.setText("Supply: " + mr.getSupply() + "p/s");
 			possessTextField.setText("Owned: " + currentResource.getQuantity());
-			if (!sellAmountTextField.isEnabled()) {
-				sellAmountTextField.setEnabled(true);
-				sellAmountTextField.setText("1");
-				buyAmountTextField.setEnabled(true);
-				buyAmountTextField.setText("1");
-			}
 			demandTextField.setText("Demand: " + mr.getDemand() + "p/s");
 			averagePriceTextField.setText("Average Price: C" + decimalFormatter.format(mr.getAveragePrice()));
 			averageProfitTextField
 					.setText("Average Profit: C" + decimalFormatter.format(currentResource.getAverageProfit()));
 			soldTextField.setText("Sold " + currentResource.getSold() + " units");
 			try {
-				buyButton.setText("Buy: C" + decimalFormatter.format(currentResource.getMarketResource()
-						.getBuyPrice(Integer.parseInt(buyAmountTextField.getText()))));
+				buyButton.setText(
+						"Buy: C" + decimalFormatter.format(currentResource.getMarketResource().getBuyPrice(1)));
 			} catch (NumberFormatException n) {
 				// DOSOMETHING
 			}
 
 			try {
-				sellButton.setText("Sell: C" + decimalFormatter.format(currentResource.getMarketResource()
-						.getSellPrice(Integer.parseInt(sellAmountTextField.getText()))));
+				sellButton.setText(
+						"Sell: C" + decimalFormatter.format(currentResource.getMarketResource().getSellPrice(1)));
 			} catch (NumberFormatException n) {
 				// DOSOMETHING
 			}
@@ -160,6 +172,7 @@ public class EconomosGUI {
 		} else if (!fieldsReset) {
 			typeTextField.setText("");
 			rarityTextField.setText("");
+			rarityTextField.setColor(null);
 			nameTextField.setText("");
 			possessTextField.setText("");
 			soldTextField.setText("");
@@ -170,10 +183,6 @@ public class EconomosGUI {
 			descriptionTextArea.setText("");
 			sellButton.setText("Sell");
 			buyButton.setText("Buy");
-			sellAmountTextField.setValue(1);
-			buyAmountTextField.setValue(1);
-			sellAmountTextField.setEnabled(false);
-			buyAmountTextField.setEnabled(false);
 			buyGraph.repaint();
 			fieldsReset = true;
 		}
@@ -320,8 +329,8 @@ public class EconomosGUI {
 		infoPanel.add(overviewPanelButton);
 
 		craftersPanel = new GUIElements.MyPanel(true);
-		GuildPanel guildPanelCrafters = new GuildPanel(new String[] { "Apothecary", "Embroider", "Artificer", "Philosopher", "Smith",
-				"Voyager", "Sage", "Chef" }, this);
+		GuildPanel guildPanelCrafters = new GuildPanel(new String[] { "Apothecary", "Embroider", "Artificer",
+				"Philosopher", "Smith", "Voyager", "Sage", "Chef" }, this);
 		craftersPanel.add(guildPanelCrafters);
 		springLayout.putConstraint(SpringLayout.NORTH, craftersPanel, 5, SpringLayout.NORTH, gamePanel);
 		springLayout.putConstraint(SpringLayout.WEST, craftersPanel, 15, SpringLayout.WEST, gamePanel);
@@ -335,18 +344,20 @@ public class EconomosGUI {
 		sl_craftersPanel.putConstraint(SpringLayout.EAST, guildPanelCrafters, 300, SpringLayout.WEST, craftersPanel);
 		craftersPanel.setLayout(sl_craftersPanel);
 		craftersPanel.setEnabled(false);
-		
+
 		percentageSpinner = new PercentageSpinner(90);
 		sl_craftersPanel.putConstraint(SpringLayout.NORTH, percentageSpinner, 18, SpringLayout.NORTH, craftersPanel);
 		sl_craftersPanel.putConstraint(SpringLayout.WEST, percentageSpinner, 12, SpringLayout.EAST, guildPanelCrafters);
 		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, percentageSpinner, 312, SpringLayout.NORTH, craftersPanel);
-		sl_craftersPanel.putConstraint(SpringLayout.EAST, percentageSpinner, 212, SpringLayout.EAST, guildPanelCrafters);
+		sl_craftersPanel.putConstraint(SpringLayout.EAST, percentageSpinner, 212, SpringLayout.EAST,
+				guildPanelCrafters);
 		craftersPanel.add(percentageSpinner);
-		
+
 		evaporatingButton = new GUIElements.EvaporatingButton();
 		sl_craftersPanel.putConstraint(SpringLayout.NORTH, evaporatingButton, 0, SpringLayout.NORTH, craftersPanel);
 		sl_craftersPanel.putConstraint(SpringLayout.WEST, evaporatingButton, 6, SpringLayout.EAST, percentageSpinner);
-		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, evaporatingButton, 200, SpringLayout.NORTH, guildPanelCrafters);
+		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, evaporatingButton, 200, SpringLayout.NORTH,
+				guildPanelCrafters);
 		sl_craftersPanel.putConstraint(SpringLayout.EAST, evaporatingButton, 106, SpringLayout.EAST, percentageSpinner);
 		craftersPanel.add(evaporatingButton);
 
@@ -510,43 +521,26 @@ public class EconomosGUI {
 		purchasePanel.add(supplyTextField);
 		supplyTextField.setEditable(false);
 		supplyTextField.setColumns(10);
+		purchasePanel.add(sellButton);
+		purchasePanel.add(buyButton);
 
-		GUIElements.MyPanel sellPanel = new GUIElements.MyPanel(false);
-		purchasePanel.add(sellPanel);
-		sellPanel.setLayout(null);
-
-		sellButton.setBounds(85, 0, 138, 39);
-		sellButton.addActionListener(new ActionListener() {
+		buyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (currentResource != null) {
-					String response = MarketController.sellResource(Integer.valueOf(sellAmountTextField.getText()),
-							currentResource, currentPlayer);
+					String response = MarketController.buyResource(1, currentResource, currentPlayer);
 					postNewHeadline(response);
 				}
 			}
 		});
-		sellPanel.add(sellButton);
+		sellButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (currentResource != null) {
+					String response = MarketController.sellResource(1, currentResource, currentPlayer);
+					postNewHeadline(response);
+				}
+			}
+		});
 
-		sellAmountTextField = new GUIElements.MyFormattedTextField(decimalFormatter);
-		sellAmountTextField.setEnabled(false);
-		sellAmountTextField.setValue(1);
-		sellAmountTextField.setBounds(0, 0, 75, 39);
-
-		sellPanel.add(sellAmountTextField);
-
-		GUIElements.MyPanel buyPanel = new GUIElements.MyPanel(false);
-		purchasePanel.add(buyPanel);
-		buyPanel.setLayout(null);
-
-		buyButton.setBounds(85, 0, 138, 39);
-		buyPanel.add(buyButton);
-
-		buyAmountTextField = new GUIElements.MyFormattedTextField(decimalFormatter);
-		buyAmountTextField.setEnabled(false);
-		buyAmountTextField.setValue(1);
-		buyAmountTextField.setBounds(0, 0, 75, 39);
-
-		buyPanel.add(buyAmountTextField);
 		GUIElements.MyPanel descriptionPanel = new GUIElements.MyPanel(false);
 		sl_resourceDetailPanel.putConstraint(SpringLayout.NORTH, descriptionPanel, 12, SpringLayout.NORTH,
 				resourceDetailPanel);
@@ -580,16 +574,6 @@ public class EconomosGUI {
 		topDetailPanel.add(rarityTextField);
 		rarityTextField.setColumns(10);
 		descriptionTextArea.setEditable(false);
-
-		buyButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (currentResource != null) {
-					String response = MarketController.buyResource(Integer.valueOf(buyAmountTextField.getText()),
-							currentResource, currentPlayer);
-					postNewHeadline(response);
-				}
-			}
-		});
 		bodyPanel.add(resourceGraphPanel);
 		resourceGraphPanel.setLayout(new GridLayout(0, 1, 0, 0));
 

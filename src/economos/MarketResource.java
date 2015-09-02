@@ -136,7 +136,7 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		int totalStoredPrices = marketHistory.size();
 		float totalPrice = averagePrice * totalStoredPrices;
 
-		if (marketHistory.size() == 672) {
+		if (marketHistory.size() == MarketController.getGraphWidth()) {
 			totalPrice -= marketHistory.get(0).getPrice();
 			if (recordData) {
 				marketHistory.remove(0);

@@ -5,6 +5,7 @@ import java.util.*;
 public class MarketController {
 	private static ResourceMap<MarketResource> marketResources = new ResourceMap<MarketResource>("Market");
 	private ArrayList<MarketResource> priceOrderedResources = new ArrayList<MarketResource>();
+	private static int graphWidth;
 
 	public static ResourceMap<MarketResource> getMarketResources() {
 		return marketResources;
@@ -24,6 +25,14 @@ public class MarketController {
 		} else {
 			return "Insufficient funds for transaction, attain " + (price - u.getMoney()) + " more credits";
 		}
+	}
+	
+	public static void setGraphWidth(int width){
+		graphWidth = width;
+	}
+	
+	public static int getGraphWidth(){
+		return graphWidth;
 	}
 
 	public static synchronized String sellResource(int quantity, UserResource r, User u) {

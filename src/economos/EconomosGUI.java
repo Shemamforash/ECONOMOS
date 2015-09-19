@@ -30,6 +30,7 @@ public class EconomosGUI {
 	public static int timeStep = 17;
 	private JButton selectedGuild, selectedResource;
 	private GUIElements.MyPanel merchantsPanel, gamePanel, craftersPanel, overviewPanel, infoPanel, currentPanel;
+	private GUIElements.ButtonMasher buttonMasher;
 	private boolean fieldsReset = false;
 
 	public void setSelectedGuild(JButton selectedGuild) {
@@ -114,6 +115,7 @@ public class EconomosGUI {
 			}
 			percentageSpinner.repaint();
 			evaporatingButton.repaint();
+			buttonMasher.repaint();
 		}
 	}
 
@@ -360,6 +362,13 @@ public class EconomosGUI {
 				guildPanelCrafters);
 		sl_craftersPanel.putConstraint(SpringLayout.EAST, evaporatingButton, 106, SpringLayout.EAST, percentageSpinner);
 		craftersPanel.add(evaporatingButton);
+		
+		buttonMasher = new GUIElements.ButtonMasher(7, 299, 450);
+		sl_craftersPanel.putConstraint(SpringLayout.NORTH, buttonMasher, 6, SpringLayout.SOUTH, percentageSpinner);
+		sl_craftersPanel.putConstraint(SpringLayout.WEST, buttonMasher, 12, SpringLayout.EAST, guildPanelCrafters);
+		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, buttonMasher, 305, SpringLayout.SOUTH, percentageSpinner);
+		sl_craftersPanel.putConstraint(SpringLayout.EAST, buttonMasher, 450, SpringLayout.WEST, percentageSpinner);
+		craftersPanel.add(buttonMasher);
 
 		overviewPanel = new GUIElements.MyPanel(true);
 		springLayout.putConstraint(SpringLayout.NORTH, overviewPanel, 5, SpringLayout.NORTH, gamePanel);

@@ -1,0 +1,256 @@
+package economos;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.swing.JPanel;
+
+class ButtonMasher extends JPanel {
+	private float quality = 100f;
+	private int centerY, numberOfButtons, height, width, maxQuality = 100;
+	private char[] alphabet = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
+			'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+	private LetterButton[] buttons;
+	private long lastTime = 0, secondCounter = 0;
+
+	public ButtonMasher(final int numberOfButtons, int height, int width) {
+		this.height = height;
+		this.width = width;
+		this.centerY = height / 2;
+		this.numberOfButtons = numberOfButtons;
+		buttons = new LetterButton[numberOfButtons];
+		for (int i = 0; i < numberOfButtons; ++i) {
+			LetterButton letterButton = new LetterButton(i);
+			buttons[i] = letterButton;
+			letterButton.refreshLetter();
+		}
+		this.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent arg0) {
+				for (int i = 0; i < numberOfButtons; ++i) {
+					String charVal = String.valueOf(arg0.getKeyChar()).toUpperCase();
+					if (!buttons[i].isDissolving()) {
+						if (charVal.equals(buttons[i].getLetter())) {
+							buttons[i].setDissolve();
+							++i;
+							quality += 100 / numberOfButtons;
+							secondCounter = 0;
+						} else if (i > 0) {
+							--i;
+							maxQuality -= 10;
+							if (maxQuality < 0) {
+								maxQuality = 0;
+							}
+						}
+						while (i < numberOfButtons) {
+							buttons[i].refreshLetter();
+							++i;
+						}
+					}
+				}
+			}
+
+			public void keyReleased(KeyEvent arg0) {
+			}
+
+			public void keyTyped(KeyEvent arg0) {
+			}
+
+		});
+	}
+
+	public void constructPoints(int letterno) {
+		int startX = width / 20;
+		int boxWidth = (int) (((width - (2 * startX)) / numberOfButtons) * 0.75f);
+		int yOffset = centerY - boxWidth / 2;
+
+		BufferedImage bImg = new BufferedImage(boxWidth + 2, boxWidth + 2, BufferedImage.TYPE_INT_RGB);
+		Graphics bGraphics = bImg.createGraphics();
+
+		int xOffset = (int) (startX + letterno * boxWidth * 1.3333f);
+		bGraphics.setColor(GUIElements.darkColor);
+		bGraphics.fillRect(0, 0, boxWidth, boxWidth);
+		bGraphics.setColor(GUIElements.goldenOrange);
+		((Graphics2D) bGraphics).setStroke(new BasicStroke(2));
+		bGraphics.drawRoundRect(1, 1, boxWidth, boxWidth, boxWidth / 6, boxWidth / 6);
+		bGraphics.drawString(buttons[letterno].getLetter(), boxWidth - 25, boxWidth / 2 + 15);
+		buttons[letterno].setPoints(getPoints(bImg, xOffset, yOffset, boxWidth / 2));
+	}
+
+	public ArrayList<MyPoint> getPoints(BufferedImage bImg, int xOffset, int yOffset, int boxHalfWidth) {
+		Random rand = new Random();
+		ArrayList<MyPoint> temp = new ArrayList<MyPoint>();
+		for (int i = 0; i < bImg.getWidth(); ++i) {
+			for (int j = 0; j < bImg.getHeight(); ++j) {
+				Color c = new Color(bImg.getRGB(i, j));
+				if (c.getRed() > 50) {
+					float yDiff = j - boxHalfWidth;
+					float xDiff = i - boxHalfWidth;
+					float val = 1f / (Math.abs(yDiff) + Math.abs(xDiff));
+					float spd = rand.nextFloat();
+					val = val * spd;
+					yDiff = yDiff * val;
+					xDiff = xDiff * val;
+					MyPoint p = new MyPoint(i + xOffset, j + yOffset, xDiff, yDiff, c);
+					temp.add(p);
+				}
+			}
+		}
+		return temp;
+	}
+
+	private void updateTime() {
+		if (lastTime != 0) {
+			secondCounter += System.currentTimeMillis() - lastTime;
+			quality -= 0.1f;
+		}
+		if (secondCounter >= 1000) {
+			for (int i = 1; i < numberOfButtons; ++i) {
+				if (buttons[i - 1].isDissolving() && !buttons[i].isDissolving()) {
+					buttons[i - 1].refreshLetter();
+				}
+			}
+			secondCounter = 0;
+		}
+		lastTime = System.currentTimeMillis();
+	}
+
+	private void drawProgressBar(Graphics bGraphics) {
+		bGraphics.setColor(new Color(25, 25, 25));
+		bGraphics.fillRect(0, height - 10, width / 100 * maxQuality, height);
+		bGraphics.setColor(new Color(50, 25, 255));
+		bGraphics.fillRect(0, height - 10, (int) (width / 100 * quality), height);
+		
+		int maxPixelWidth = width / 100 * maxQuality;
+		if(maxQuality < 0){
+			maxQuality = 0;
+		}
+		if(quality > maxQuality){
+			quality = maxQuality;
+		}
+		
+		int qualityWidth = (int) (width / 100 * quality);
+		float interval = 255f / qualityWidth;
+		for(int i = 0; i < maxPixelWidth; ++i){
+			if(i < qualityWidth){
+				int greenVal = (int)(interval * i);
+				if(greenVal > 255){
+					greenVal = 255;
+				}
+				bGraphics.setColor(new Color(0, greenVal, 255));
+			} else {
+				bGraphics.setColor(new Color(5, 5, 5));
+			}
+			bGraphics.drawLine(i, height - 10, i, height);
+		}
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		updateTime();
+		requestFocus();
+		BufferedImage bImg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics bGraphics = bImg.createGraphics();
+		bGraphics.setColor(new Color(15, 15, 15));
+		bGraphics.fillRect(0, 0, this.getWidth(), this.getHeight());
+
+		for (int i = 0; i < numberOfButtons; ++i) {
+			ArrayList<MyPoint> temp = buttons[i].getPoints();
+			for (MyPoint p : temp) {
+				if (buttons[i].dissolve && !p.finished()) {
+					p.movePoint();
+				}
+				bGraphics.setColor(p.color());
+				bGraphics.drawLine(p.x(), p.y(), p.x(), p.y());
+			}
+		}
+
+		drawProgressBar(bGraphics);
+		g.drawImage(bImg, 0, 0, null);
+	}
+
+	private class MyPoint {
+		private float x, y, xDir, yDir;
+		private Color color;
+		private boolean finished;
+
+		public MyPoint(float x, float y, float xDir, float yDir, Color color) {
+			this.x = x;
+			this.y = y;
+			this.xDir = xDir;
+			this.yDir = yDir;
+			this.color = color;
+		}
+
+		public Color color() {
+			return color;
+		}
+
+		public int x() {
+			return (int) x;
+		}
+
+		public int y() {
+			return (int) y;
+		}
+
+		public boolean finished() {
+			return finished;
+		}
+
+		public void movePoint() {
+			color = new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() - 5);
+
+			x += xDir;
+			y += yDir;
+
+			if (color.getAlpha() == 0) {
+				finished = true;
+			}
+		}
+	}
+
+	private class LetterButton {
+		private char currentLetter;
+		private ArrayList<MyPoint> points = new ArrayList<MyPoint>();
+		private boolean dissolve = false;
+		private int letterno;
+
+		public LetterButton(int letterno) {
+			this.letterno = letterno;
+		}
+
+		public void refreshLetter() {
+			currentLetter = alphabet[new Random().nextInt(26)];
+			dissolve = false;
+			constructPoints(letterno);
+		}
+
+		public String getLetter() {
+			return String.valueOf(currentLetter);
+		}
+
+		public boolean isDissolving() {
+			return dissolve;
+		}
+
+		public void setPoints(ArrayList<MyPoint> points) {
+			this.points = points;
+			;
+		}
+
+		public void setDissolve() {
+			dissolve = true;
+		}
+
+		public ArrayList<MyPoint> getPoints() {
+			return points;
+		}
+	}
+}

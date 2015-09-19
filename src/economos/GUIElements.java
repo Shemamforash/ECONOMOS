@@ -13,7 +13,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.text.Format;
-import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.*;
@@ -23,9 +22,9 @@ import javax.swing.event.ChangeListener;
 
 public class GUIElements {
 	private static Color backgroundColor = new Color(17, 17, 17);
-	private static Color darkColor = new Color(10, 10, 10);
+	static Color darkColor = new Color(10, 10, 10);
 	private static Border emptyBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-	private static Color goldenOrange = new Color(255, 140, 0);
+	static Color goldenOrange = new Color(255, 140, 0);
 
 	static class MyButton extends JButton {
 		private Color hoverColor = new Color(255, 180, 0);
@@ -95,150 +94,6 @@ public class GUIElements {
 		}
 	}
 
-	static class ButtonMasher extends JPanel {
-		private int centerY, numberOfButtons, height, width;
-		private char[] alphabet = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-		private LetterButton[] buttons;
-		
-		private class MyPoint {
-			private float x, y, xDir, yDir;
-			private Color color;
-			
-			public MyPoint(float x, float y, float xDir, float yDir, Color color){
-				this.x =x;
-				this.y = y;
-				this.xDir = xDir;
-				this.yDir = yDir;
-				this.color = color;
-			}
-			
-			public Color color(){
-				return color;
-			}
-			
-			public int x(){
-				return (int)x;
-			}
-			
-			public int y(){
-				return (int)y;
-			}
-			
-			public void movePoint(){
-				color = new Color(color.getRed(), color.getGreen() - 2, color.getBlue(), color.getAlpha() - 5);
-				x += xDir;
-				y += yDir;
-			}
-		}
-		
-		public ButtonMasher(int numberOfButtons, int height, int width){
-			this.height = height;
-			this.width = width;
-			this.centerY = height / 2;
-			this.numberOfButtons = numberOfButtons;
-			buttons = new LetterButton[numberOfButtons];
-			for(int i = 0; i < numberOfButtons; ++i){
-				LetterButton letterButton = new LetterButton(i);
-				buttons[i] = letterButton;
-				letterButton.refreshLetter();
-			}
-		}
-		
-		public void constructPoints(int letterno){
-			int startX = width / 8;
-			int boxWidth = (int)(((width - (2 * startX)) / numberOfButtons) * 0.75f);
-			int yOffset = centerY - boxWidth / 2;
-			
-			BufferedImage bImg = new BufferedImage(boxWidth, boxWidth, BufferedImage.TYPE_INT_RGB);
-			Graphics bGraphics = bImg.createGraphics();
-			
-			int xOffset = (int)(startX + letterno * boxWidth / 0.75f);
-			bGraphics.setColor(darkColor);
-			bGraphics.fillRect(0, 0, boxWidth, boxWidth);
-			bGraphics.setColor(goldenOrange);
-			bGraphics.drawRoundRect(0, 0, boxWidth, boxWidth, boxWidth / 6, boxWidth / 6);
-			bGraphics.drawString(buttons[letterno].getLetter(), startX + boxWidth - 25, boxWidth / 2 + 15);
-			buttons[letterno].setPoints(getPoints(bImg, xOffset, yOffset, boxWidth / 2));
-		}
-		
-		public ArrayList<MyPoint> getPoints(BufferedImage bImg, int xOffset, int yOffset, int boxHalfWidth){
-			ArrayList<MyPoint> temp = new ArrayList<MyPoint>();
-			for(int i = 0; i < bImg.getWidth(); ++i){
-				for(int j = 0; j < bImg.getHeight(); ++j){
-					Color c = new Color(bImg.getRGB(i, j));
-					if(c.getRed() > 50){
-						float yDiff = boxHalfWidth - yOffset;
-						float xDiff = boxHalfWidth - xOffset;
-						float val = 1 / (yDiff + xDiff);
-						yDiff = yDiff * val;
-						xDiff = xDiff * val;
-						MyPoint p = new MyPoint(i + xOffset, j + yOffset, xDiff, yDiff, c);
-						temp.add(p);
-					}
-				}
-			}
-			return temp;
-		}
-		
-		public void paintComponent(Graphics g){
-			super.paintComponent(g);
-			BufferedImage bImg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
-			Graphics bGraphics = bImg.createGraphics();
-			bGraphics.setColor(new Color(15, 15, 15));
-			bGraphics.fillRect(0, 0, this.getWidth(), this.getHeight());
-			
-			bGraphics.setColor(goldenOrange);
-			
-			for(int i = 0; i < numberOfButtons; ++i){
-				ArrayList<MyPoint> temp = buttons[i].getPoints();
-				for(MyPoint p : temp){
-					if(buttons[i].dissolve){
-						p.movePoint();
-					}
-					bImg.setRGB(p.x(), p.y(), p.color().getRGB());
-				}
-			}
-			
-			g.drawImage(bImg, 0, 0, null);
-		}
-		
-		private class LetterButton {
-			private char currentLetter;
-			private ArrayList<MyPoint> points = new ArrayList<MyPoint>();
-			private boolean dissolve = false;
-			private int letterno;
-			
-			public LetterButton(int letterno){
-				this.letterno = letterno;
-			}
-			
-			public void refreshLetter(){
-				currentLetter = alphabet[new Random().nextInt(26)];
-				constructPoints(letterno);
-			}
-			
-			public String getLetter(){
-				return String.valueOf(currentLetter);
-			}
-			
-			public boolean isDissolving(){
-				return dissolve;
-			}
-			
-			public void setPoints(ArrayList<MyPoint> points){
-				this.points = points;;
-			}
-			
-			public void setDissolve(){
-				dissolve = true;
-			}
-			
-			public ArrayList<MyPoint> getPoints() {
-				return points;
-			}
-		}
-	}
-	
 	static class EvaporatingButton extends JPanel {
 		private BoxTower[] towers = new BoxTower[10];
 		private boolean ready = false;
@@ -528,11 +383,11 @@ public class GUIElements {
 		}
 	}
 
-	static class MyTextField extends JTextField {		
+	static class MyTextField extends JTextField {
 		public MyTextField() {
 			this(null);
-		}		
-		
+		}
+
 		public MyTextField(String text) {
 			super(text);
 			setForeground(Color.white);
@@ -540,13 +395,13 @@ public class GUIElements {
 			this.setBorder(emptyBorder);
 			setDarker();
 		}
-		
-		private void setDarker(){
+
+		private void setDarker() {
 			setBackground(backgroundColor);
 		}
-		
-		public void setColor(Color c){
-			if(c != null){
+
+		public void setColor(Color c) {
+			if (c != null) {
 				setBackground(c);
 			} else {
 				setDarker();

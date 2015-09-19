@@ -17,8 +17,6 @@ public class EconomosGUI {
 	private GUIElements.MyTextField typeTextField, nameTextField, possessTextField, soldTextField,
 			averageProfitTextField, averagePriceTextField, demandTextField, supplyTextField, rarityTextField,
 			headlineTextField;
-	private GUIElements.PercentageSpinner percentageSpinner;
-	private GUIElements.EvaporatingButton evaporatingButton;
 	private GUIElements.MyTextArea descriptionTextArea;
 	private static Player currentPlayer;
 	private GUIElements.MyPanel resourceList;
@@ -30,7 +28,7 @@ public class EconomosGUI {
 	public static int timeStep = 17;
 	private JButton selectedGuild, selectedResource;
 	private GUIElements.MyPanel merchantsPanel, gamePanel, craftersPanel, overviewPanel, infoPanel, currentPanel;
-	private ButtonMasher buttonMasher;
+	private MinigameController minigameController;
 	private boolean fieldsReset = false;
 
 	public void setSelectedGuild(JButton selectedGuild) {
@@ -113,9 +111,7 @@ public class EconomosGUI {
 			if (selectedGuild != null && selectedResource != null) {
 				setSelectedResource(selectedGuild.getText(), selectedResource.getText());
 			}
-			percentageSpinner.repaint();
-			evaporatingButton.repaint();
-			buttonMasher.repaint();
+			minigameController.repaint();
 		}
 	}
 
@@ -346,29 +342,13 @@ public class EconomosGUI {
 		sl_craftersPanel.putConstraint(SpringLayout.EAST, guildPanelCrafters, 300, SpringLayout.WEST, craftersPanel);
 		craftersPanel.setLayout(sl_craftersPanel);
 		craftersPanel.setEnabled(false);
-
-		percentageSpinner = new PercentageSpinner(90);
-		sl_craftersPanel.putConstraint(SpringLayout.NORTH, percentageSpinner, 18, SpringLayout.NORTH, craftersPanel);
-		sl_craftersPanel.putConstraint(SpringLayout.WEST, percentageSpinner, 12, SpringLayout.EAST, guildPanelCrafters);
-		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, percentageSpinner, 312, SpringLayout.NORTH, craftersPanel);
-		sl_craftersPanel.putConstraint(SpringLayout.EAST, percentageSpinner, 212, SpringLayout.EAST,
-				guildPanelCrafters);
-		craftersPanel.add(percentageSpinner);
-
-		evaporatingButton = new GUIElements.EvaporatingButton();
-		sl_craftersPanel.putConstraint(SpringLayout.NORTH, evaporatingButton, 0, SpringLayout.NORTH, craftersPanel);
-		sl_craftersPanel.putConstraint(SpringLayout.WEST, evaporatingButton, 6, SpringLayout.EAST, percentageSpinner);
-		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, evaporatingButton, 200, SpringLayout.NORTH,
-				guildPanelCrafters);
-		sl_craftersPanel.putConstraint(SpringLayout.EAST, evaporatingButton, 106, SpringLayout.EAST, percentageSpinner);
-		craftersPanel.add(evaporatingButton);
 		
-		buttonMasher = new ButtonMasher(12, 299, 662);
-		sl_craftersPanel.putConstraint(SpringLayout.NORTH, buttonMasher, 6, SpringLayout.SOUTH, percentageSpinner);
-		sl_craftersPanel.putConstraint(SpringLayout.WEST, buttonMasher, 12, SpringLayout.EAST, guildPanelCrafters);
-		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, buttonMasher, 305, SpringLayout.SOUTH, percentageSpinner);
-		sl_craftersPanel.putConstraint(SpringLayout.EAST, buttonMasher, 662, SpringLayout.WEST, percentageSpinner);
-		craftersPanel.add(buttonMasher);
+		minigameController = new MinigameController(299, 662);
+		sl_craftersPanel.putConstraint(SpringLayout.NORTH, minigameController, 318, SpringLayout.NORTH, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.WEST, minigameController, 12, SpringLayout.EAST, guildPanelCrafters);
+		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, minigameController, -44, SpringLayout.SOUTH, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.EAST, minigameController, -10, SpringLayout.EAST, craftersPanel);
+		craftersPanel.add(minigameController);
 
 		overviewPanel = new GUIElements.MyPanel(true);
 		springLayout.putConstraint(SpringLayout.NORTH, overviewPanel, 5, SpringLayout.NORTH, gamePanel);

@@ -12,7 +12,7 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
-class ButtonMasher extends JPanel {
+class ButtonMasher extends MinigamePanel {
 	private float quality = 100f;
 	private int centerY, numberOfButtons, height, width, maxQuality = 100;
 	private char[] alphabet = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
@@ -20,7 +20,8 @@ class ButtonMasher extends JPanel {
 	private LetterButton[] buttons;
 	private long lastTime = 0, secondCounter = 0;
 
-	public ButtonMasher(final int numberOfButtons, int height, int width) {
+	public ButtonMasher(final int numberOfButtons, int height, int width, MinigameController minigameController) {
+		super(minigameController);
 		this.height = height;
 		this.width = width;
 		this.centerY = height / 2;
@@ -31,38 +32,7 @@ class ButtonMasher extends JPanel {
 			buttons[i] = letterButton;
 			letterButton.refreshLetter();
 		}
-		this.addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent arg0) {
-				for (int i = 0; i < numberOfButtons; ++i) {
-					String charVal = String.valueOf(arg0.getKeyChar()).toUpperCase();
-					if (!buttons[i].isDissolving()) {
-						if (charVal.equals(buttons[i].getLetter())) {
-							buttons[i].setDissolve();
-							++i;
-							quality += 100 / numberOfButtons;
-							secondCounter = 0;
-						} else if (i > 0) {
-							--i;
-							maxQuality -= 10;
-							if (maxQuality < 0) {
-								maxQuality = 0;
-							}
-						}
-						while (i < numberOfButtons) {
-							buttons[i].refreshLetter();
-							++i;
-						}
-					}
-				}
-			}
-
-			public void keyReleased(KeyEvent arg0) {
-			}
-
-			public void keyTyped(KeyEvent arg0) {
-			}
-
-		});
+		
 	}
 
 	public void constructPoints(int letterno) {
@@ -103,6 +73,33 @@ class ButtonMasher extends JPanel {
 			}
 		}
 		return temp;
+	}
+	
+	public void receiveKey(char c){
+		for (int i = 0; i < numberOfButtons; ++i) {
+			String charVal = String.valueOf(c).toUpperCase();
+			if (!buttons[i].isDissolving()) {
+				if (charVal.equals(buttons[i].getLetter())) {
+					buttons[i].setDissolve();
+					++i;
+					quality += 100 / numberOfButtons;
+					if(i == numberOfButtons){
+						minigameController().showSuccessMessage();
+					}
+				} else if (i > 0) {
+					--i;
+					maxQuality -= 10;
+					if (maxQuality < 0) {
+						maxQuality = 0;
+					}
+				}
+				while (i < numberOfButtons) {
+					buttons[i].refreshLetter();
+					++i;
+				}
+			}
+		}
+		secondCounter = 0;
 	}
 
 	private void updateTime() {
@@ -154,7 +151,6 @@ class ButtonMasher extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		updateTime();
-		requestFocus();
 		BufferedImage bImg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics bGraphics = bImg.createGraphics();
 		bGraphics.setColor(new Color(15, 15, 15));

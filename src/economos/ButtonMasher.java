@@ -43,7 +43,7 @@ class ButtonMasher extends MinigamePanel {
 		bGraphics.setColor(GUIElements.darkColor);
 		bGraphics.fillRect(0, 0, boxWidth, boxWidth);
 		bGraphics.setColor(GUIElements.goldenOrange);
-		((Graphics2D) bGraphics).setStroke(new BasicStroke(2));
+		((Graphics2D) bGraphics).setStroke(new BasicStroke(4));
 		bGraphics.drawRoundRect(1, 1, boxWidth, boxWidth, boxWidth / 6, boxWidth / 6);
 		bGraphics.drawString(buttons[letterno].getLetter(), boxWidth - 25, boxWidth / 2 + 15);
 		buttons[letterno].setPoints(getPoints(bImg, xOffset, yOffset, boxWidth / 2));
@@ -156,9 +156,7 @@ class ButtonMasher extends MinigamePanel {
 				if (buttons[i].dissolve && !p.finished()) {
 					p.movePoint();
 				}
-//				bGraphics.setColor(p.color());
-//				bGraphics.drawLine(p.x(), p.y(), p.x(), p.y());
-				if(p.x() > 0 && p.x() <= width && p.y() > 0 && p.y() <= height){
+				if(p.x() > 0 && p.x() < width && p.y() > 0 && p.y() < height){
 					bImg.setRGB(p.x(), p.y(), p.color().getRGB());
 				}
 			}
@@ -172,8 +170,8 @@ class ButtonMasher extends MinigamePanel {
 		private float x, y, xDir, yDir;
 		private Color color;
 		private boolean finished;
-		private float steps = 60;
-		private float rDif, gDif, bDif;
+		private float steps = 180;
+		private float rDif, gDif, bDif, newRed, newGreen, newBlue;
 
 		public MyPoint(float x, float y, float xDir, float yDir, Color color) {
 			this.x = x;
@@ -184,6 +182,9 @@ class ButtonMasher extends MinigamePanel {
 			rDif = ((float)color.getRed() - 15) / steps;
 			gDif = ((float)color.getGreen() - 15) / steps;
 			bDif = ((float)color.getBlue() - 15) / steps;
+			newRed = color.getRed();
+			newGreen = color.getGreen();
+			newBlue = color.getBlue();
 		}
 
 		public Color color() {
@@ -203,24 +204,18 @@ class ButtonMasher extends MinigamePanel {
 		}
 
 		public void movePoint() {
-			int newRed = (int)(color.getRed() - rDif);
-			int newGreen = (int)(color.getGreen() -gDif);
-			int newBlue = (int)(color.getBlue() - bDif);
-			if(newRed < 0){
-				newRed = 0;
-			} if (newGreen < 0){
-				newGreen = 0;
-			} if (newBlue < 0){
-				newBlue = 0;
-			}
-			color = new Color(newRed, newGreen, newBlue, 255);
-
-			x += xDir;
-			y += yDir;
-
+			newRed -= rDif;
+			newGreen -= gDif;
+			newBlue -= bDif;
+			
 			if (color.getRed() <= 15) {
 				finished = true;
 			}
+			
+			color = new Color((int)newRed, (int)newGreen, (int)newBlue, 255);
+
+			x += xDir;
+			y += yDir;			
 		}
 	}
 

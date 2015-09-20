@@ -2,6 +2,8 @@ package economos;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
@@ -23,7 +25,11 @@ public class Forger extends MinigamePanel {
 			if(!input.equals("W")){
 				if(input.equals(currentLetter)){
 					float potentialQuality = maximumQuality / targetStrikes;
-					quality += (accuracy / 100) * (potentialQuality / 100) * Math.abs(targetTemperature - temperature);
+					float accuracyModifier = accuracy / 100f;
+					float distanceToTargetTemperature = targetTemperature - temperature;//-((0.01*x)^2) + 1
+					float decimalDistance = 0.01f * distanceToTargetTemperature;
+					float temperatureModifier = -(decimalDistance * decimalDistance) + 1;
+					quality += accuracyModifier * potentialQuality * temperatureModifier;
 				} else {
 					maximumQuality -= 20;
 				}
@@ -80,11 +86,24 @@ public class Forger extends MinigamePanel {
 		}
 		bGraphics.drawString(currentLetter, width / 2 - 5, height / 2 - 5);
 		bGraphics.drawOval(width / 2 - 30, height / 2 - 30, 60, 60);
-		float distanceDraw = ((height - 20f) / timerTarget) / 2;
-		int radius = (int)(distanceDraw * ((float)timerTarget - (float)timer));
-		bGraphics.drawOval(width / 2 - radius, height / 2 - radius, radius * 2, radius * 2);
+		
+		float maxRadius = (height - 20f) / 2;
+		float distanceDraw = maxRadius / timerTarget;
+		float timeRemaining = timerTarget - timer;
+		int radius = (int)(distanceDraw * timeRemaining);
+		
+		int currentOpacity = 255;
+		int currentDifference = 65;
+		for(int i = 0; i < 8; ++i) {
+			bGraphics.setColor(new Color(255, 140, 0, currentOpacity));
+			currentOpacity -= currentDifference;
+			currentDifference -= 10;
+			bGraphics.drawOval(width / 2 - radius - i, height / 2 - radius - i, (radius + i) * 2, (radius + i) * 2);
+		}
+		
 		int distanceToTarget = Math.abs(radius - 30);
-		accuracy = 100f / ((height - 20f) / 2f) * (float)distanceToTarget;
+		
+		accuracy = 100f / (maxRadius - 30f) * (float)distanceToTarget;
 		accuracy = 100f - accuracy;
 		timer += System.currentTimeMillis() - lastTime;
 		lastTime = System.currentTimeMillis();
@@ -122,6 +141,7 @@ public class Forger extends MinigamePanel {
 
 		BufferedImage bImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics bGraphics = bImg.createGraphics();
+		((Graphics2D) bGraphics).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		if (increaseTemperature) {
 			temperature += 2;

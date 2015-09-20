@@ -288,10 +288,10 @@ public class EconomosGUI {
 
 		merchantsPanel = new GUIElements.MyPanel(true);
 		currentPanel = merchantsPanel;
-		springLayout.putConstraint(SpringLayout.NORTH, merchantsPanel, 5, SpringLayout.NORTH, gamePanel);
-		springLayout.putConstraint(SpringLayout.WEST, merchantsPanel, 10, SpringLayout.WEST, gamePanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, merchantsPanel, 701, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, merchantsPanel, 994, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, merchantsPanel, 0, SpringLayout.NORTH, gamePanel);
+		springLayout.putConstraint(SpringLayout.WEST, merchantsPanel, 0, SpringLayout.WEST, gamePanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, merchantsPanel, 0, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, merchantsPanel, 0, SpringLayout.EAST, frame.getContentPane());
 		gamePanel.add(merchantsPanel, "Merchants");
 		SpringLayout sl_marketPanel = new SpringLayout();
 		merchantsPanel.setLayout(sl_marketPanel);
@@ -344,7 +344,7 @@ public class EconomosGUI {
 			}
 		});
 		sl_infoPanel.putConstraint(SpringLayout.NORTH, overviewPanelButton, 0, SpringLayout.NORTH, craftersPanelButton);
-		sl_infoPanel.putConstraint(SpringLayout.WEST, overviewPanelButton, 6, SpringLayout.EAST, craftersPanelButton);
+		sl_infoPanel.putConstraint(SpringLayout.WEST, overviewPanelButton, 10, SpringLayout.EAST, craftersPanelButton);
 		sl_infoPanel.putConstraint(SpringLayout.SOUTH, overviewPanelButton, 0, SpringLayout.SOUTH, craftersPanelButton);
 		sl_infoPanel.putConstraint(SpringLayout.EAST, overviewPanelButton, 80, SpringLayout.EAST, craftersPanelButton);
 		infoPanel.add(overviewPanelButton);
@@ -359,18 +359,17 @@ public class EconomosGUI {
 		springLayout.putConstraint(SpringLayout.SOUTH, craftersPanel, 701, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, craftersPanel, 994, SpringLayout.WEST, frame.getContentPane());
 		SpringLayout sl_craftersPanel = new SpringLayout();
-		sl_craftersPanel.putConstraint(SpringLayout.NORTH, guildPanelCrafters, 18, SpringLayout.NORTH, craftersPanel);
-		sl_craftersPanel.putConstraint(SpringLayout.WEST, guildPanelCrafters, 6, SpringLayout.WEST, craftersPanel);
-		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, guildPanelCrafters, -44, SpringLayout.SOUTH, craftersPanel);
-		sl_craftersPanel.putConstraint(SpringLayout.EAST, guildPanelCrafters, 300, SpringLayout.WEST, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.NORTH, guildPanelCrafters, 10, SpringLayout.NORTH, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.WEST, guildPanelCrafters, 10, SpringLayout.WEST, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, guildPanelCrafters, -40, SpringLayout.SOUTH, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.EAST, guildPanelCrafters, 310, SpringLayout.WEST, craftersPanel);
 		craftersPanel.setLayout(sl_craftersPanel);
 		craftersPanel.setEnabled(false);
 
-		minigameController = new MinigameController(299, 662);
-		sl_craftersPanel.putConstraint(SpringLayout.NORTH, minigameController, 318, SpringLayout.NORTH, craftersPanel);
-		sl_craftersPanel.putConstraint(SpringLayout.WEST, minigameController, 12, SpringLayout.EAST,
-				guildPanelCrafters);
-		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, minigameController, -44, SpringLayout.SOUTH, craftersPanel);
+		minigameController = new MinigameController(screenWidth - 330, screenHeight / 2 - 40);
+		sl_craftersPanel.putConstraint(SpringLayout.NORTH, minigameController, -screenHeight / 2, SpringLayout.SOUTH, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.WEST, minigameController, 10, SpringLayout.EAST, guildPanelCrafters);
+		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, minigameController, -40, SpringLayout.SOUTH, craftersPanel);
 		sl_craftersPanel.putConstraint(SpringLayout.EAST, minigameController, -10, SpringLayout.EAST, craftersPanel);
 		craftersPanel.add(minigameController);
 

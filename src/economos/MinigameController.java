@@ -16,7 +16,16 @@ public class MinigameController extends JPanel {
 	private String currentGuild;
 	private GUIElements.MyButton craftingButton;
 	private ButtonMasher masherGame;
+	private Forger forgerGame;
 
+	public int width(){
+		return width;
+	}
+	
+	public int height(){
+		return height;
+	}
+	
 	public MinigameController(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -24,12 +33,14 @@ public class MinigameController extends JPanel {
 		craftingButton = new GUIElements.MyButton("Start Crafting", true);
 		craftingButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				switchPanel("Embroider");
+				switchPanel("Smith");
 			}
 		});
 		this.add(craftingButton, "Button");
-		masherGame = new ButtonMasher(12, width, height, this);
+		masherGame = new ButtonMasher(12, this);
 		this.add(masherGame, "Masher");
+		forgerGame = new Forger(this);
+		this.add(forgerGame, "Forger");
 		this.add(new SuccessMessage(true), "Success");
 	}
 
@@ -43,6 +54,10 @@ public class MinigameController extends JPanel {
 		case "Embroider":
 			cardLayout.show(this, "Masher");
 			masherGame.requestFocus();
+			break;
+		case "Smith":
+			cardLayout.show(this, "Forger");
+			forgerGame.requestFocus();
 			break;
 		default:
 			cardLayout.show(this, "Button");

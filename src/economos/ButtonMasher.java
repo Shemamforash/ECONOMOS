@@ -14,16 +14,12 @@ import javax.swing.JPanel;
 
 class ButtonMasher extends MinigamePanel {
 	private float quality = 100f;
-	private int centerY, numberOfButtons, height, width, maxQuality = 100;
-	private char[] alphabet = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
-			'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+	private int centerY, numberOfButtons, maxQuality = 100;
 	private LetterButton[] buttons;
 	private long lastTime = 0, secondCounter = 0;
 
-	public ButtonMasher(final int numberOfButtons, int height, int width, MinigameController minigameController) {
+	public ButtonMasher(final int numberOfButtons, MinigameController minigameController) {
 		super(minigameController);
-		this.height = height;
-		this.width = width;
 		this.centerY = height / 2;
 		this.numberOfButtons = numberOfButtons;
 		buttons = new LetterButton[numberOfButtons];
@@ -121,8 +117,6 @@ class ButtonMasher extends MinigamePanel {
 	private void drawProgressBar(Graphics bGraphics) {
 		bGraphics.setColor(new Color(25, 25, 25));
 		bGraphics.fillRect(0, height - 10, width / 100 * maxQuality, height);
-		bGraphics.setColor(new Color(50, 25, 255));
-		bGraphics.fillRect(0, height - 10, (int) (width / 100 * quality), height);
 		
 		int maxPixelWidth = width / 100 * maxQuality;
 		if(maxQuality < 0){
@@ -151,10 +145,10 @@ class ButtonMasher extends MinigamePanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		updateTime();
-		BufferedImage bImg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+		BufferedImage bImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics bGraphics = bImg.createGraphics();
 		bGraphics.setColor(new Color(15, 15, 15));
-		bGraphics.fillRect(0, 0, this.getWidth(), this.getHeight());
+		bGraphics.fillRect(0, 0, width, height);
 
 		for (int i = 0; i < numberOfButtons; ++i) {
 			ArrayList<MyPoint> temp = buttons[i].getPoints();
@@ -248,5 +242,17 @@ class ButtonMasher extends MinigamePanel {
 		public ArrayList<MyPoint> getPoints() {
 			return points;
 		}
+	}
+
+	@Override
+	public void holdKey(char c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void releaseKey(char c) {
+		// TODO Auto-generated method stub
+		
 	}
 }

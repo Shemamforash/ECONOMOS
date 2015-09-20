@@ -33,7 +33,8 @@ public class MinigameController extends JPanel {
 		craftingButton = new GUIElements.MyButton("Start Crafting", true);
 		craftingButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				switchPanel("Smith");
+//				switchPanel("Smith");
+				switchPanel("Embroider");
 			}
 		});
 		this.add(craftingButton, "Button");

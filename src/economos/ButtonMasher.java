@@ -145,7 +145,7 @@ class ButtonMasher extends MinigamePanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		updateTime();
-		BufferedImage bImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		BufferedImage bImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics bGraphics = bImg.createGraphics();
 		bGraphics.setColor(new Color(15, 15, 15));
 		bGraphics.fillRect(0, 0, width, height);
@@ -156,8 +156,11 @@ class ButtonMasher extends MinigamePanel {
 				if (buttons[i].dissolve && !p.finished()) {
 					p.movePoint();
 				}
-				bGraphics.setColor(p.color());
-				bGraphics.drawLine(p.x(), p.y(), p.x(), p.y());
+//				bGraphics.setColor(p.color());
+//				bGraphics.drawLine(p.x(), p.y(), p.x(), p.y());
+				if(p.x() > 0 && p.x() <= width && p.y() > 0 && p.y() <= height){
+					bImg.setRGB(p.x(), p.y(), p.color().getRGB());
+				}
 			}
 		}
 
@@ -169,6 +172,8 @@ class ButtonMasher extends MinigamePanel {
 		private float x, y, xDir, yDir;
 		private Color color;
 		private boolean finished;
+		private float steps = 60;
+		private float rDif, gDif, bDif;
 
 		public MyPoint(float x, float y, float xDir, float yDir, Color color) {
 			this.x = x;
@@ -176,6 +181,9 @@ class ButtonMasher extends MinigamePanel {
 			this.xDir = xDir;
 			this.yDir = yDir;
 			this.color = color;
+			rDif = ((float)color.getRed() - 15) / steps;
+			gDif = ((float)color.getGreen() - 15) / steps;
+			bDif = ((float)color.getBlue() - 15) / steps;
 		}
 
 		public Color color() {
@@ -195,12 +203,22 @@ class ButtonMasher extends MinigamePanel {
 		}
 
 		public void movePoint() {
-			color = new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() - 5);
+			int newRed = (int)(color.getRed() - rDif);
+			int newGreen = (int)(color.getGreen() -gDif);
+			int newBlue = (int)(color.getBlue() - bDif);
+			if(newRed < 0){
+				newRed = 0;
+			} if (newGreen < 0){
+				newGreen = 0;
+			} if (newBlue < 0){
+				newBlue = 0;
+			}
+			color = new Color(newRed, newGreen, newBlue, 255);
 
 			x += xDir;
 			y += yDir;
 
-			if (color.getAlpha() == 0) {
+			if (color.getRed() <= 15) {
 				finished = true;
 			}
 		}

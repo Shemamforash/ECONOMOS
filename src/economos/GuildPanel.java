@@ -35,7 +35,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 		sl_listPanel.putConstraint(SpringLayout.SOUTH, resourceScrollPane, 0, SpringLayout.SOUTH, this);
 		resourceScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		sl_listPanel.putConstraint(SpringLayout.WEST, resourceScrollPane, 84, SpringLayout.WEST, this);
-		sl_listPanel.putConstraint(SpringLayout.EAST, resourceScrollPane, 300, SpringLayout.WEST, this);
+		sl_listPanel.putConstraint(SpringLayout.EAST, resourceScrollPane, 0, SpringLayout.EAST, this);
 		resourceScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
 		resourceScrollPane.setBorder(null);
 		this.add(resourceScrollPane);

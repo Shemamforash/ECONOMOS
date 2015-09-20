@@ -114,10 +114,7 @@ class ButtonMasher extends MinigamePanel {
 		lastTime = System.currentTimeMillis();
 	}
 
-	private void drawProgressBar(Graphics bGraphics) {
-		bGraphics.setColor(new Color(25, 25, 25));
-		bGraphics.fillRect(0, height - 10, width / 100 * maxQuality, height);
-		
+	private void drawProgressBar(Graphics bGraphics) {		
 		int maxPixelWidth = width / 100 * maxQuality;
 		if(maxQuality < 0){
 			maxQuality = 0;

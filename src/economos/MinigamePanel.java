@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -12,11 +13,13 @@ public abstract class MinigamePanel extends JPanel {
 	protected char[] alphabet = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
 			'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 	protected int height, width;
+	protected Random rand;
 	
 	public MinigamePanel(MinigameController minigameController) {
 		this.minigameController = minigameController;
 		height = minigameController.height();
 		width = minigameController.width();
+		rand = new Random();
 		this.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent arg0) {
 				requestFocus();

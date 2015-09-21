@@ -98,28 +98,18 @@ public class GraphPanel extends JPanel {
 				((Graphics2D) bGraphics).setStroke(new BasicStroke(2));
 				curY = (int) (pricePerPixel * (marketHistory.get(i).getPrice() - min));
 				lastY = (int) (pricePerPixel * (marketHistory.get(i - 1).getPrice() - min));
-				bGraphics.setColor(new Color(255, 150 - i / 5, 0, 50));
+				int greenVal = (int) (150f / marketHistory.size() * i);
+				bGraphics.setColor(new Color(255, 150 - greenVal, 0, 50));
 				bGraphics.drawLine(curX, this.getHeight() - curY, curX, this.getHeight());
-				bGraphics.setColor(new Color(255, 150 - i / 5, 0));
+				bGraphics.setColor(new Color(255, 150 - greenVal, 0));
 			} else if (color == 2) {
 				((Graphics2D) bGraphics).setStroke(new BasicStroke(1));
-				bGraphics.setColor(new Color(200 - i / 5, 200 - i / 5, 255));// ,
-																				// 255
-																				// -
-																				// (672
-																				// -
-																				// i)
-																				// /
-																				// 3));
+				bGraphics.setColor(new Color(200 - i / 5, 200 - i / 5, 255));
 				curY = (int) (pricePerPixel * (marketHistory.get(i).getSupply() - min));
 				lastY = (int) (pricePerPixel * (marketHistory.get(i - 1).getSupply() - min));
 			} else {
 				((Graphics2D) bGraphics).setStroke(new BasicStroke(1));
-				bGraphics.setColor(new Color(100, 255, 255 - i / 5));// , 255 -
-																		// (672
-																		// - i)
-																		// /
-																		// 3));
+				bGraphics.setColor(new Color(100, 255, 255 - i / 5));
 				curY = (int) (pricePerPixel * (marketHistory.get(i).getDemand() - min));
 				lastY = (int) (pricePerPixel * (marketHistory.get(i - 1).getDemand() - min));
 			}

@@ -91,7 +91,7 @@ public class EconomosGUI {
 	public EconomosGUI() {
 		load();
 		initialize();
-		int aiCount = 20;
+		int aiCount = 10;
 		Timer t = new Timer();
 		t.schedule(new AIExecutor(aiCount), 0, 1000 / aiCount);
 		t.schedule(new UpdateGUI(), 0, 17);

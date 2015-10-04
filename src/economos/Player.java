@@ -7,24 +7,24 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Player extends User{
-	private ArrayList<PlayerResource> userResources = new ArrayList<PlayerResource>();
-	public ResourceMap<PlayerResource> resourceMap = new ResourceMap<PlayerResource>("Player");
+	private ArrayList<MerchantResource> userResources = new ArrayList<MerchantResource>();
+	public ResourceMap<MerchantResource> resourceMap = new ResourceMap<MerchantResource>("Player");
 	
 	public Player(String name, String company){
 		super(name, company);
 		loadUserResources();
 	}
 	
-	public ResourceMap<PlayerResource> getPlayerResourceMap() {
+	public ResourceMap<MerchantResource> getPlayerResourceMap() {
 		return resourceMap;
 	}
 	
 	public void loadUserResources(){
-		ArrayList<ResourceType<PlayerResource>> rMap = new ArrayList<ResourceType<PlayerResource>>(resourceMap.getResourceTypes().values());
-		for(ResourceType<PlayerResource> rType : rMap){
-			ArrayList<PlayerResource> resources = new ArrayList<PlayerResource>(rType.getResourcesInType());
+		ArrayList<ResourceType<MerchantResource>> rMap = new ArrayList<ResourceType<MerchantResource>>(resourceMap.getResourceTypes().values());
+		for(ResourceType<MerchantResource> rType : rMap){
+			ArrayList<MerchantResource> resources = new ArrayList<MerchantResource>(rType.getResourcesInType());
 			for(int i = 0; i < resources.size(); ++i){
-				userResources.add((PlayerResource)resources.get(i));
+				userResources.add((MerchantResource)resources.get(i));
 			}
 		}
 	}

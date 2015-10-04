@@ -1,24 +1,59 @@
 package economos;
 
-public class CraftingResource extends PlayerResource {
-	private RequisiteResource[] requisiteResources;
-	private int value, timetocraft;
+public class CraftingResource extends UserResource {
+	private RequisiteResource[]	requisiteResources;
+	private int					value, timetocraft, cost;
 
-	public CraftingResource(String name, String description, String type, String rarity, PlayerResource[] prerequisites,
-			int[] quantities) {
+	public CraftingResource(String name, String description, String type, String rarity, UserResource[] prerequisites, int cost, int[] quantities) {
 		super(name, description, type, rarity);
+		this.cost = cost;
 		requisiteResources = new RequisiteResource[prerequisites.length];
 		for (int i = 0; i < prerequisites.length; ++i) {
 			requisiteResources[i] = new RequisiteResource(prerequisites[i], quantities[i]);
 		}
 	}
 
-	public class RequisiteResource {
-		private PlayerResource resource;
-		private int quantity;
-		private boolean hasMetRequirements;
+	private boolean hasResources() {
+		for (RequisiteResource r : requisiteResources) {
+			if (!r.metRequirements()) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-		public RequisiteResource(PlayerResource resource, int quantity) {
+	public boolean canCraft(Player p) {
+		if (hasResources()) {
+			if (p.getMoney() >= cost) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void craft(Player p) {
+		for (RequisiteResource r : requisiteResources) {
+			r.reduceResource();
+		}
+		updateQuantity(1, 0);
+		p.updateMoney(-cost);
+	}
+
+	public void sell(Player p) {
+		updateQuantity(-1, 0);
+		p.updateMoney(value);
+	}
+
+	public class RequisiteResource {
+		private UserResource	resource;
+		private int				quantity;
+		private boolean			hasMetRequirements;
+
+		public void reduceResource() {
+			resource.updateQuantity(quantity, 0);
+		}
+
+		public RequisiteResource(UserResource resource, int quantity) {
 			this.resource = resource;
 			this.quantity = quantity;
 		}

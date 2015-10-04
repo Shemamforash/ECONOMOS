@@ -7,11 +7,11 @@ import java.util.*;
 import javax.swing.*;
 
 public class GraphPanel extends JPanel {
-	private NumberFormat d = NumberFormat.getIntegerInstance();
-	private ArrayList<MarketResource.MarketSnapshot> marketHistory;
-	private Graphics bGraphics;
-	private MarketResource marketResource;
-	private int offset = 0, accumulator = 0;
+	private NumberFormat								d	= NumberFormat.getIntegerInstance();
+	private ArrayList<MarketResource.MarketSnapshot>	marketHistory;
+	private Graphics									bGraphics;
+	private MarketResource								marketResource;
+	private int											offset	= 0, accumulator = 0;
 
 	public GraphPanel() {
 		setBackground(new Color(20, 20, 20));
@@ -48,7 +48,7 @@ public class GraphPanel extends JPanel {
 
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		((Graphics2D) g).setRenderingHints(rh);
-		UserResource userR = EconomosGUI.getCurrentResource();
+		MerchantResource userR = EconomosGUI.getCurrentResource();
 
 		if (userR != null) {
 			marketResource = userR.getMarketResource();
@@ -56,10 +56,8 @@ public class GraphPanel extends JPanel {
 			BufferedImage bImg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 			bGraphics = bImg.createGraphics();
 			drawGrid();
-			float pricePerPixel = (float) this.getHeight()
-					/ (marketResource.getMaxPrice() - marketResource.getMinPrice());
-			((Graphics2D) bGraphics).setRenderingHints(
-					new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
+			float pricePerPixel = (float) this.getHeight() / (marketResource.getMaxPrice() - marketResource.getMinPrice());
+			((Graphics2D) bGraphics).setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
 
 			plotLine(pricePerPixel, 1, marketResource.getMinPrice());
 
@@ -75,9 +73,7 @@ public class GraphPanel extends JPanel {
 			bGraphics.setFont(new Font("Verdana", Font.BOLD, 14));
 			bGraphics.drawString("LOW: " + d.format(marketResource.getMinPrice()) + "C", 5, this.getHeight() - 10);
 			bGraphics.drawString("HIGH: " + d.format(marketResource.getMaxPrice()) + "C", 5, 20);
-			bGraphics.drawString(
-					"MID: " + d.format((marketResource.getMinPrice() + marketResource.getMaxPrice()) / 2) + "C", 5,
-					this.getHeight() / 2);
+			bGraphics.drawString("MID: " + d.format((marketResource.getMinPrice() + marketResource.getMaxPrice()) / 2) + "C", 5, this.getHeight() / 2);
 
 			g.drawImage(bImg, 0, 0, null);
 		} else {
@@ -93,23 +89,23 @@ public class GraphPanel extends JPanel {
 			int curY, lastY;
 			int curX = this.getWidth() - i;
 			int lastX = this.getWidth() - (i - 1);
-
+			int adjustedColorVal = (int)(150f / getWidth() * i);
+			
 			if (color == 1) {
 				((Graphics2D) bGraphics).setStroke(new BasicStroke(2));
 				curY = (int) (pricePerPixel * (marketHistory.get(i).getPrice() - min));
 				lastY = (int) (pricePerPixel * (marketHistory.get(i - 1).getPrice() - min));
-				int greenVal = (int) (150f / marketHistory.size() * i);
-				bGraphics.setColor(new Color(255, 150 - greenVal, 0, 50));
+				bGraphics.setColor(new Color(255, 150 - adjustedColorVal, 0, 50));
 				bGraphics.drawLine(curX, this.getHeight() - curY, curX, this.getHeight());
-				bGraphics.setColor(new Color(255, 150 - greenVal, 0));
+				bGraphics.setColor(new Color(255, 150 - adjustedColorVal, 0));
 			} else if (color == 2) {
 				((Graphics2D) bGraphics).setStroke(new BasicStroke(1));
-				bGraphics.setColor(new Color(200 - i / 5, 200 - i / 5, 255));
+				bGraphics.setColor(new Color(200 - adjustedColorVal, 200 - adjustedColorVal, 255));
 				curY = (int) (pricePerPixel * (marketHistory.get(i).getSupply() - min));
 				lastY = (int) (pricePerPixel * (marketHistory.get(i - 1).getSupply() - min));
 			} else {
 				((Graphics2D) bGraphics).setStroke(new BasicStroke(1));
-				bGraphics.setColor(new Color(100, 255, 255 - i / 5));
+				bGraphics.setColor(new Color(100, 255, 255 - adjustedColorVal));
 				curY = (int) (pricePerPixel * (marketHistory.get(i).getDemand() - min));
 				lastY = (int) (pricePerPixel * (marketHistory.get(i - 1).getDemand() - min));
 			}

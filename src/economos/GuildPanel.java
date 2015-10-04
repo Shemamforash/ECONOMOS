@@ -61,7 +61,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 			gc.ipady = 10;
 			gc.fill = GridBagConstraints.HORIZONTAL;
 			gc.weightx = 1;
-			ArrayList<PlayerResource> arr = new ArrayList<PlayerResource>(
+			ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(
 					main.getCurrentPlayer().getPlayerResourceMap().getResourceTypes().get(guildName).getResourcesInType());
 			String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
 			int ctr = 0;

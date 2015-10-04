@@ -48,15 +48,12 @@ public class DataParser {
 			Resource r = null;
 			RawResourceData rawDatum = rawResourceData.get(i);
 			
-			if(owner.equals("Player")){
-				r = new PlayerResource(rawDatum.name(), rawDatum.description(), rawDatum.type(), rawDatum.rarity()); 
+			if(owner.equals("Player") || owner.equals("AI")){
+				r = new MerchantResource(rawDatum.name(), rawDatum.description(), rawDatum.type(), rawDatum.rarity()); 
 			} else if(owner.equals("Market")){
 				r = new MarketResource(rawDatum.name(), rawDatum.description(), rawDatum.type(), rawDatum.rarity(), 0);
 				allMarketResources.add((MarketResource)r);
-			} else if(owner.equals("AI")){
-				r = new AIResource(rawDatum.name(), rawDatum.description(), rawDatum.type(), rawDatum.rarity());
-			}
-			if(r != null){
+			} if(r != null){
 				arr.add(r);
 			}	
 		}

@@ -4,8 +4,8 @@ import java.util.*;
 
 public class AI extends User {
 	private float aggressiveness, focus, intelligence, wariness, personalityTotal;
-	public ResourceMap<AIResource> aiMap = new ResourceMap<AIResource>("AI");
-	private ArrayList<AIResource> aiResources = new ArrayList<AIResource>();
+	public ResourceMap<MerchantResource> aiMap = new ResourceMap<MerchantResource>("AI");
+	private ArrayList<MerchantResource> aiResources = new ArrayList<MerchantResource>();
 	private Random rnd = new Random();
 
 	public AI(String name, String company) {
@@ -46,7 +46,7 @@ public class AI extends User {
 	}
 
 	public void tick() {
-		for (AIResource r : aiResources) {
+		for (MerchantResource r : aiResources) {
 			MarketResource mr = r.getMarketResource();
 			float predictedProfit = r.getPredictedProfit(-1, mr.getSellPrice(1));
 			float percentageProfit = predictedProfit / r.getAverageProfit();
@@ -72,7 +72,7 @@ public class AI extends User {
 		return false;
 	}
 
-	public int priceIncreasing(AIResource ar, float percentageProfit, float trend) {
+	public int priceIncreasing(MerchantResource ar, float percentageProfit, float trend) {
 		if (percentageProfit > 0) {
 			if (percentageProfit * percentageProfit * 4 > aggressiveness) {
 				if (trend < wariness || testIntelligence()) {
@@ -101,12 +101,12 @@ public class AI extends User {
 		return 0;
 	}
 
-	public void sell(AIResource r) {
+	public void sell(MerchantResource r) {
 		MarketController.sellResource(r.getQuantity(), r, this);
 		money = 10000;
 	}
 
-	public void buy(AIResource r, float trend) {
+	public void buy(MerchantResource r, float trend) {
 		float amountToSpend = rnd.nextFloat() * (1 - intelligence) * (1 - wariness) * 0.3f;
 		int quantity = (int) Math.ceil((amountToSpend * getMoney()) / r.getMarketResource().getBuyPrice(1));
 		if (quantity > 0) {

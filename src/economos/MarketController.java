@@ -11,7 +11,7 @@ public class MarketController {
 		return marketResources;
 	}
 
-	public static synchronized String buyResource(int quantity, UserResource r, User u) {
+	public static synchronized String buyResource(int quantity, MerchantResource r, User u) {
 		r.getMarketResource().updateDesiredThisTick(quantity);
 		if (r.getMarketResource().getQuantity() > 0 && quantity > r.getMarketResource().getQuantity()) {
 			quantity = r.getMarketResource().getQuantity();
@@ -35,7 +35,7 @@ public class MarketController {
 		return graphWidth;
 	}
 
-	public static synchronized String sellResource(int quantity, UserResource r, User u) {
+	public static synchronized String sellResource(int quantity, MerchantResource r, User u) {
 		if (r.getQuantity() >= quantity) {
 			float price = r.getMarketResource().getSellPrice(quantity);
 			if (price > 0) {

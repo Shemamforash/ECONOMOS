@@ -23,10 +23,10 @@ public class EconomosGUI {
 	private GUIElements.MyPanel resourceList;
 	private GUIElements.MyButton sellButton = new GUIElements.MyButton("Sell", true);
 	private GUIElements.MyButton buyButton = new GUIElements.MyButton("Buy", true);
-	private static PlayerResource currentResource = null;
+	private static MerchantResource currentResource = null;
 	private NumberFormat decimalFormatter = NumberFormat.getIntegerInstance();
 	private GraphPanel buyGraph = new GraphPanel();
-	public static int timeStep = 17;
+	public static int timeStep = 9;
 	private JButton selectedGuild, selectedResource;
 	private GUIElements.MyPanel merchantsPanel, gamePanel, craftersPanel, overviewPanel, infoPanel, currentPanel;
 	private MinigameController minigameController;
@@ -118,7 +118,7 @@ public class EconomosGUI {
 	}
 
 	public void setSelectedResource(String type, String name) {
-		ResourceMap<PlayerResource> m = currentPlayer.getPlayerResourceMap();
+		ResourceMap<MerchantResource> m = currentPlayer.getPlayerResourceMap();
 		currentResource = m.getResource(type, name);
 
 		if (currentResource != null) {
@@ -188,7 +188,7 @@ public class EconomosGUI {
 		}
 	}
 
-	public static UserResource getCurrentResource() {
+	public static MerchantResource getCurrentResource() {
 		return currentResource;
 	}
 
@@ -216,7 +216,7 @@ public class EconomosGUI {
 	public void updateMyList(String type) {
 		if (currentPlayer.getPlayerResourceMap().getResourceTypes().containsKey(type)) {
 			resourceList.removeAll();
-			ArrayList<PlayerResource> arr = new ArrayList<PlayerResource>(
+			ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(
 					currentPlayer.getPlayerResourceMap().getResourceTypes().get(type).getResourcesInType());
 			String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
 			int ctr = 0;

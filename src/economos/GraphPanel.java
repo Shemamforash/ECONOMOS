@@ -14,7 +14,7 @@ public class GraphPanel extends JPanel {
 	private int											offset	= 0, accumulator = 0;
 
 	public GraphPanel() {
-		setBackground(new Color(20, 20, 20));
+		setBackground(new Color(30, 30, 30));
 		d.setMaximumFractionDigits(2);
 	}
 
@@ -32,7 +32,7 @@ public class GraphPanel extends JPanel {
 				}
 			}
 		}
-		bGraphics.setColor(new Color(35, 35, 35));
+		bGraphics.setColor(new Color(30, 30, 30));
 		for (int i = offset; i < this.getWidth(); i += width) {
 			bGraphics.drawLine(i, 0, i, this.getHeight());
 		}

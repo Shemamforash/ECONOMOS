@@ -66,14 +66,24 @@ public class GUIElements {
 
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
+			
 			if (getModel().isPressed() || selected) {
+				setForeground(pressedColor);
 				g.setColor(pressedColor);
+				g.fillRect(getWidth() - 4, 0, 4, getHeight());
+				g.fillRect(0, 0, 4, getHeight());
 			} else if (getModel().isRollover()) {
+				setForeground(Color.white);
 				g.setColor(hoverColor);
+				g.fillRect(0, 0, getWidth(), getHeight());
 			} else {
+				setForeground(Color.white);
 				g.setColor(unpressedColor);
+				g.fillRect(0, 0, getWidth(), getHeight());
 			}
-			g.fillRect(0, 0, getWidth(), getHeight());
+			g.setColor(new Color(30, 30, 30));
+			g.drawLine(5, 0, getWidth() - 10, 0);
+			g.drawLine(5, getHeight(), getWidth() - 10, getHeight());
 			super.paintComponent(g);
 		}
 

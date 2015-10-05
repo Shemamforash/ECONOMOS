@@ -36,7 +36,7 @@ public class AI extends User {
 		}
 		getResources();
 		Timer t = new Timer();
-		t.schedule(new AITimer(this), 0, 2);// EconomosGUI.timeStep);
+		t.schedule(new AITimer(this), 0, EconomosGUI.timeStep);
 	}
 
 	public void tick() {

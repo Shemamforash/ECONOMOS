@@ -2,23 +2,33 @@ package economos;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class GuildPanel extends GUIElements.MyPanel {
-	private MyGuildButton[] buttons = new MyGuildButton[8];
-	private GUIElements.MyPanel resourceList = new GUIElements.MyPanel(false);
-	private EconomosGUI main;
+import economos.GUIElements.MyPanel;
 
-	public GuildPanel(String[] guildNames, EconomosGUI main) {
+public class GuildPanel extends GUIElements.MyPanel {
+	private MyGuildButton[]		buttons			= new MyGuildButton[8];
+	private GUIElements.MyPanel	resourceList	= new GUIElements.MyPanel(false);
+	private EconomosGUI			main;
+	private int height, width;
+
+	public GuildPanel(String[] guildNames, EconomosGUI main, int height, int width) {
 		super(true);
 		this.main = main;
+		this.height = height;
+		this.width = width;
 		setup(guildNames);
 	}
 
 	public void setup(String[] guildNames) {
 		GUIElements.MyPanel guildButtonPanel = new GUIElements.MyPanel(true);
-		guildButtonPanel.setLayout(new GridLayout(8, 1, 6, 0));
+		guildButtonPanel.setLayout(new GridLayout(1, 8));
 
 		for (int i = 0; i < buttons.length; ++i) {
 			buttons[i] = new MyGuildButton(guildNames[i]);
@@ -31,23 +41,22 @@ public class GuildPanel extends GUIElements.MyPanel {
 		this.setLayout(sl_listPanel);
 
 		JScrollPane resourceScrollPane = new JScrollPane();
-		sl_listPanel.putConstraint(SpringLayout.NORTH, resourceScrollPane, 0, SpringLayout.NORTH, this);
+		sl_listPanel.putConstraint(SpringLayout.NORTH, resourceScrollPane, 0, SpringLayout.SOUTH, guildButtonPanel);
 		sl_listPanel.putConstraint(SpringLayout.SOUTH, resourceScrollPane, 0, SpringLayout.SOUTH, this);
 		resourceScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		sl_listPanel.putConstraint(SpringLayout.WEST, resourceScrollPane, 84, SpringLayout.WEST, this);
+		sl_listPanel.putConstraint(SpringLayout.WEST, resourceScrollPane, 0, SpringLayout.WEST, this);
 		sl_listPanel.putConstraint(SpringLayout.EAST, resourceScrollPane, 0, SpringLayout.EAST, this);
-		resourceScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
+		resourceScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
 		resourceScrollPane.setBorder(null);
 		this.add(resourceScrollPane);
 
 		sl_listPanel.putConstraint(SpringLayout.NORTH, guildButtonPanel, 0, SpringLayout.NORTH, this);
 		sl_listPanel.putConstraint(SpringLayout.WEST, guildButtonPanel, 0, SpringLayout.WEST, this);
-		sl_listPanel.putConstraint(SpringLayout.SOUTH, guildButtonPanel, 0, SpringLayout.SOUTH, this);
-		sl_listPanel.putConstraint(SpringLayout.EAST, guildButtonPanel, -6, SpringLayout.WEST, resourceScrollPane);
+		sl_listPanel.putConstraint(SpringLayout.SOUTH, guildButtonPanel, width / 8, SpringLayout.NORTH, this);
+		sl_listPanel.putConstraint(SpringLayout.EAST, guildButtonPanel, 0, SpringLayout.EAST, this);
 
 		this.add(guildButtonPanel);
 
-		resourceList = new GUIElements.MyPanel(false);
 		resourceScrollPane.setViewportView(resourceList);
 		resourceList.setLayout(new GridBagLayout());
 	}
@@ -58,11 +67,10 @@ public class GuildPanel extends GUIElements.MyPanel {
 			GridBagConstraints gc = new GridBagConstraints();
 			gc.gridx = 0;
 			gc.gridy = 0;
-			gc.ipady = 10;
+			gc.ipady = (height - width / 8) / 30 - 11;
 			gc.fill = GridBagConstraints.HORIZONTAL;
 			gc.weightx = 1;
-			ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(
-					main.getCurrentPlayer().getPlayerResourceMap().getResourceTypes().get(guildName).getResourcesInType());
+			ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(main.getCurrentPlayer().getPlayerResourceMap().getResourceTypes().get(guildName).getResourcesInType());
 			String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
 			int ctr = 0;
 			boolean setDarker = false;
@@ -85,7 +93,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 	}
 
 	private class ResourceButton extends GUIElements.MyButton {
-		private ResourceButton thisButton;
+		private ResourceButton	thisButton;
 
 		public ResourceButton(String text, boolean enabled, boolean darker) {
 			super(text, enabled, new Color(30, 30, 30), new Color(25, 25, 25));
@@ -106,10 +114,19 @@ public class GuildPanel extends GUIElements.MyPanel {
 	}
 
 	private class MyGuildButton extends GUIElements.MyButton {
-		public MyGuildButton thisButton;
+		public MyGuildButton	thisButton;
+		private BufferedImage	iconImage	= null;
 
 		public MyGuildButton(String text) {
 			super(text, true);
+			if (text.equals("Spicer")) {
+				try {
+					iconImage = ImageIO.read(new File("Spicer PNG.png"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				;
+			}
 			thisButton = this;
 			this.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -121,6 +138,13 @@ public class GuildPanel extends GUIElements.MyPanel {
 					updateMyList(thisButton.getText());
 				}
 			});
+		}
+
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			if (iconImage != null) {
+				g.drawImage(iconImage, 0, 0, this.getWidth(), this.getHeight(), null);
+			}
 		}
 	}
 }

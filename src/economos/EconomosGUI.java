@@ -351,7 +351,7 @@ public class EconomosGUI {
 
 		craftersPanel = new GUIElements.MyPanel(true);
 		GuildPanel guildPanelCrafters = new GuildPanel(new String[] { "Apothecary", "Embroider", "Artificer",
-				"Philosopher", "Smith", "Voyager", "Sage", "Chef" }, this);
+				"Philosopher", "Smith", "Voyager", "Sage", "Chef" }, this, screenHeight - 50, screenWidth / 4);
 		craftersPanel.add(guildPanelCrafters);
 		springLayout.putConstraint(SpringLayout.NORTH, craftersPanel, 5, SpringLayout.NORTH, gamePanel);
 		springLayout.putConstraint(SpringLayout.WEST, craftersPanel, 15, SpringLayout.WEST, gamePanel);
@@ -385,7 +385,7 @@ public class EconomosGUI {
 
 		GuildPanel guildPanelMerchants = new GuildPanel(
 				new String[] { "Weaver", "Spicer", "Temperer", "Mercer", "Purifier", "Smelter", "Mason", "Crofter" },
-				this);
+				this, screenHeight - 50, screenWidth / 4);
 		sl_marketPanel.putConstraint(SpringLayout.NORTH, guildPanelMerchants, 10, SpringLayout.NORTH, merchantsPanel);
 		sl_marketPanel.putConstraint(SpringLayout.WEST, guildPanelMerchants, 10, SpringLayout.WEST, merchantsPanel);
 		sl_marketPanel.putConstraint(SpringLayout.SOUTH, guildPanelMerchants, -40, SpringLayout.SOUTH, merchantsPanel);

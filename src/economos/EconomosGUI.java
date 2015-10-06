@@ -27,18 +27,17 @@ public class EconomosGUI {
 	private NumberFormat decimalFormatter = NumberFormat.getIntegerInstance();
 	private GraphPanel buyGraph = new GraphPanel();
 	public static int timeStep = 9;
-	private JButton selectedGuild;
-	private String selectedResource;
+	private String selectedResource, selectedGuild;
 	private GUIElements.MyPanel merchantsPanel, gamePanel, craftersPanel, overviewPanel, infoPanel, currentPanel;
 	private MinigameController minigameController;
 	private boolean fieldsReset = false;
 	private int screenWidth, screenHeight;
 
-	public void setSelectedGuild(JButton selectedGuild) {
+	public void setSelectedGuild(String selectedGuild) {
 		this.selectedGuild = selectedGuild;
 	}
 
-	public JButton getSelectedGuild() {
+	public String getSelectedGuild() {
 		return selectedGuild;
 	}
 
@@ -112,7 +111,7 @@ public class EconomosGUI {
 	class UpdateGUI extends TimerTask {
 		public void run() {
 			if (selectedGuild != null && selectedResource != null) {
-				setSelectedResource(selectedGuild.getText(), selectedResource);
+				setSelectedResource(selectedGuild, selectedResource);
 			}
 			minigameController.repaint();
 		}
@@ -400,24 +399,24 @@ public class EconomosGUI {
 		sl_marketPanel.putConstraint(SpringLayout.SOUTH, bodyPanel, -40, SpringLayout.SOUTH, merchantsPanel);
 		sl_marketPanel.putConstraint(SpringLayout.EAST, bodyPanel, -10, SpringLayout.EAST, merchantsPanel);
 		
-		class MyGuildButton extends GUIElements.MyButton {
-			public MyGuildButton thisButton;
-
-			public MyGuildButton(String text) {
-				super(text, true);
-				thisButton = this;
-				this.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						if (selectedGuild != null) {
-							selectedGuild.setSelected(false);
-						}
-						selectedGuild = thisButton;
-						selectedGuild.setSelected(true);
-//						updateMyList(selectedGuild.getText());
-					}
-				});
-			}
-		}
+//		class MyGuildButton extends GUIElements.MyButton {
+//			public MyGuildButton thisButton;
+//
+//			public MyGuildButton(String text) {
+//				super(text, true);
+//				thisButton = this;
+//				this.addActionListener(new ActionListener() {
+//					public void actionPerformed(ActionEvent arg0) {
+//						if (selectedGuild != null) {
+//							selectedGuild.setSelected(false);
+//						}
+//						selectedGuild = thisButton;
+//						selectedGuild.setSelected(true);
+////						updateMyList(selectedGuild.getText());
+//					}
+//				});
+//			}
+//		}
 
 		merchantsPanel.add(bodyPanel);
 		SpringLayout sl_bodyPanel = new SpringLayout();

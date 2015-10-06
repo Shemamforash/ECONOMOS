@@ -80,7 +80,7 @@ public class GUIElements {
 				g.setColor(unpressedColor);
 				g.fillRect(0, 0, getWidth(), getHeight());
 			}
-			g.setColor(new Color(30, 30, 30));
+			g.setColor(new Color(40, 40, 40));
 			g.drawLine(5, 0, getWidth() - 10, 0);
 			g.drawLine(5, getHeight(), getWidth() - 10, getHeight());
 			super.paintComponent(g);

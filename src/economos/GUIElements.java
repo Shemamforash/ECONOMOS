@@ -71,7 +71,6 @@ public class GUIElements {
 				setForeground(pressedColor);
 				g.setColor(pressedColor);
 				g.fillRect(getWidth() - 4, 0, 4, getHeight());
-				g.fillRect(0, 0, 4, getHeight());
 			} else if (getModel().isRollover()) {
 				setForeground(Color.white);
 				g.setColor(hoverColor);

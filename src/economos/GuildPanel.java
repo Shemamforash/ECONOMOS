@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -67,7 +68,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 			GridBagConstraints gc = new GridBagConstraints();
 			gc.gridx = 0;
 			gc.gridy = 0;
-			gc.ipady = (height - width / 8) / 30 - 11;
+			gc.ipady = height / 30;
 			gc.fill = GridBagConstraints.HORIZONTAL;
 			gc.weightx = 1;
 			ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(main.getCurrentPlayer().getPlayerResourceMap().getResourceTypes().get(guildName).getResourcesInType());
@@ -94,9 +95,11 @@ public class GuildPanel extends GUIElements.MyPanel {
 
 	private class ResourceButton extends GUIElements.MyButton {
 		private ResourceButton	thisButton;
+		private String resourceName;
 
 		public ResourceButton(String text, boolean enabled, boolean darker) {
-			super(text, enabled, new Color(30, 30, 30), new Color(25, 25, 25));
+			super("", enabled, new Color(30, 30, 30), new Color(25, 25, 25));
+			resourceName = text;
 			if (!enabled) {
 				setForeground(Color.white);
 			}
@@ -106,10 +109,29 @@ public class GuildPanel extends GUIElements.MyPanel {
 					if (main.getSelectedResource() != null) {
 						main.getSelectedResource().setSelected(false);
 					}
-					main.setSelectedResource(thisButton);
+					main.setSelectedResource(resourceName);
 					main.getSelectedResource().setSelected(true);
 				}
 			});
+		}
+		
+		public void paintComponent(Graphics g){
+			super.paintComponent(g);
+			
+			g.setFont(thisButton.getFont().deriveFont(14f));
+			g.setColor(Color.white);
+			g.drawString(resourceName, 10, getHeight() / 2 + 7);
+			
+			MarketResource r = MarketController.getMarketResources().getResource(main.getSelectedGuild().getText(), resourceName);
+			if(r != null){			
+				g.setFont(thisButton.getFont().deriveFont(12f));
+				g.setColor(new Color(200, 200, 200));
+				BigDecimal price = new BigDecimal(r.getAveragePrice());
+				BigDecimal roundedPrice = price.setScale(2, BigDecimal.ROUND_HALF_UP);
+				String str = "C" + roundedPrice + " (D" + r.getDemand() + "/ S" + r.getSupply() + ")";
+				int stringLength = (int) g.getFontMetrics().getStringBounds(str, g).getWidth();
+				g.drawString(str, getWidth() - (stringLength + 10), getHeight() / 2 + 6);
+			}
 		}
 	}
 

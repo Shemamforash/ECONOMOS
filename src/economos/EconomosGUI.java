@@ -27,7 +27,8 @@ public class EconomosGUI {
 	private NumberFormat decimalFormatter = NumberFormat.getIntegerInstance();
 	private GraphPanel buyGraph = new GraphPanel();
 	public static int timeStep = 9;
-	private JButton selectedGuild, selectedResource;
+	private JButton selectedGuild;
+	private String selectedResource;
 	private GUIElements.MyPanel merchantsPanel, gamePanel, craftersPanel, overviewPanel, infoPanel, currentPanel;
 	private MinigameController minigameController;
 	private boolean fieldsReset = false;
@@ -41,11 +42,11 @@ public class EconomosGUI {
 		return selectedGuild;
 	}
 
-	public void setSelectedResource(JButton selectedResource) {
+	public void setSelectedResource(String selectedResource) {
 		this.selectedResource = selectedResource;
 	}
 
-	public JButton getSelectedResource() {
+	public String getSelectedResource() {
 		return selectedResource;
 	}
 
@@ -111,7 +112,7 @@ public class EconomosGUI {
 	class UpdateGUI extends TimerTask {
 		public void run() {
 			if (selectedGuild != null && selectedResource != null) {
-				setSelectedResource(selectedGuild.getText(), selectedResource.getText());
+				setSelectedResource(selectedGuild.getText(), selectedResource);
 			}
 			minigameController.repaint();
 		}
@@ -192,50 +193,50 @@ public class EconomosGUI {
 		return currentResource;
 	}
 
-	private class ResourceButton extends GUIElements.MyButton {
-		private ResourceButton thisButton;
+//	private class ResourceButton extends GUIElements.MyButton {
+//		private ResourceButton thisButton;
+//
+//		public ResourceButton(String text, boolean enabled, boolean darker) {
+//			super(text, enabled, new Color(30, 30, 30), new Color(25, 25, 25));
+//			if (!enabled) {
+//				setForeground(Color.white);
+//			}
+//			thisButton = this;
+//			this.addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent arg0) {
+//					if (selectedResource != null) {
+//						selectedResource.setSelected(false);
+//					}
+//					selectedResource = thisButton;
+//					selectedResource.setSelected(true);
+//				}
+//			});
+//		}
+//	}
 
-		public ResourceButton(String text, boolean enabled, boolean darker) {
-			super(text, enabled, new Color(30, 30, 30), new Color(25, 25, 25));
-			if (!enabled) {
-				setForeground(Color.white);
-			}
-			thisButton = this;
-			this.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if (selectedResource != null) {
-						selectedResource.setSelected(false);
-					}
-					selectedResource = thisButton;
-					selectedResource.setSelected(true);
-				}
-			});
-		}
-	}
-
-	public void updateMyList(String type) {
-		if (currentPlayer.getPlayerResourceMap().getResourceTypes().containsKey(type)) {
-			resourceList.removeAll();
-			ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(
-					currentPlayer.getPlayerResourceMap().getResourceTypes().get(type).getResourcesInType());
-			String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
-			int ctr = 0;
-			boolean setDarker = false;
-			for (int i = 0; i < arr.size(); ++i) {
-				setDarker = !setDarker;
-				ResourceButton tempButton;
-				if (i % 4 == 0) {
-					tempButton = new ResourceButton(rarities[ctr], false, setDarker);
-					resourceList.add(tempButton);
-					++ctr;
-				}
-				tempButton = new ResourceButton(arr.get(i).getName(), true, setDarker);
-				resourceList.add(tempButton);
-			}
-			resourceList.validate();
-			resourceList.repaint();
-		}
-	}
+//	public void updateMyList(String type) {
+//		if (currentPlayer.getPlayerResourceMap().getResourceTypes().containsKey(type)) {
+//			resourceList.removeAll();
+//			ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(
+//					currentPlayer.getPlayerResourceMap().getResourceTypes().get(type).getResourcesInType());
+//			String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
+//			int ctr = 0;
+//			boolean setDarker = false;
+//			for (int i = 0; i < arr.size(); ++i) {
+//				setDarker = !setDarker;
+//				ResourceButton tempButton;
+//				if (i % 4 == 0) {
+//					tempButton = new ResourceButton(rarities[ctr], false, setDarker);
+//					resourceList.add(tempButton);
+//					++ctr;
+//				}
+//				tempButton = new ResourceButton(arr.get(i).getName(), true, setDarker);
+//				resourceList.add(tempButton);
+//			}
+//			resourceList.validate();
+//			resourceList.repaint();
+//		}
+//	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -412,7 +413,7 @@ public class EconomosGUI {
 						}
 						selectedGuild = thisButton;
 						selectedGuild.setSelected(true);
-						updateMyList(selectedGuild.getText());
+//						updateMyList(selectedGuild.getText());
 					}
 				});
 			}

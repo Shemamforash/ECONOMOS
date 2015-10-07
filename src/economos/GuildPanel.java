@@ -14,11 +14,12 @@ import javax.swing.*;
 import economos.GUIElements.MyPanel;
 
 public class GuildPanel extends GUIElements.MyPanel {
-	private MyGuildButton[]		buttons			= new MyGuildButton[8];
-	private GUIElements.MyPanel	resourceList	= new GUIElements.MyPanel(false);
-	private EconomosGUI			main;
+	private MyGuildButton[] buttons = new MyGuildButton[8];
+	private GUIElements.MyPanel resourceList = new GUIElements.MyPanel(false);
+	private EconomosGUI main;
 	private int height, width;
 	private JButton selectedResourceButton, selectedGuildButton;
+	private JScrollPane resourceScrollPane;
 
 	public GuildPanel(String[] guildNames, EconomosGUI main, int height, int width) {
 		super(true);
@@ -42,8 +43,8 @@ public class GuildPanel extends GUIElements.MyPanel {
 		SpringLayout sl_listPanel = new SpringLayout();
 		this.setLayout(sl_listPanel);
 
-		JScrollPane resourceScrollPane = new JScrollPane();
-		sl_listPanel.putConstraint(SpringLayout.NORTH, resourceScrollPane, 0, SpringLayout.SOUTH, guildButtonPanel);
+		resourceScrollPane = new JScrollPane();
+		sl_listPanel.putConstraint(SpringLayout.NORTH, resourceScrollPane, 10, SpringLayout.SOUTH, guildButtonPanel);
 		sl_listPanel.putConstraint(SpringLayout.SOUTH, resourceScrollPane, 0, SpringLayout.SOUTH, this);
 		resourceScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		sl_listPanel.putConstraint(SpringLayout.WEST, resourceScrollPane, 0, SpringLayout.WEST, this);
@@ -72,7 +73,8 @@ public class GuildPanel extends GUIElements.MyPanel {
 			gc.ipady = height / 30 + 10;
 			gc.fill = GridBagConstraints.HORIZONTAL;
 			gc.weightx = 1;
-			ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(main.getCurrentPlayer().getPlayerResourceMap().getResourceTypes().get(guildName).getResourcesInType());
+			ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(main.getCurrentPlayer()
+					.getPlayerResourceMap().getResourceTypes().get(guildName).getResourcesInType());
 			String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
 			int ctr = 0;
 			boolean setDarker = false;
@@ -94,8 +96,17 @@ public class GuildPanel extends GUIElements.MyPanel {
 		}
 	}
 
+	private void setSelectedResource(ResourceButton b) {
+		if(selectedResourceButton != null){
+			selectedResourceButton.setSelected(false);
+		}
+		main.setSelectedResource(b.getResourceName());
+		selectedResourceButton = b;
+		selectedResourceButton.setSelected(true);
+	}
+
 	private class ResourceButton extends GUIElements.MyButton {
-		private ResourceButton	thisButton;
+		private ResourceButton thisButton;
 		private String resourceName;
 
 		public ResourceButton(String text, boolean enabled, boolean darker) {
@@ -107,22 +118,22 @@ public class GuildPanel extends GUIElements.MyPanel {
 			thisButton = this;
 			this.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					if (main.getSelectedResource() != null) {
-						selectedResourceButton.setSelected(false);
-					}
-					main.setSelectedResource(resourceName);
-					selectedResourceButton = thisButton;
-					selectedResourceButton.setSelected(true);
+					setSelectedResource(thisButton);
 				}
 			});
 		}
-		
-		public void paintComponent(Graphics g){
+
+		public String getResourceName() {
+			return resourceName;
+		}
+
+		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			((Graphics2D)g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-			
+			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+					RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
 			int yOffset;
-			if(!isEnabled()){
+			if (!isEnabled()) {
 				g.setFont(thisButton.getFont().deriveFont(14f));
 				g.setColor(new Color(255, 140, 0));
 				yOffset = 7;
@@ -132,9 +143,9 @@ public class GuildPanel extends GUIElements.MyPanel {
 				yOffset = 6;
 			}
 			g.drawString(resourceName, 10, getHeight() / 2 + yOffset);
-			
+
 			MarketResource r = MarketController.getMarketResources().getResource(main.getSelectedGuild(), resourceName);
-			if(r != null){			
+			if (r != null) {
 				g.setFont(thisButton.getFont().deriveFont(10f));
 				g.setColor(new Color(200, 200, 200));
 				BigDecimal price = new BigDecimal(r.getAveragePrice());
@@ -147,8 +158,8 @@ public class GuildPanel extends GUIElements.MyPanel {
 	}
 
 	private class MyGuildButton extends GUIElements.MyButton {
-		public MyGuildButton	thisButton;
-		private BufferedImage	iconImage	= null;
+		public MyGuildButton thisButton;
+		private BufferedImage iconImage = null;
 
 		public MyGuildButton(String text) {
 			super(text, true);
@@ -163,13 +174,16 @@ public class GuildPanel extends GUIElements.MyPanel {
 			thisButton = this;
 			this.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					if (main.getSelectedGuild() != null) {
+					if (selectedGuildButton != null) {
 						selectedGuildButton.setSelected(false);
+						selectedGuildButton.repaint();
 					}
 					main.setSelectedGuild(thisButton.getText());
-					selectedResourceButton = thisButton;
-					selectedResourceButton.setSelected(true);
+					selectedGuildButton = thisButton;
+					selectedGuildButton.setSelected(true);
 					updateMyList(thisButton.getText());
+					resourceScrollPane.requestFocus();
+					thisButton.repaint();
 				}
 			});
 		}
@@ -177,7 +191,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			if (iconImage != null) {
-				g.drawImage(iconImage, 0, 0, this.getWidth(), this.getHeight(), null);
+				g.drawImage(iconImage, 2, 2, this.getWidth() - 4, this.getHeight() - 4, null);
 			}
 		}
 	}

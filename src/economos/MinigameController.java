@@ -35,7 +35,7 @@ public class MinigameController extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// Check player can craft before switch
 				switchPanel("Smith");
-				// switchPanel("Embroider");
+//				switchPanel("Embroider");
 			}
 		});
 		this.add(craftingButton, "Button");

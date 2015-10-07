@@ -38,7 +38,6 @@ public class GUIElements {
 
 		public void setSelected(boolean selected) {
 			this.selected = selected;
-			repaint();
 		}
 
 		public MyButton(String text, boolean enabled) {
@@ -66,7 +65,6 @@ public class GUIElements {
 
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			
 			if (getModel().isPressed() || selected) {
 				setForeground(pressedColor);
 				g.setColor(pressedColor);
@@ -83,7 +81,6 @@ public class GUIElements {
 			g.setColor(new Color(40, 40, 40));
 			g.drawLine(5, 0, getWidth() - 10, 0);
 			g.drawLine(5, getHeight(), getWidth() - 10, getHeight());
-			super.paintComponent(g);
 		}
 
 		public void setContentAreaFilled(boolean b) {

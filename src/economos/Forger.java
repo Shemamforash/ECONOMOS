@@ -15,15 +15,10 @@ public class Forger extends MinigamePanel {
 	private String currentLetter;
 	private int targetStrikes = 10, numberOfStrikes, quality, maximumQuality = 100;
 	private long timer, timerTarget, lastTime;
-	private ArrayList<FlameSource> flames = new ArrayList<FlameSource>();
 
 	public Forger(MinigameController minigameController) {
 		super(minigameController);
 		numberOfStrikes = targetStrikes;
-		for (int i = 0; i < 10; ++i) {
-			FlameSource fs = new FlameSource(i);
-			flames.add(fs);
-		}
 	}
 
 	public void receiveKey(char c) {
@@ -44,124 +39,6 @@ public class Forger extends MinigamePanel {
 				}
 				striking = false;
 			}
-		}
-	}
-
-	private class FlameSource {
-		private int sourceHeight = 5;
-		private ArrayList<FlamePixel> activeEmbers = new ArrayList<FlamePixel>();
-		private ArrayList<FlamePixel> inactiveEmbers = new ArrayList<FlamePixel>();
-		private int x, y;
-
-		public FlameSource(int x) {
-			this.x = x;
-		}
-
-		public void update() {
-			y = (int) (height - (height / 100f * temperature));
-
-			if (inactiveEmbers.size() <= sourceHeight) {
-				if (rand.nextInt(10) == 1) {
-					inactiveEmbers.add(new FlamePixel(y - (inactiveEmbers.size()), x));
-				}
-			}
-			if (inactiveEmbers.size() > 0 && rand.nextInt(10) == 1) {
-				inactiveEmbers.get(inactiveEmbers.size() - 1).setActive();
-				activeEmbers.add(inactiveEmbers.remove(inactiveEmbers.size() - 1));
-			}
-
-			for (int i = 0; i < activeEmbers.size(); ++i) {
-				activeEmbers.get(i).update();
-				if (activeEmbers.get(i).finished()) {
-					activeEmbers.remove(activeEmbers.get(i));
-					--i;
-				}
-			}
-
-			for (int i = 0; i < inactiveEmbers.size(); ++i) {
-				int yHeight = y - i;
-				if (yHeight < 0) {
-					yHeight = 0;
-				}
-				inactiveEmbers.get(i).setY(yHeight);
-			}
-		}
-	}
-
-	private class FlamePixel {
-		private Color color;
-		private int x, frame = 0, maxFrame, xMove;
-		private float y;
-		private Boolean active = false, finished = false;
-
-		public FlamePixel(int y, int x) {
-			this.x = x;
-			this.y = y;
-			this.color = new Color(255, 0, 0);
-			if (rand.nextBoolean()) {
-				xMove = 1;
-			} else {
-				xMove = -1;
-			}
-			float val = rand.nextFloat() * 10;
-			maxFrame = (int) (val * val);
-			frame = 0;
-			checkY();
-		}
-
-		public Boolean finished() {
-			return finished;
-		}
-
-		public void setActive() {
-			active = true;
-		}
-
-		private void checkY() {
-			if (y < 0) {
-				y = 0;
-			}
-			if (y + 1 >= height) {
-				y = height - 1;
-			}
-		}
-		
-		public void setY(int y){
-			this.y = y;
-		}
-
-		public void update() {
-			if (rand.nextFloat() < 0.05) {
-				xMove = -xMove;
-			}
-			if (x + xMove > 10 || x + xMove < 0) {
-				xMove = -xMove;
-			}
-			if (rand.nextFloat() < 0.2) {
-				x += xMove;
-			}
-			y -= rand.nextFloat() * 2;
-			checkY();
-			if (frame >= maxFrame || height - (100 / height * temperature) < y) {
-				finished = true;
-			}
-			color = getColorAtTemperature((int) (100f - (100f / height * y)));
-			++frame;
-		}
-
-		public Color color() {
-			return color;
-		}
-
-		public int y() {
-			if (y < 0) {
-				return 0;
-			}
-			return (int) y;
-		}
-
-		public int x() {
-			return x;
 		}
 	}
 
@@ -278,7 +155,6 @@ public class Forger extends MinigamePanel {
 	private void drawTemperatureBar(Graphics bGraphics) {
 		int qualityHeight = (int) ((float) height / 100f * temperature);
 
-		float interval = 255f / height;
 		for (int i = 0; i < height; ++i) {
 			if (i < qualityHeight) {
 				bGraphics.setColor(getColorAtTemperature((int) (100f / height * i)));
@@ -318,15 +194,6 @@ public class Forger extends MinigamePanel {
 		drawTemperatureBar(bGraphics);
 		drawTarget(bGraphics);
 		drawProgressBar(bGraphics);
-		for (FlameSource fs : flames) {
-			fs.update();
-			for(FlamePixel fp : fs.activeEmbers){
-				bImg.setRGB(fp.x(), fp.y(), fp.color().getRGB());
-			}
-			for(FlamePixel fp : fs.inactiveEmbers){
-				bImg.setRGB(fp.x(), fp.y(), fp.color().getRGB());
-			}
-		}
 		g.drawImage(bImg, 0, 0, null);
 	}
 

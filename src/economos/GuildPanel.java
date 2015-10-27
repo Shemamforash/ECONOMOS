@@ -38,15 +38,14 @@ public class GuildPanel extends GUIElements.MyPanel {
 			guildButtonPanel.add(buttons[i]);
 		}
 
-		new GUIElements.MyPanel(true);
-
 		SpringLayout sl_listPanel = new SpringLayout();
-		this.setLayout(sl_listPanel);
+		setLayout(sl_listPanel);
 
-		resourceScrollPane = new JScrollPane();
+		resourceScrollPane = new JScrollPane(resourceList);
+		resourceScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		resourceScrollPane.getVerticalScrollBar().setUnitIncrement(10);
 		sl_listPanel.putConstraint(SpringLayout.NORTH, resourceScrollPane, 10, SpringLayout.SOUTH, guildButtonPanel);
 		sl_listPanel.putConstraint(SpringLayout.SOUTH, resourceScrollPane, 0, SpringLayout.SOUTH, this);
-		resourceScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		sl_listPanel.putConstraint(SpringLayout.WEST, resourceScrollPane, 0, SpringLayout.WEST, this);
 		sl_listPanel.putConstraint(SpringLayout.EAST, resourceScrollPane, 0, SpringLayout.EAST, this);
 		resourceScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
@@ -59,8 +58,6 @@ public class GuildPanel extends GUIElements.MyPanel {
 		sl_listPanel.putConstraint(SpringLayout.EAST, guildButtonPanel, 0, SpringLayout.EAST, this);
 
 		this.add(guildButtonPanel);
-
-		resourceScrollPane.setViewportView(resourceList);
 		resourceList.setLayout(new GridBagLayout());
 	}
 
@@ -92,6 +89,8 @@ public class GuildPanel extends GUIElements.MyPanel {
 			}
 			resourceList.validate();
 			resourceList.repaint();
+			resourceScrollPane.getViewport().revalidate();
+			System.out.println("loo");
 		}
 	}
 
@@ -167,7 +166,6 @@ public class GuildPanel extends GUIElements.MyPanel {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				;
 			}
 			thisButton = this;
 			this.addActionListener(new ActionListener() {

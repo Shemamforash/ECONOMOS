@@ -28,13 +28,14 @@ public class EconomosGUI {
 	private String					selectedResource, selectedGuild;
 	private GUIElements.MyPanel		merchantsPanel, gamePanel, craftersPanel, overviewPanel, infoPanel, currentPanel;
 	private MinigameController		minigameController;
-	private boolean					fieldsReset			= false, resizing = false;
+	private boolean					resizing = false;
 	private int						screenWidth, screenHeight, largePanelGap = 15, smallPanelGap = 7;
 	private GuildPanel				guildPanelMerchants, guildPanelCrafters;
 	private JTextField				boughtTextField;
 
 	public void setSelectedGuild(String selectedGuild) {
 		this.selectedGuild = selectedGuild;
+		selectedResource = null;
 	}
 
 	public String getSelectedGuild() {
@@ -42,6 +43,8 @@ public class EconomosGUI {
 	}
 
 	public void setSelectedResource(String selectedResource) {
+		sellButton.reset();
+		buyButton.reset();
 		this.selectedResource = selectedResource;
 	}
 
@@ -76,19 +79,19 @@ public class EconomosGUI {
 			rarityTextField.setText(currentResource.getRarity());
 			switch (currentResource.getRarity()) {
 				case "Commonplace":
-					rarityTextField.setColor(new Color(25, 200, 25));
+					rarityTextField.setColor(new Color(165, 215, 230));
 					break;
 				case "Unusual":
-					rarityTextField.setColor(new Color(0, 200, 100));
+					rarityTextField.setColor(new Color(70, 255, 255));
 					break;
 				case "Soughtafter":
-					rarityTextField.setColor(new Color(0, 80, 160));
+					rarityTextField.setColor(new Color(65, 30, 255));
 					break;
 				case "Coveted":
-					rarityTextField.setColor(new Color(140, 0, 230));
+					rarityTextField.setColor(new Color(180, 60, 230));
 					break;
 				case "Legendary":
-					rarityTextField.setColor(new Color(210, 25, 165));
+					rarityTextField.setColor(new Color(250, 110, 10));
 					break;
 				default:
 					break;
@@ -114,8 +117,7 @@ public class EconomosGUI {
 			if (resizing == false) {
 				buyGraph.repaint();
 			}
-			fieldsReset = false;
-		} else if (!fieldsReset) {
+		} else {
 			typeTextField.setText("");
 			rarityTextField.setText("");
 			rarityTextField.setColor(null);
@@ -126,10 +128,9 @@ public class EconomosGUI {
 			averagePriceTextField.setText("");
 			demandSupplyTextField.setText("");
 			descriptionTextArea.setText("");
-			sellButton.setText("C N/A");
-			buyButton.setText("C N/A");
+			sellButton.reset();
+			buyButton.reset();
 			buyGraph.repaint();
-			fieldsReset = true;
 		}
 	}
 
@@ -157,9 +158,7 @@ public class EconomosGUI {
 		} else {
 			resizing = false;
 		}
-		if (selectedGuild != null && selectedResource != null) {
-			setSelectedResource(selectedGuild, selectedResource);
-		}
+		setSelectedResource(selectedGuild, selectedResource);
 		updateSpringConstraints();
 		minigameController.repaint();
 		if (merchantsPanel.isVisible()) {

@@ -54,11 +54,21 @@ public class Main {
 	}
 	
 	public void loop(){
-		long lastFrameTime = System.nanoTime();
+		int fps = 0;
+		long lastFrameTime = System.nanoTime(), time = 0;
 		while(running){
+			++fps;
+			time += System.nanoTime() - lastFrameTime;
+			if(time >= 1000000000){
+				System.out.println("FPS" + fps);
+				fps = 0;
+				time = time - 1000000000;
+			}
+			
 			float delta = (System.nanoTime() - lastFrameTime) / optimumFrameTime;
 			lastFrameTime = System.nanoTime();
 			loopUpdater.callUpdate();
+			
 			try{
 				Thread.sleep((long) ((lastFrameTime - System.nanoTime() + optimumFrameTime) / 1000000));
 			} catch (Exception e){

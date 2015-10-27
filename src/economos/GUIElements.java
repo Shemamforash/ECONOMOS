@@ -490,6 +490,15 @@ public class GUIElements {
 				});
 			}
 		}
+		
+		public void reset(){
+			if(lastButton != null){
+				lastButton.setSelected(false);
+				lastButton = null;
+			}
+			priceField.setText("C N/A");
+			repaint();
+		}
 
 		public BuySellButton(String text) {
 			super(true);
@@ -503,6 +512,7 @@ public class GUIElements {
 			add(quantityFive = new MyButtonExtended("5"));
 			add(quantityTen = new MyButtonExtended("10"));
 			add(priceField = new MyTextField());
+			reset();
 		}
 
 		public int getSelectedQuantity() {

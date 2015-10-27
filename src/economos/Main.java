@@ -62,7 +62,7 @@ public class Main {
 			try{
 				Thread.sleep((long) ((lastFrameTime - System.nanoTime() + optimumFrameTime) / 1000000));
 			} catch (Exception e){
-				System.out.println("Something wrong with timer");
+				e.printStackTrace();
 			}
 		}
 	}

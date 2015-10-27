@@ -20,7 +20,8 @@ public class GraphPanel extends JPanel {
 
 	public void drawGrid() {
 		int width = this.getWidth() / 16;
-		if (marketResource != null && marketResource.getMarketHistory().size() >= this.getWidth()) {
+		width = 10;
+		if (marketResource != null && marketResource.getMarketHistory(this.getWidth()).size() >= this.getWidth()) {
 			if (offset == width) {
 				offset = 0;
 			} else {
@@ -52,7 +53,7 @@ public class GraphPanel extends JPanel {
 
 		if (userR != null) {
 			marketResource = userR.getMarketResource();
-			marketHistory = marketResource.getMarketHistory();
+			marketHistory = marketResource.getMarketHistory(getWidth());
 			BufferedImage bImg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 			bGraphics = bImg.createGraphics();
 			drawGrid();
@@ -95,7 +96,7 @@ public class GraphPanel extends JPanel {
 				((Graphics2D) bGraphics).setStroke(new BasicStroke(2));
 				curY = (int) (pricePerPixel * (marketHistory.get(i).getPrice() - min));
 				lastY = (int) (pricePerPixel * (marketHistory.get(i - 1).getPrice() - min));
-				bGraphics.setColor(new Color(255, 150 - adjustedColorVal, 0, 50));
+				bGraphics.setColor(new Color(255, 150 - adjustedColorVal, 0, 100));
 				bGraphics.drawLine(curX, this.getHeight() - curY, curX, this.getHeight());
 				bGraphics.setColor(new Color(255, 150 - adjustedColorVal, 0));
 			} else if (color == 2) {

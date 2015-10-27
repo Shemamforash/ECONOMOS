@@ -6,16 +6,16 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MarketResource extends Resource implements Comparable<MarketResource> {
-	private ArrayList<MarketSnapshot> marketHistory = new ArrayList<MarketSnapshot>();
+	private ArrayList<MarketSnapshot>	marketHistory	= new ArrayList<MarketSnapshot>();
 
-	private int baseSupply, basePrice, ticks = 1;
-	private int desiredThisTick, timeSinceEvent;
-	private float maxPrice, minPrice, maxDemand, minDemand, maxSupply, minSupply, averagePrice, supply, demand;
-	private float price, trend;
-	float changeTrend = 1, changeTrendModifier = 0f; // between 0 and 1
-	int timer = 0, timerMax; // timer to ensure non constant decrease
-	int trendDirection = 1; // true is up/false is down
-	private Random rnd = new Random();
+	private int							baseSupply, basePrice, ticks = 1;
+	private int							desiredThisTick, timeSinceEvent;
+	private float						maxPrice, minPrice, maxDemand, minDemand, maxSupply, minSupply, averagePrice, supply, demand;
+	private float						price, trend;
+	float								changeTrend		= 1, changeTrendModifier = 0f;													// between 0 and 1
+	int									timer			= 0, timerMax;																	// timer to ensure non constant decrease
+	int									trendDirection	= 1;																			// true is up/false is down
+	private Random						rnd				= new Random();
 
 	public MarketResource(String name, String description, String type, String rarity, int baseSupplyRate) {
 		super(name, description, type, rarity);
@@ -41,29 +41,29 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 			timer = 0;
 			timerMax = rnd.nextInt(400);
 		}
-		
+
 		++timer;
-		
-		float temp = (float)(Math.pow(rnd.nextFloat(), 2)) * 2f - 1f;
-		if(changeTrendModifier + temp < -1f || changeTrendModifier + temp > 1f){
+
+		float temp = (float) (Math.pow(rnd.nextFloat(), 2)) * 2f - 1f;
+		if (changeTrendModifier + temp < -1f || changeTrendModifier + temp > 1f) {
 			changeTrendModifier = changeTrendModifier - temp;
 		} else {
 			changeTrendModifier = changeTrendModifier + temp;
 		}
-		
+
 		float supplyChange = 0.03f * baseSupply;
-		
+
 		if ((changeTrend * changeTrendModifier > 0 && supply >= baseSupply * 20f) || (changeTrend * changeTrendModifier < 0 && supply <= baseSupply * 0.2f)) {
 			changeTrend = -changeTrend;
-		} 
-		
+		}
+
 		changeTrendModifier = changeTrend * changeTrendModifier;
-		
+
 		supplyChange = supplyChange * changeTrendModifier;
-		
+
 		return supply + supplyChange;
 	}
-	
+
 	public float getPricePerUnit() {
 		if (supply < baseSupply * 0.1f && demand > baseSupply * 0.5f) {
 			supply = baseSupply * 0.1f;
@@ -136,7 +136,7 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		int totalStoredPrices = marketHistory.size();
 		float totalPrice = averagePrice * totalStoredPrices;
 
-		if (marketHistory.size() == MarketController.getGraphWidth()) {
+		if (marketHistory.size() == 4000) {
 			totalPrice -= marketHistory.get(0).getPrice();
 			if (recordData) {
 				marketHistory.remove(0);
@@ -183,7 +183,7 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 	}
 
 	class UpdateResource extends TimerTask {
-		private MarketResource marketResource;
+		private MarketResource	marketResource;
 
 		public UpdateResource(MarketResource marketResource) {
 			this.marketResource = marketResource;
@@ -228,8 +228,16 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		return minDemand;
 	}
 
-	public synchronized ArrayList<MarketSnapshot> getMarketHistory() {
-		return marketHistory;
+	public synchronized ArrayList<MarketSnapshot> getMarketHistory(int width) {
+		int startPoint = marketHistory.size() - width;
+		if(startPoint < 0){
+			startPoint = 0;
+		}
+		ArrayList<MarketSnapshot> arr = new ArrayList<MarketSnapshot>();
+		for(int i = startPoint; i < marketHistory.size(); ++i){
+			arr.add(marketHistory.get(i));
+		}
+		return arr;
 	}
 
 	public synchronized int getDemand() {
@@ -271,7 +279,7 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 	}
 
 	public class MarketSnapshot {
-		private float supply, demand, price;
+		private float	supply, demand, price;
 
 		public MarketSnapshot(float supply, float demand, float price) {
 			this.supply = supply;

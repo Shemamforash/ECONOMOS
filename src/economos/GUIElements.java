@@ -397,9 +397,13 @@ public class GUIElements {
 		public MyTextField(String text) {
 			super(text);
 			setForeground(Color.white);
-			setFont(new Font("Verdana", Font.BOLD, 12));
+			setFont(new Font("Verdana", Font.BOLD, 14));
 			this.setBorder(emptyBorder);
 			setDarker();
+		}
+		
+		public void setText(String text){
+			super.setText(text.toUpperCase());
 		}
 
 		private void setDarker() {

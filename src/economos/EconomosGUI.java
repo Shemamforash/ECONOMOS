@@ -18,7 +18,7 @@ public class EconomosGUI {
 	private JFrame					frame;
 	private GUIElements.MyTextField	typeTextField, nameTextField, possessTextField, soldTextField, averageProfitTextField, averagePriceTextField, demandSupplyTextField, rarityTextField, headlineTextField;
 	private GUIElements.MyTextArea	descriptionTextArea;
-	private GUIElements.MyPanel		resourceList, resourceDetailPanel, bodyPanel, topDetailPanel, iconPanel, descriptionPanel, statsPanel, framePanel;
+	private GUIElements.MyPanel		resourceList, resourceDetailPanel, bodyPanel, leftDetailPanel, iconPanel, centerDetailPanel, framePanel, rightDetailPanel;
 	private GUIElements.MyButton	sellButton			= new GUIElements.MyButton("Sell", true);
 	private GUIElements.MyButton	buyButton			= new GUIElements.MyButton("Buy", true);
 	private static MerchantResource	currentResource		= null;
@@ -29,7 +29,7 @@ public class EconomosGUI {
 	private GUIElements.MyPanel		merchantsPanel, gamePanel, craftersPanel, overviewPanel, infoPanel, currentPanel;
 	private MinigameController		minigameController;
 	private boolean					fieldsReset			= false, resizing = false;
-	private int						screenWidth, screenHeight;
+	private int						screenWidth, screenHeight, panelGap = 10;
 	private GuildPanel				guildPanelMerchants, guildPanelCrafters;
 	private JTextField				boughtTextField;
 
@@ -166,124 +166,156 @@ public class EconomosGUI {
 	private void updateSpringConstraints() {
 		SpringLayout springLayout = (SpringLayout) (craftersPanel.getLayout());
 		springLayout.putConstraint(SpringLayout.NORTH, minigameController, -screenHeight / 2, SpringLayout.SOUTH, craftersPanel);
-		springLayout.putConstraint(SpringLayout.WEST, minigameController, 10, SpringLayout.EAST, guildPanelCrafters);
+		springLayout.putConstraint(SpringLayout.WEST, minigameController, panelGap, SpringLayout.EAST, guildPanelCrafters);
 		springLayout.putConstraint(SpringLayout.SOUTH, minigameController, -40, SpringLayout.SOUTH, craftersPanel);
-		springLayout.putConstraint(SpringLayout.EAST, minigameController, -10, SpringLayout.EAST, craftersPanel);
+		springLayout.putConstraint(SpringLayout.EAST, minigameController, -panelGap, SpringLayout.EAST, craftersPanel);
 
 		springLayout = (SpringLayout) (merchantsPanel.getLayout());
-		springLayout.putConstraint(SpringLayout.NORTH, guildPanelMerchants, 10, SpringLayout.NORTH, merchantsPanel);
-		springLayout.putConstraint(SpringLayout.WEST, guildPanelMerchants, 10, SpringLayout.WEST, merchantsPanel);
+		springLayout.putConstraint(SpringLayout.NORTH, guildPanelMerchants, panelGap, SpringLayout.NORTH, merchantsPanel);
+		springLayout.putConstraint(SpringLayout.WEST, guildPanelMerchants, panelGap, SpringLayout.WEST, merchantsPanel);
 		springLayout.putConstraint(SpringLayout.SOUTH, guildPanelMerchants, -40, SpringLayout.SOUTH, merchantsPanel);
 		springLayout.putConstraint(SpringLayout.EAST, guildPanelMerchants, screenWidth / 4, SpringLayout.WEST, merchantsPanel);
 
-		int resourcePanelHeight = (screenHeight - 40) / 2;
+		int resourcePanelHeight = (int)((screenHeight - 40) / 2.4f);
 		springLayout = (SpringLayout) (bodyPanel.getLayout());
 		springLayout.putConstraint(SpringLayout.NORTH, resourceDetailPanel, 0, SpringLayout.NORTH, bodyPanel);
 		springLayout.putConstraint(SpringLayout.WEST, resourceDetailPanel, 0, SpringLayout.WEST, bodyPanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, resourceDetailPanel, -resourcePanelHeight, SpringLayout.SOUTH, bodyPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, resourceDetailPanel, resourcePanelHeight, SpringLayout.NORTH, bodyPanel);
 		springLayout.putConstraint(SpringLayout.EAST, resourceDetailPanel, 0, SpringLayout.EAST, bodyPanel);
 
+		int leftPanelWidth = (int)(resourcePanelHeight / 2 * 1.3f);
 		springLayout = (SpringLayout) (resourceDetailPanel.getLayout());
-		springLayout.putConstraint(SpringLayout.NORTH, topDetailPanel, 0, SpringLayout.NORTH, resourceDetailPanel);
-		springLayout.putConstraint(SpringLayout.WEST, topDetailPanel, 0, SpringLayout.WEST, resourceDetailPanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, topDetailPanel, 0, SpringLayout.SOUTH, resourceDetailPanel);
-		springLayout.putConstraint(SpringLayout.EAST, topDetailPanel, resourcePanelHeight / 2, SpringLayout.WEST, resourceDetailPanel);
+		springLayout.putConstraint(SpringLayout.NORTH, leftDetailPanel, 0, SpringLayout.NORTH, resourceDetailPanel);
+		springLayout.putConstraint(SpringLayout.WEST, leftDetailPanel, 0, SpringLayout.WEST, resourceDetailPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, leftDetailPanel, 0, SpringLayout.SOUTH, resourceDetailPanel);
+		springLayout.putConstraint(SpringLayout.EAST, leftDetailPanel, leftPanelWidth, SpringLayout.WEST, resourceDetailPanel);
+		
+		springLayout.putConstraint(SpringLayout.NORTH, rightDetailPanel, 0, SpringLayout.NORTH, resourceDetailPanel);
+		springLayout.putConstraint(SpringLayout.WEST, rightDetailPanel, panelGap, SpringLayout.EAST, centerDetailPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, rightDetailPanel, 0, SpringLayout.SOUTH, resourceDetailPanel);
+		springLayout.putConstraint(SpringLayout.EAST, rightDetailPanel, 0, SpringLayout.EAST, resourceDetailPanel);
+		
+		springLayout.putConstraint(SpringLayout.NORTH, centerDetailPanel, 0, SpringLayout.NORTH, resourceDetailPanel);
+		springLayout.putConstraint(SpringLayout.WEST, centerDetailPanel, panelGap, SpringLayout.EAST, leftDetailPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, centerDetailPanel, 0, SpringLayout.SOUTH, resourceDetailPanel);
+		springLayout.putConstraint(SpringLayout.EAST, centerDetailPanel, resourcePanelHeight / 2 + panelGap, SpringLayout.EAST, leftDetailPanel);
 
-		springLayout = (SpringLayout) (topDetailPanel.getLayout());
-		springLayout.putConstraint(SpringLayout.NORTH, iconPanel, 0, SpringLayout.NORTH, topDetailPanel);
-		springLayout.putConstraint(SpringLayout.WEST, iconPanel, 0, SpringLayout.WEST, topDetailPanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, iconPanel, resourcePanelHeight / 2, SpringLayout.NORTH, topDetailPanel);
-		springLayout.putConstraint(SpringLayout.EAST, iconPanel, 0, SpringLayout.EAST, topDetailPanel);
+		springLayout = (SpringLayout) (leftDetailPanel.getLayout());
+		springLayout.putConstraint(SpringLayout.NORTH, iconPanel, 0, SpringLayout.NORTH, leftDetailPanel);
+		springLayout.putConstraint(SpringLayout.WEST, iconPanel, 0, SpringLayout.WEST, leftDetailPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, iconPanel, leftPanelWidth, SpringLayout.NORTH, leftDetailPanel);
+		springLayout.putConstraint(SpringLayout.EAST, iconPanel, 0, SpringLayout.EAST, leftDetailPanel);
 
-		int textFieldHeight = resourcePanelHeight / 6 - 10;
+		int textFieldHeight = (resourcePanelHeight - leftPanelWidth) / 3;
 
-		springLayout.putConstraint(SpringLayout.NORTH, typeTextField, 10, SpringLayout.SOUTH, iconPanel);
+		springLayout.putConstraint(SpringLayout.NORTH, typeTextField, panelGap, SpringLayout.SOUTH, iconPanel);
 		springLayout.putConstraint(SpringLayout.WEST, typeTextField, 0, SpringLayout.WEST, iconPanel);
 		springLayout.putConstraint(SpringLayout.SOUTH, typeTextField, textFieldHeight, SpringLayout.SOUTH, iconPanel);
-		springLayout.putConstraint(SpringLayout.EAST, typeTextField, 0, SpringLayout.EAST, topDetailPanel);
+		springLayout.putConstraint(SpringLayout.EAST, typeTextField, 0, SpringLayout.EAST, leftDetailPanel);
 
-		springLayout.putConstraint(SpringLayout.NORTH, nameTextField, 10, SpringLayout.SOUTH, typeTextField);
-		springLayout.putConstraint(SpringLayout.WEST, nameTextField, 0, SpringLayout.WEST, topDetailPanel);
+		springLayout.putConstraint(SpringLayout.NORTH, nameTextField, panelGap, SpringLayout.SOUTH, typeTextField);
+		springLayout.putConstraint(SpringLayout.WEST, nameTextField, 0, SpringLayout.WEST, leftDetailPanel);
 		springLayout.putConstraint(SpringLayout.SOUTH, nameTextField, textFieldHeight, SpringLayout.SOUTH, typeTextField);
-		springLayout.putConstraint(SpringLayout.EAST, nameTextField, 0, SpringLayout.EAST, topDetailPanel);
+		springLayout.putConstraint(SpringLayout.EAST, nameTextField, 0, SpringLayout.EAST, leftDetailPanel);
 
-		springLayout.putConstraint(SpringLayout.NORTH, rarityTextField, 10, SpringLayout.SOUTH, nameTextField);
-		springLayout.putConstraint(SpringLayout.WEST, rarityTextField, 0, SpringLayout.WEST, topDetailPanel);
+		springLayout.putConstraint(SpringLayout.NORTH, rarityTextField, panelGap, SpringLayout.SOUTH, nameTextField);
+		springLayout.putConstraint(SpringLayout.WEST, rarityTextField, 0, SpringLayout.WEST, leftDetailPanel);
 		springLayout.putConstraint(SpringLayout.SOUTH, rarityTextField, textFieldHeight, SpringLayout.SOUTH, nameTextField);
-		springLayout.putConstraint(SpringLayout.EAST, rarityTextField, 0, SpringLayout.EAST, topDetailPanel);
-
-		springLayout.putConstraint(SpringLayout.NORTH, descriptionPanel, 0, SpringLayout.NORTH, resourceDetailPanel);
-		springLayout.putConstraint(SpringLayout.WEST, descriptionPanel, 10, SpringLayout.EAST, topDetailPanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, descriptionPanel, 0, SpringLayout.SOUTH, resourceDetailPanel);
-		springLayout.putConstraint(SpringLayout.EAST, descriptionPanel, resourcePanelHeight / 2 + 10, SpringLayout.EAST, topDetailPanel);
-
-		int eHeight = resourcePanelHeight / 5;
+		springLayout.putConstraint(SpringLayout.EAST, rarityTextField, 0, SpringLayout.EAST, leftDetailPanel);
+		
+		int eHeight = resourcePanelHeight / 12;
 		int eWidth = (screenWidth - ((screenWidth / 4) + resourcePanelHeight + 50)) / 2;
 
-		springLayout = (SpringLayout) (statsPanel.getLayout());
-		springLayout.putConstraint(SpringLayout.NORTH, possessTextField, 0, SpringLayout.NORTH, statsPanel);
-		springLayout.putConstraint(SpringLayout.WEST, possessTextField, 0, SpringLayout.WEST, statsPanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, possessTextField, eHeight, SpringLayout.NORTH, statsPanel);
-		springLayout.putConstraint(SpringLayout.EAST, possessTextField, eWidth, SpringLayout.WEST, statsPanel);
+		springLayout = (SpringLayout) (rightDetailPanel.getLayout());
+		springLayout.putConstraint(SpringLayout.NORTH, possessTextField, 0, SpringLayout.NORTH, rightDetailPanel);
+		springLayout.putConstraint(SpringLayout.WEST, possessTextField, 0, SpringLayout.WEST, rightDetailPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, possessTextField, 2 * eHeight, SpringLayout.NORTH, rightDetailPanel);
+		springLayout.putConstraint(SpringLayout.EAST, possessTextField, eWidth, SpringLayout.WEST, rightDetailPanel);
 
-		springLayout.putConstraint(SpringLayout.NORTH, soldTextField, 0, SpringLayout.SOUTH, possessTextField);
-		springLayout.putConstraint(SpringLayout.WEST, soldTextField, 0, SpringLayout.WEST, statsPanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, soldTextField, eHeight, SpringLayout.SOUTH, possessTextField);
+		springLayout.putConstraint(SpringLayout.NORTH, soldTextField, panelGap, SpringLayout.SOUTH, possessTextField);
+		springLayout.putConstraint(SpringLayout.WEST, soldTextField, 0, SpringLayout.WEST, rightDetailPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, soldTextField, 2 * eHeight, SpringLayout.SOUTH, possessTextField);
 		springLayout.putConstraint(SpringLayout.EAST, soldTextField, 0, SpringLayout.EAST, possessTextField);
 
-		springLayout.putConstraint(SpringLayout.NORTH, averageProfitTextField, 0, SpringLayout.SOUTH, soldTextField);
-		springLayout.putConstraint(SpringLayout.WEST, averageProfitTextField, 0, SpringLayout.WEST, statsPanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, averageProfitTextField, eHeight, SpringLayout.SOUTH, soldTextField);
+		springLayout.putConstraint(SpringLayout.NORTH, averageProfitTextField, panelGap, SpringLayout.SOUTH, soldTextField);
+		springLayout.putConstraint(SpringLayout.WEST, averageProfitTextField, 0, SpringLayout.WEST, rightDetailPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, averageProfitTextField, 2 * eHeight, SpringLayout.SOUTH, soldTextField);
 		springLayout.putConstraint(SpringLayout.EAST, averageProfitTextField, 0, SpringLayout.EAST, soldTextField);
 
-		springLayout.putConstraint(SpringLayout.NORTH, buyButton, 0, SpringLayout.SOUTH, averageProfitTextField);
-		springLayout.putConstraint(SpringLayout.WEST, buyButton, 0, SpringLayout.WEST, statsPanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, buyButton, eHeight, SpringLayout.SOUTH, averageProfitTextField);
-		springLayout.putConstraint(SpringLayout.EAST, buyButton, 0, SpringLayout.EAST, statsPanel);
+		springLayout.putConstraint(SpringLayout.NORTH, buyButton, panelGap, SpringLayout.SOUTH, averageProfitTextField);
+		springLayout.putConstraint(SpringLayout.WEST, buyButton, 0, SpringLayout.WEST, rightDetailPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, buyButton, 3 * eHeight, SpringLayout.SOUTH, averageProfitTextField);
+		springLayout.putConstraint(SpringLayout.EAST, buyButton, 0, SpringLayout.EAST, rightDetailPanel);
 	}
 
-	private void initialize() {
-		System.out.println("potato");
+//	private void initialize() {
+//		System.out.println("potato");
+//		frame = new JFrame();
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		framePanel = new GUIElements.MyPanel(true);
+//		boolean fullscreen = true;
+//		if (fullscreen) {
+//			frame.setUndecorated(true);
+//
+//			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//			GraphicsDevice gd = ge.getDefaultScreenDevice();
+//			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//			screenWidth = (int)screenSize.getWidth();
+//			screenHeight = (int)screenSize.getHeight();
+//
+//			System.out.println(screenWidth + " | " + screenHeight);
+//			if (gd.isFullScreenSupported()) {
+//				try {
+//					gd.setFullScreenWindow(frame);
+//				} finally {
+//					gd.setFullScreenWindow(null);
+//				}
+//			}
+//			frame.setBounds(0, 0, screenWidth, screenHeight);
+//			createPanels();
+//		} else {
+//			screenWidth = panelGap00;
+//			screenHeight = 600;
+//			framePanel.setPreferredSize(new Dimension(screenWidth, screenHeight));
+//			createPanels();
+//			frame.setVisible(true);
+//			frame.pack();
+//		}		
+//	}
+
+	//used for windowbuilder
+	private void setFullScreen() {
 		frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		framePanel = new GUIElements.MyPanel(true);
-		boolean fullscreen = true;
-		if (fullscreen) {
-			frame.setUndecorated(true);
+		frame.setUndecorated(true);
 
-			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			GraphicsDevice gd = ge.getDefaultScreenDevice();
-			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			screenWidth = (int)screenSize.getWidth();
-			screenHeight = (int)screenSize.getHeight();
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice gd = ge.getDefaultScreenDevice();
 
-			System.out.println(screenWidth + " | " + screenHeight);
-			if (gd.isFullScreenSupported()) {
-				try {
-					gd.setFullScreenWindow(frame);
-				} finally {
-					gd.setFullScreenWindow(null);
-				}
+		if (gd.isFullScreenSupported()) {
+			try {
+				gd.setFullScreenWindow(frame);
+			} finally {
+				gd.setFullScreenWindow(null);
 			}
-			frame.setBounds(0, 0, screenWidth, screenHeight);
-			createPanels();
-		} else {
-			screenWidth = 1000;
-			screenHeight = 600;
-			framePanel.setPreferredSize(new Dimension(screenWidth, screenHeight));
-			createPanels();
-			frame.setVisible(true);
-			frame.pack();
-		}		
-	}
+		}
 
-	private void createPanels() {
+		frame.setBackground(new Color(40, 40, 40));
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		screenWidth = (int) screenSize.getWidth();
+		screenHeight = (int) screenSize.getHeight();
+		frame.setBounds(0, 0, (int) screenSize.getWidth(), (int) screenSize.getHeight());
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	private void initialize() {
 		decimalFormatter.setGroupingUsed(false);
+		setFullScreen();
 
 		SpringLayout springLayout = new SpringLayout();
+		framePanel = new GUIElements.MyPanel(true);
 		framePanel.setLayout(springLayout);
-		frame.setLayout(new BorderLayout());
-		frame.add(framePanel, BorderLayout.CENTER);
+		frame.getContentPane().setLayout(new BorderLayout());
+		frame.getContentPane().add(framePanel, BorderLayout.CENTER);
 
 		gamePanel = new GUIElements.MyPanel(true);
 		springLayout.putConstraint(SpringLayout.NORTH, gamePanel, 0, SpringLayout.NORTH, framePanel);
@@ -318,7 +350,7 @@ public class EconomosGUI {
 		sl_infoPanel.putConstraint(SpringLayout.SOUTH, headlineTextField, -6, SpringLayout.SOUTH, infoPanel);
 		sl_infoPanel.putConstraint(SpringLayout.EAST, headlineTextField, -248, SpringLayout.EAST, infoPanel);
 		infoPanel.add(headlineTextField);
-		headlineTextField.setColumns(10);
+		headlineTextField.setColumns(panelGap);
 
 		GUIElements.MyButton merchantsPanelButton = new GUIElements.MyButton("Merchants", true);
 		merchantsPanelButton.addActionListener(new ActionListener() {
@@ -355,7 +387,7 @@ public class EconomosGUI {
 			}
 		});
 		sl_infoPanel.putConstraint(SpringLayout.NORTH, overviewPanelButton, 0, SpringLayout.NORTH, craftersPanelButton);
-		sl_infoPanel.putConstraint(SpringLayout.WEST, overviewPanelButton, 10, SpringLayout.EAST, craftersPanelButton);
+		sl_infoPanel.putConstraint(SpringLayout.WEST, overviewPanelButton, panelGap, SpringLayout.EAST, craftersPanelButton);
 		sl_infoPanel.putConstraint(SpringLayout.SOUTH, overviewPanelButton, 0, SpringLayout.SOUTH, craftersPanelButton);
 		sl_infoPanel.putConstraint(SpringLayout.EAST, overviewPanelButton, 80, SpringLayout.EAST, craftersPanelButton);
 		infoPanel.add(overviewPanelButton);
@@ -371,8 +403,8 @@ public class EconomosGUI {
 		gamePanel.add(craftersPanel, "Crafters");
 
 		guildPanelCrafters = new GuildPanel(new String[] { "Apothecary", "Embroider", "Artificer", "Philosopher", "Smith", "Voyager", "Sage", "Chef" }, this, screenHeight - 50, screenWidth / 4);
-		sl_craftersPanel.putConstraint(SpringLayout.NORTH, guildPanelCrafters, 10, SpringLayout.NORTH, craftersPanel);
-		sl_craftersPanel.putConstraint(SpringLayout.WEST, guildPanelCrafters, 10, SpringLayout.WEST, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.NORTH, guildPanelCrafters, panelGap, SpringLayout.NORTH, craftersPanel);
+		sl_craftersPanel.putConstraint(SpringLayout.WEST, guildPanelCrafters, panelGap, SpringLayout.WEST, craftersPanel);
 		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, guildPanelCrafters, -40, SpringLayout.SOUTH, craftersPanel);
 		sl_craftersPanel.putConstraint(SpringLayout.EAST, guildPanelCrafters, 310, SpringLayout.WEST, craftersPanel);
 		craftersPanel.add(guildPanelCrafters);
@@ -394,10 +426,10 @@ public class EconomosGUI {
 		merchantsPanel.add(guildPanelMerchants);
 
 		bodyPanel = new GUIElements.MyPanel(true);
-		sl_marketPanel.putConstraint(SpringLayout.NORTH, bodyPanel, 10, SpringLayout.NORTH, merchantsPanel);
-		sl_marketPanel.putConstraint(SpringLayout.WEST, bodyPanel, 10, SpringLayout.EAST, guildPanelMerchants);
+		sl_marketPanel.putConstraint(SpringLayout.NORTH, bodyPanel, panelGap, SpringLayout.NORTH, merchantsPanel);
+		sl_marketPanel.putConstraint(SpringLayout.WEST, bodyPanel, panelGap, SpringLayout.EAST, guildPanelMerchants);
 		sl_marketPanel.putConstraint(SpringLayout.SOUTH, bodyPanel, -40, SpringLayout.SOUTH, merchantsPanel);
-		sl_marketPanel.putConstraint(SpringLayout.EAST, bodyPanel, -10, SpringLayout.EAST, merchantsPanel);
+		sl_marketPanel.putConstraint(SpringLayout.EAST, bodyPanel, -panelGap, SpringLayout.EAST, merchantsPanel);
 		SpringLayout sl_bodyPanel = new SpringLayout();
 		bodyPanel.setLayout(sl_bodyPanel);
 		merchantsPanel.add(bodyPanel);
@@ -408,100 +440,91 @@ public class EconomosGUI {
 		bodyPanel.add(resourceDetailPanel);
 
 		GUIElements.MyPanel resourceGraphPanel = new GUIElements.MyPanel(true);
-		sl_bodyPanel.putConstraint(SpringLayout.NORTH, resourceGraphPanel, 10, SpringLayout.SOUTH, resourceDetailPanel);
+		sl_bodyPanel.putConstraint(SpringLayout.NORTH, resourceGraphPanel, panelGap, SpringLayout.SOUTH, resourceDetailPanel);
 		sl_bodyPanel.putConstraint(SpringLayout.WEST, resourceGraphPanel, 0, SpringLayout.WEST, bodyPanel);
 		sl_bodyPanel.putConstraint(SpringLayout.SOUTH, resourceGraphPanel, 0, SpringLayout.SOUTH, bodyPanel);
 		sl_bodyPanel.putConstraint(SpringLayout.EAST, resourceGraphPanel, 0, SpringLayout.EAST, resourceDetailPanel);
 		resourceGraphPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		bodyPanel.add(resourceGraphPanel);
 
-		topDetailPanel = new GUIElements.MyPanel(true);
-		SpringLayout sl_topDetailPanel = new SpringLayout();
-		topDetailPanel.setLayout(sl_topDetailPanel);
-		resourceDetailPanel.add(topDetailPanel);
+		leftDetailPanel = new GUIElements.MyPanel(true);
+		SpringLayout sl_leftDetailPanel = new SpringLayout();
+		leftDetailPanel.setLayout(sl_leftDetailPanel);
+		resourceDetailPanel.add(leftDetailPanel);
 
 		iconPanel = new GUIElements.MyPanel(true);
 		iconPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		topDetailPanel.add(iconPanel);
+		leftDetailPanel.add(iconPanel);
 
 		typeTextField = new GUIElements.MyTextField();
 		typeTextField.setEditable(false);
-		typeTextField.setColumns(10);
-		topDetailPanel.add(typeTextField);
+		typeTextField.setColumns(panelGap);
+		leftDetailPanel.add(typeTextField);
 
 		nameTextField = new GUIElements.MyTextField();
 		nameTextField.setEditable(false);
-		nameTextField.setColumns(10);
-		topDetailPanel.add(nameTextField);
+		nameTextField.setColumns(panelGap);
+		leftDetailPanel.add(nameTextField);
 
 		rarityTextField = new GUIElements.MyTextField();
-		rarityTextField.setColumns(10);
-		topDetailPanel.add(rarityTextField);
+		rarityTextField.setColumns(panelGap);
+		leftDetailPanel.add(rarityTextField);
 
-		descriptionPanel = new GUIElements.MyPanel(false);
-		descriptionPanel.setLayout(new BorderLayout());
-		resourceDetailPanel.add(descriptionPanel);
+		centerDetailPanel = new GUIElements.MyPanel(false);
+		centerDetailPanel.setLayout(new BorderLayout());
+		resourceDetailPanel.add(centerDetailPanel);
 
 		descriptionTextArea = new GUIElements.MyTextArea();
 		descriptionTextArea.setLineWrap(true);
 		descriptionTextArea.setWrapStyleWord(true);
 		descriptionTextArea.setEditable(false);
-		descriptionPanel.add(descriptionTextArea, BorderLayout.CENTER);
+		centerDetailPanel.add(descriptionTextArea, BorderLayout.CENTER);
 
-		GUIElements.MyPanel bottomDetailPanel = new GUIElements.MyPanel(true);
-		sl_resourceDetailPanel.putConstraint(SpringLayout.NORTH, bottomDetailPanel, 0, SpringLayout.NORTH, resourceDetailPanel);
-		sl_resourceDetailPanel.putConstraint(SpringLayout.WEST, bottomDetailPanel, 10, SpringLayout.EAST, descriptionPanel);
-		sl_resourceDetailPanel.putConstraint(SpringLayout.SOUTH, bottomDetailPanel, 0, SpringLayout.SOUTH, resourceDetailPanel);
-		sl_resourceDetailPanel.putConstraint(SpringLayout.EAST, bottomDetailPanel, 0, SpringLayout.EAST, resourceDetailPanel);
-		SpringLayout sl_bottomDetailPanel = new SpringLayout();
-		bottomDetailPanel.setLayout(sl_bottomDetailPanel);
-		resourceDetailPanel.add(bottomDetailPanel);
-
-		statsPanel = new GUIElements.MyPanel(false);
-		SpringLayout sl_statsPanel = new SpringLayout();
-		statsPanel.setLayout(sl_statsPanel);
-		bottomDetailPanel.add(statsPanel);
+		rightDetailPanel = new GUIElements.MyPanel(true);
+		SpringLayout sl_rightDetailPanel = new SpringLayout();
+		rightDetailPanel.setLayout(sl_rightDetailPanel);
+		resourceDetailPanel.add(rightDetailPanel);
 
 		possessTextField = new GUIElements.MyTextField();
 		possessTextField.setEditable(false);
-		possessTextField.setColumns(10);
-		statsPanel.add(possessTextField);
+		possessTextField.setColumns(panelGap);
+		rightDetailPanel.add(possessTextField);
 
 		averagePriceTextField = new GUIElements.MyTextField();
-		sl_statsPanel.putConstraint(SpringLayout.NORTH, averagePriceTextField, 0, SpringLayout.NORTH, statsPanel);
-		sl_statsPanel.putConstraint(SpringLayout.WEST, averagePriceTextField, 0, SpringLayout.EAST, possessTextField);
-		sl_statsPanel.putConstraint(SpringLayout.SOUTH, averagePriceTextField, 0, SpringLayout.SOUTH, possessTextField);
-		sl_statsPanel.putConstraint(SpringLayout.EAST, averagePriceTextField, 0, SpringLayout.EAST, statsPanel);
+		sl_rightDetailPanel.putConstraint(SpringLayout.NORTH, averagePriceTextField, 0, SpringLayout.NORTH, rightDetailPanel);
+		sl_rightDetailPanel.putConstraint(SpringLayout.WEST, averagePriceTextField, 0, SpringLayout.EAST, possessTextField);
+		sl_rightDetailPanel.putConstraint(SpringLayout.SOUTH, averagePriceTextField, 0, SpringLayout.SOUTH, possessTextField);
+		sl_rightDetailPanel.putConstraint(SpringLayout.EAST, averagePriceTextField, 0, SpringLayout.EAST, rightDetailPanel);
 		averagePriceTextField.setEditable(false);
-		averagePriceTextField.setColumns(10);
-		statsPanel.add(averagePriceTextField);
+		averagePriceTextField.setColumns(panelGap);
+		rightDetailPanel.add(averagePriceTextField);
 
 		soldTextField = new GUIElements.MyTextField();
 		soldTextField.setEditable(false);
-		soldTextField.setColumns(10);
-		statsPanel.add(soldTextField);
+		soldTextField.setColumns(panelGap);
+		rightDetailPanel.add(soldTextField);
 
 		boughtTextField = new GUIElements.MyTextField();
-		sl_statsPanel.putConstraint(SpringLayout.NORTH, boughtTextField, 0, SpringLayout.NORTH, soldTextField);
-		sl_statsPanel.putConstraint(SpringLayout.WEST, boughtTextField, 0, SpringLayout.EAST, soldTextField);
-		sl_statsPanel.putConstraint(SpringLayout.SOUTH, boughtTextField, 0, SpringLayout.SOUTH, soldTextField);
-		sl_statsPanel.putConstraint(SpringLayout.EAST, boughtTextField, 0, SpringLayout.EAST, statsPanel);
-		boughtTextField.setColumns(10);
-		statsPanel.add(boughtTextField);
+		sl_rightDetailPanel.putConstraint(SpringLayout.NORTH, boughtTextField, 0, SpringLayout.NORTH, soldTextField);
+		sl_rightDetailPanel.putConstraint(SpringLayout.WEST, boughtTextField, 0, SpringLayout.EAST, soldTextField);
+		sl_rightDetailPanel.putConstraint(SpringLayout.SOUTH, boughtTextField, 0, SpringLayout.SOUTH, soldTextField);
+		sl_rightDetailPanel.putConstraint(SpringLayout.EAST, boughtTextField, 0, SpringLayout.EAST, rightDetailPanel);
+		boughtTextField.setColumns(panelGap);
+		rightDetailPanel.add(boughtTextField);
 
 		averageProfitTextField = new GUIElements.MyTextField();
 		averageProfitTextField.setEditable(false);
-		averageProfitTextField.setColumns(10);
-		statsPanel.add(averageProfitTextField);
+		averageProfitTextField.setColumns(panelGap);
+		rightDetailPanel.add(averageProfitTextField);
 
 		demandSupplyTextField = new GUIElements.MyTextField();
-		sl_statsPanel.putConstraint(SpringLayout.NORTH, demandSupplyTextField, 0, SpringLayout.NORTH, averageProfitTextField);
-		sl_statsPanel.putConstraint(SpringLayout.WEST, demandSupplyTextField, 0, SpringLayout.EAST, averageProfitTextField);
-		sl_statsPanel.putConstraint(SpringLayout.SOUTH, demandSupplyTextField, 0, SpringLayout.SOUTH, averageProfitTextField);
-		sl_statsPanel.putConstraint(SpringLayout.EAST, demandSupplyTextField, 0, SpringLayout.EAST, statsPanel);
+		sl_rightDetailPanel.putConstraint(SpringLayout.NORTH, demandSupplyTextField, 0, SpringLayout.NORTH, averageProfitTextField);
+		sl_rightDetailPanel.putConstraint(SpringLayout.WEST, demandSupplyTextField, 0, SpringLayout.EAST, averageProfitTextField);
+		sl_rightDetailPanel.putConstraint(SpringLayout.SOUTH, demandSupplyTextField, 0, SpringLayout.SOUTH, averageProfitTextField);
+		sl_rightDetailPanel.putConstraint(SpringLayout.EAST, demandSupplyTextField, 0, SpringLayout.EAST, rightDetailPanel);
 		demandSupplyTextField.setEditable(false);
-		demandSupplyTextField.setColumns(10);
-		statsPanel.add(demandSupplyTextField);
+		demandSupplyTextField.setColumns(panelGap);
+		rightDetailPanel.add(demandSupplyTextField);
 
 		buyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -511,7 +534,7 @@ public class EconomosGUI {
 				}
 			}
 		});
-		statsPanel.add(buyButton);
+		rightDetailPanel.add(buyButton);
 
 		sellButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -522,11 +545,11 @@ public class EconomosGUI {
 			}
 		});
 
-		sl_statsPanel.putConstraint(SpringLayout.NORTH, sellButton, 0, SpringLayout.SOUTH, buyButton);
-		sl_statsPanel.putConstraint(SpringLayout.WEST, sellButton, 0, SpringLayout.WEST, statsPanel);
-		sl_statsPanel.putConstraint(SpringLayout.SOUTH, sellButton, 0, SpringLayout.SOUTH, statsPanel);
-		sl_statsPanel.putConstraint(SpringLayout.EAST, sellButton, 0, SpringLayout.EAST, statsPanel);
-		statsPanel.add(sellButton);
+		sl_rightDetailPanel.putConstraint(SpringLayout.NORTH, sellButton, panelGap, SpringLayout.SOUTH, buyButton);
+		sl_rightDetailPanel.putConstraint(SpringLayout.WEST, sellButton, 0, SpringLayout.WEST, rightDetailPanel);
+		sl_rightDetailPanel.putConstraint(SpringLayout.SOUTH, sellButton, 0, SpringLayout.SOUTH, rightDetailPanel);
+		sl_rightDetailPanel.putConstraint(SpringLayout.EAST, sellButton, 0, SpringLayout.EAST, rightDetailPanel);
+		rightDetailPanel.add(sellButton);
 
 		resourceGraphPanel.add(buyGraph);
 

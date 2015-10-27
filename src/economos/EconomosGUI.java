@@ -10,13 +10,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.*;
+
 import economos.GUIElements.PercentageSpinner;
+import economos.Main.UpdateListener;
 
 public class EconomosGUI {
 	private MyFrame					frame;
 	private GUIElements.MyTextField	typeTextField, nameTextField, possessTextField, soldTextField, averageProfitTextField, averagePriceTextField, demandSupplyTextField, rarityTextField, headlineTextField;
 	private GUIElements.MyTextArea	descriptionTextArea;
-	private static Player			currentPlayer;
 	private GUIElements.MyPanel		resourceList, resourceDetailPanel;
 	private GUIElements.MyButton	sellButton			= new GUIElements.MyButton("Sell", true);
 	private GUIElements.MyButton	buyButton			= new GUIElements.MyButton("Buy", true);
@@ -48,90 +49,46 @@ public class EconomosGUI {
 		return selectedResource;
 	}
 
-	public Player getCurrentPlayer() {
-		return currentPlayer;
-	}
-
 	public void postNewHeadline(String txt) {
 		headlineTextField.setText(txt);
 	}
 
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EconomosGUI window = new EconomosGUI();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	class AIExecutor extends TimerTask {
-		private int		aiCount, currentAI = 0;
-		private long	starttime;
-
-		public AIExecutor(int aiCount) {
-			this.aiCount = aiCount;
-		}
-
-		public void run() {
-			if (currentAI == aiCount) {
-				this.cancel();
-			} else {
-				AI ai = new AI("Potato", "Potato Industries");
-				++currentAI;
-			}
-		}
-	}
-
 	public EconomosGUI() {
-		load();
+		decimalFormatter.setMaximumFractionDigits(2);
 		initialize();
-		int aiCount = 10;
-		Timer t = new Timer();
-		t.schedule(new AIExecutor(aiCount), 0, 1000 / aiCount);
-		t.schedule(new UpdateGUI(), 0, 17);
+		Main.addUpdateListener(new GUIListener());
 	}
 
-	private void load() {
-		try {
-			DataParser parser = new DataParser();
-		} catch (IOException e) {
-			System.out.println("Failed to load. Terminating");
-			System.exit(0);
+	private class GUIListener implements UpdateListener {
+		public void receiveUpdate() {
+			updateGUI();
 		}
-		currentPlayer = new Player("Sam", "Potatronics");
-		decimalFormatter.setMaximumFractionDigits(2);
 	}
-	
-	class UpdateGUI extends TimerTask {
-		public void run() {
-			int swlast = screenWidth;
-			int shlast = screenHeight;
-			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			screenWidth = (int) screenSize.getWidth();
-			screenHeight = (int) screenSize.getHeight();
-			if(screenHeight != shlast || screenWidth != swlast){
-				resizing = true;
-			} else {
-				resizing = false;
-			}
-			if (selectedGuild != null && selectedResource != null) {
-				setSelectedResource(selectedGuild, selectedResource);
-			}
-			minigameController.repaint();
-			if (merchantsPanel.isVisible()) {
-				guildPanelMerchants.repaint();
-			} else if (craftersPanel.isVisible()) {
-				guildPanelCrafters.repaint();
-			}
+
+	private void updateGUI() {
+		int swlast = screenWidth;
+		int shlast = screenHeight;
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		screenWidth = (int) screenSize.getWidth();
+		screenHeight = (int) screenSize.getHeight();
+		if (screenHeight != shlast || screenWidth != swlast) {
+			resizing = true;
+		} else {
+			resizing = false;
+		}
+		if (selectedGuild != null && selectedResource != null) {
+			setSelectedResource(selectedGuild, selectedResource);
+		}
+		minigameController.repaint();
+		if (merchantsPanel.isVisible()) {
+			guildPanelMerchants.repaint();
+		} else if (craftersPanel.isVisible()) {
+			guildPanelCrafters.repaint();
 		}
 	}
 
 	public void setSelectedResource(String type, String name) {
-		ResourceMap<MerchantResource> m = currentPlayer.getPlayerResourceMap();
+		ResourceMap<MerchantResource> m = Main.getPlayer().getPlayerResourceMap();
 		currentResource = m.getResource(type, name);
 
 		if (currentResource != null) {
@@ -159,7 +116,7 @@ public class EconomosGUI {
 					break;
 			}
 			descriptionTextArea.setText(currentResource.getDescription());
-			demandSupplyTextField.setText("S/D: " + mr.getSupply()/mr.getDemand());
+			demandSupplyTextField.setText("S/D: " + mr.getSupply() / mr.getDemand());
 			possessTextField.setText("OWN " + currentResource.getQuantity());
 			averagePriceTextField.setText("Average Price: C" + decimalFormatter.format(mr.getAveragePrice()));
 			averageProfitTextField.setText("Average Profit: C" + decimalFormatter.format(currentResource.getAverageProfit()));
@@ -176,7 +133,7 @@ public class EconomosGUI {
 				// DOSOMETHING
 			}
 
-			if(resizing == false){
+			if (resizing == false) {
 				buyGraph.repaint();
 			}
 			fieldsReset = false;
@@ -202,77 +159,31 @@ public class EconomosGUI {
 		return currentResource;
 	}
 
-	// private class ResourceButton extends GUIElements.MyButton {
-	// private ResourceButton thisButton;
-	//
-	// public ResourceButton(String text, boolean enabled, boolean darker) {
-	// super(text, enabled, new Color(30, 30, 30), new Color(25, 25, 25));
-	// if (!enabled) {
-	// setForeground(Color.white);
-	// }
-	// thisButton = this;
-	// this.addActionListener(new ActionListener() {
-	// public void actionPerformed(ActionEvent arg0) {
-	// if (selectedResource != null) {
-	// selectedResource.setSelected(false);
-	// }
-	// selectedResource = thisButton;
-	// selectedResource.setSelected(true);
-	// }
-	// });
-	// }
-	// }
-
-	// public void updateMyList(String type) {
-	// if
-	// (currentPlayer.getPlayerResourceMap().getResourceTypes().containsKey(type))
-	// {
-	// resourceList.removeAll();
-	// ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(
-	// currentPlayer.getPlayerResourceMap().getResourceTypes().get(type).getResourcesInType());
-	// String[] rarities = new String[] { "Commonplace", "Unusual",
-	// "Soughtafter", "Coveted", "Legendary" };
-	// int ctr = 0;
-	// boolean setDarker = false;
-	// for (int i = 0; i < arr.size(); ++i) {
-	// setDarker = !setDarker;
-	// ResourceButton tempButton;
-	// if (i % 4 == 0) {
-	// tempButton = new ResourceButton(rarities[ctr], false, setDarker);
-	// resourceList.add(tempButton);
-	// ++ctr;
-	// }
-	// tempButton = new ResourceButton(arr.get(i).getName(), true, setDarker);
-	// resourceList.add(tempButton);
-	// }
-	// resourceList.validate();
-	// resourceList.repaint();
-	// }
-	// }
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	class MyFrame extends JFrame {
-		public Dimension getSize(){
+		public Dimension getSize() {
 			return new Dimension(screenWidth, screenHeight);
 		}
 	}
+
+	
 	
 	private void setFullScreen() {
 		frame = new MyFrame();
-//		frame.setUndecorated(true);
-//
-//		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//		GraphicsDevice gd = ge.getDefaultScreenDevice();
-//
-//		if (gd.isFullScreenSupported()) {
-//			try {
-//				gd.setFullScreenWindow(frame);
-//			} finally {
-//				gd.setFullScreenWindow(null);
-//			}
-//		}
+		// frame.setUndecorated(true);
+		//
+		// GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		// GraphicsDevice gd = ge.getDefaultScreenDevice();
+		//
+		// if (gd.isFullScreenSupported()) {
+		// try {
+		// gd.setFullScreenWindow(frame);
+		// } finally {
+		// gd.setFullScreenWindow(null);
+		// }
+		// }
 
 		frame.setBackground(new Color(40, 40, 40));
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -413,25 +324,6 @@ public class EconomosGUI {
 		sl_marketPanel.putConstraint(SpringLayout.SOUTH, bodyPanel, -40, SpringLayout.SOUTH, merchantsPanel);
 		sl_marketPanel.putConstraint(SpringLayout.EAST, bodyPanel, -10, SpringLayout.EAST, merchantsPanel);
 
-		// class MyGuildButton extends GUIElements.MyButton {
-		// public MyGuildButton thisButton;
-		//
-		// public MyGuildButton(String text) {
-		// super(text, true);
-		// thisButton = this;
-		// this.addActionListener(new ActionListener() {
-		// public void actionPerformed(ActionEvent arg0) {
-		// if (selectedGuild != null) {
-		// selectedGuild.setSelected(false);
-		// }
-		// selectedGuild = thisButton;
-		// selectedGuild.setSelected(true);
-		// // updateMyList(selectedGuild.getText());
-		// }
-		// });
-		// }
-		// }
-
 		merchantsPanel.add(bodyPanel);
 		SpringLayout sl_bodyPanel = new SpringLayout();
 		bodyPanel.setLayout(sl_bodyPanel);
@@ -532,9 +424,9 @@ public class EconomosGUI {
 		bottomDetailPanel.add(statsPanel);
 		SpringLayout sl_statsPanel = new SpringLayout();
 		statsPanel.setLayout(sl_statsPanel);
-		
+
 		int eHeight = resourcePanelHeight / 5;
-		System.out.println(resourcePanelHeight + " | " +eHeight);
+		System.out.println(resourcePanelHeight + " | " + eHeight);
 
 		int eWidth = (screenWidth - ((screenWidth / 4) + resourcePanelHeight + 50)) / 2;
 		possessTextField = new GUIElements.MyTextField();
@@ -589,36 +481,36 @@ public class EconomosGUI {
 		statsPanel.add(demandSupplyTextField);
 		demandSupplyTextField.setEditable(false);
 		demandSupplyTextField.setColumns(10);
-		
+
 		buyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (currentResource != null) {
-					String response = MarketController.buyResource(1, currentResource, currentPlayer);
+					String response = MarketController.buyResource(1, currentResource, Main.getPlayer());
 					postNewHeadline(response);
 				}
 			}
 		});
-		
+
 		sl_statsPanel.putConstraint(SpringLayout.NORTH, buyButton, 0, SpringLayout.SOUTH, averageProfitTextField);
 		sl_statsPanel.putConstraint(SpringLayout.WEST, buyButton, 0, SpringLayout.WEST, statsPanel);
 		sl_statsPanel.putConstraint(SpringLayout.SOUTH, buyButton, eHeight, SpringLayout.SOUTH, averageProfitTextField);
 		sl_statsPanel.putConstraint(SpringLayout.EAST, buyButton, 0, SpringLayout.EAST, statsPanel);
 		statsPanel.add(buyButton);
-		
+
 		sellButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (currentResource != null) {
-					String response = MarketController.sellResource(1, currentResource, currentPlayer);
+					String response = MarketController.sellResource(1, currentResource, Main.getPlayer());
 					postNewHeadline(response);
 				}
 			}
 		});
-		
+
 		sl_statsPanel.putConstraint(SpringLayout.NORTH, sellButton, 0, SpringLayout.SOUTH, buyButton);
 		sl_statsPanel.putConstraint(SpringLayout.WEST, sellButton, 0, SpringLayout.WEST, statsPanel);
 		sl_statsPanel.putConstraint(SpringLayout.SOUTH, sellButton, 0, SpringLayout.SOUTH, statsPanel);
 		sl_statsPanel.putConstraint(SpringLayout.EAST, sellButton, 0, SpringLayout.EAST, statsPanel);
-		statsPanel.add(sellButton);		
+		statsPanel.add(sellButton);
 
 		bodyPanel.add(resourceGraphPanel);
 		resourceGraphPanel.setLayout(new GridLayout(0, 1, 0, 0));

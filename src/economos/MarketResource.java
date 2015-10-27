@@ -5,6 +5,8 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import economos.Main.UpdateListener;
+
 public class MarketResource extends Resource implements Comparable<MarketResource> {
 	private ArrayList<MarketSnapshot>	marketHistory	= new ArrayList<MarketSnapshot>();
 
@@ -31,8 +33,23 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		maxPrice = getPricePerUnit();
 		minPrice = getPricePerUnit();
 		averagePrice = price;
-		Timer timer = new Timer();
-		timer.schedule(new UpdateResource(this), 0, EconomosGUI.timeStep);
+		Main.addUpdateListener(new MarketResourceListener());
+	}
+
+	private class MarketResourceListener implements UpdateListener {
+		public void receiveUpdate() {
+			updateResource();
+		}
+	}
+
+	private void updateResource() {
+		putPrice();
+		float tempDemand = ((ticks - 1) * demand + desiredThisTick) / ticks;
+		++ticks;
+		if (tempDemand >= 0) {
+			demand = tempDemand;
+		}
+		desiredThisTick = 0;
 	}
 
 	private float getSupplyChange() {
@@ -182,24 +199,6 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		quantity += amount;
 	}
 
-	class UpdateResource extends TimerTask {
-		private MarketResource	marketResource;
-
-		public UpdateResource(MarketResource marketResource) {
-			this.marketResource = marketResource;
-		}
-
-		public void run() {
-			marketResource.putPrice();
-			float tempDemand = ((ticks - 1) * demand + desiredThisTick) / ticks;
-			++ticks;
-			if (tempDemand >= 0) {
-				demand = tempDemand;
-			}
-			desiredThisTick = 0;
-		}
-	}
-
 	public synchronized float getPriceDiff() {
 		return maxPrice - minPrice;
 	}
@@ -230,11 +229,11 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 
 	public synchronized ArrayList<MarketSnapshot> getMarketHistory(int width) {
 		int startPoint = marketHistory.size() - width;
-		if(startPoint < 0){
+		if (startPoint < 0) {
 			startPoint = 0;
 		}
 		ArrayList<MarketSnapshot> arr = new ArrayList<MarketSnapshot>();
-		for(int i = startPoint; i < marketHistory.size(); ++i){
+		for (int i = startPoint; i < marketHistory.size(); ++i) {
 			arr.add(marketHistory.get(i));
 		}
 		return arr;

@@ -14,12 +14,12 @@ import javax.swing.*;
 import economos.GUIElements.MyPanel;
 
 public class GuildPanel extends GUIElements.MyPanel {
-	private MyGuildButton[] buttons = new MyGuildButton[8];
-	private GUIElements.MyPanel resourceList = new GUIElements.MyPanel(false);
-	private EconomosGUI main;
-	private int height, width;
-	private JButton selectedResourceButton, selectedGuildButton;
-	private JScrollPane resourceScrollPane;
+	private MyGuildButton[]		buttons			= new MyGuildButton[8];
+	private GUIElements.MyPanel	resourceList	= new GUIElements.MyPanel(false);
+	private EconomosGUI			main;
+	private int					height, width;
+	private JButton				selectedResourceButton, selectedGuildButton;
+	private JScrollPane			resourceScrollPane;
 
 	public GuildPanel(String[] guildNames, EconomosGUI main, int height, int width) {
 		super(true);
@@ -65,7 +65,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 	}
 
 	public void updateMyList(String guildName) {
-		if (main.getCurrentPlayer().getPlayerResourceMap().getResourceTypes().containsKey(guildName)) {
+		if (Main.getPlayer().getPlayerResourceMap().getResourceTypes().containsKey(guildName)) {
 			resourceList.removeAll();
 			GridBagConstraints gc = new GridBagConstraints();
 			gc.gridx = 0;
@@ -73,8 +73,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 			gc.ipady = height / 30 + 10;
 			gc.fill = GridBagConstraints.HORIZONTAL;
 			gc.weightx = 1;
-			ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(main.getCurrentPlayer()
-					.getPlayerResourceMap().getResourceTypes().get(guildName).getResourcesInType());
+			ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(Main.getPlayer().getPlayerResourceMap().getResourceTypes().get(guildName).getResourcesInType());
 			String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
 			int ctr = 0;
 			boolean setDarker = false;
@@ -97,7 +96,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 	}
 
 	private void setSelectedResource(ResourceButton b) {
-		if(selectedResourceButton != null){
+		if (selectedResourceButton != null) {
 			selectedResourceButton.setSelected(false);
 		}
 		main.setSelectedResource(b.getResourceName());
@@ -106,8 +105,8 @@ public class GuildPanel extends GUIElements.MyPanel {
 	}
 
 	private class ResourceButton extends GUIElements.MyButton {
-		private ResourceButton thisButton;
-		private String resourceName;
+		private ResourceButton	thisButton;
+		private String			resourceName;
 
 		public ResourceButton(String text, boolean enabled, boolean darker) {
 			super("", enabled, new Color(30, 30, 30), new Color(25, 25, 25));
@@ -129,8 +128,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-					RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 			int yOffset;
 			if (!isEnabled()) {
@@ -158,8 +156,8 @@ public class GuildPanel extends GUIElements.MyPanel {
 	}
 
 	private class MyGuildButton extends GUIElements.MyButton {
-		public MyGuildButton thisButton;
-		private BufferedImage iconImage = null;
+		public MyGuildButton	thisButton;
+		private BufferedImage	iconImage	= null;
 
 		public MyGuildButton(String text) {
 			super(text, true);

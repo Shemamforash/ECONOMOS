@@ -2,11 +2,20 @@ package economos;
 
 import java.util.*;
 
+import economos.Main.UpdateListener;
+
 public class AI extends User {
 	private float							greed, patience, intelligence;
 	public ResourceMap<MerchantResource>	aiMap		= new ResourceMap<MerchantResource>("AI");
 	private ArrayList<MerchantResource>		aiResources	= new ArrayList<MerchantResource>();
 	private Random							rnd			= new Random();
+	private AIListener listener;
+	
+	private class AIListener implements UpdateListener{
+		public void receiveUpdate() {
+			tick();
+		}
+	}
 
 	public AI(String name, String company) {
 		super(name, company);
@@ -35,8 +44,7 @@ public class AI extends User {
 			--personalityPoints;
 		}
 		getResources();
-		Timer t = new Timer();
-		t.schedule(new AITimer(this), 0, EconomosGUI.timeStep);
+		Main.addUpdateListener(new AIListener());
 	}
 
 	public void tick() {
@@ -111,18 +119,6 @@ public class AI extends User {
 		ArrayList<MarketResource> resources = DataParser.getAllMarketResources();
 		for (int i = 0; i < resources.size(); ++i) {
 			aiResources.add(aiMap.getResource(resources.get(i).getType(), resources.get(i).getName()));
-		}
-	}
-
-	class AITimer extends TimerTask {
-		AI	ai;
-
-		public AITimer(AI ai) {
-			this.ai = ai;
-		}
-
-		public void run() {
-			ai.tick();
 		}
 	}
 }

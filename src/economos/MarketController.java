@@ -3,9 +3,9 @@ package economos;
 import java.util.*;
 
 public class MarketController {
-	private static ResourceMap<MarketResource> marketResources = new ResourceMap<MarketResource>("Market");
-	private ArrayList<MarketResource> priceOrderedResources = new ArrayList<MarketResource>();
-	private static int graphWidth;
+	private static ResourceMap<MarketResource>	marketResources			= new ResourceMap<MarketResource>("Market");
+	private ArrayList<MarketResource>			priceOrderedResources	= new ArrayList<MarketResource>();
+	private static int							graphWidth;
 
 	public static ResourceMap<MarketResource> getMarketResources() {
 		return marketResources;
@@ -13,39 +13,36 @@ public class MarketController {
 
 	public static synchronized String buyResource(int quantity, MerchantResource r, User u) {
 		r.getMarketResource().updateDesiredThisTick(quantity);
-		if (r.getMarketResource().getQuantity() > 0 && quantity > r.getMarketResource().getQuantity()) {
-			quantity = r.getMarketResource().getQuantity();
+		MarketResource mr = r.getMarketResource();
+		float pricePerUnit = mr.getBuyPrice(1);
+		float price = pricePerUnit * quantity;
+		if (u.getMoney() < price) {
+			quantity = (int) Math.floor(u.getMoney() / pricePerUnit);
+			price = pricePerUnit * quantity;
 		}
-		float price = r.getMarketResource().getBuyPrice(quantity);
-		if (u.getMoney() >= price) {
-			r.updateQuantity(quantity, price);
-			r.getMarketResource().updateQuantity(-quantity, price);
-			u.updateMoney(-price);
-			return "Purchased " + quantity + " units of " + r.getName() + " for C" + price;
-		} else {
-			return "Insufficient funds for transaction, attain " + (price - u.getMoney()) + " more credits";
-		}
+		r.updateQuantity(quantity, price);
+		r.getMarketResource().updateQuantity(-quantity, price);
+		u.updateMoney(-price);
+		return "Purchased " + quantity + " units of " + r.getName() + " for C" + price;
 	}
-	
-	public static void setGraphWidth(int width){
+
+	public static void setGraphWidth(int width) {
 		graphWidth = width;
 	}
-	
-	public static int getGraphWidth(){
+
+	public static int getGraphWidth() {
 		return graphWidth;
 	}
 
 	public static synchronized String sellResource(int quantity, MerchantResource r, User u) {
-		if (r.getQuantity() >= quantity) {
-			float price = r.getMarketResource().getSellPrice(quantity);
-			if (price > 0) {
-				r.updateQuantity(-quantity, price);
-				r.getMarketResource().updateQuantity(quantity, price);
-				u.updateMoney(price);
-				return "Sold " + quantity + " units of " + r.getName() + " for C" + price;
-			}
+		if (r.getQuantity() < quantity) {
+			quantity = r.getQuantity();
 		}
-		return "Quantity entered exceeds quantity you own.";
+		float price = r.getMarketResource().getSellPrice(quantity);
+		r.updateQuantity(-quantity, price);
+		r.getMarketResource().updateQuantity(quantity, price);
+		u.updateMoney(price);
+		return "Sold " + quantity + " units of " + r.getName() + " for C" + price;
 	}
 
 	public ArrayList<MarketResource> getOrderedResources() {

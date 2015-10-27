@@ -109,7 +109,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 		private String			resourceName;
 
 		public ResourceButton(String text, boolean enabled, boolean darker) {
-			super("", enabled, new Color(30, 30, 30), new Color(25, 25, 25));
+			super("", enabled, new Color(30, 30, 30), new Color(25, 25, 25), true);
 			resourceName = text;
 			if (!enabled) {
 				setForeground(Color.white);

@@ -48,7 +48,7 @@ public class Main {
 	}
 	
 	private void createAI(){
-		for(int i = 0; i < 30; ++i){
+		for(int i = 0; i < 5; ++i){
 			AI ai = new AI("Some ai" + i, "A company");
 		}
 	}

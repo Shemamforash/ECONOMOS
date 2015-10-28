@@ -15,23 +15,23 @@ import economos.GUIElements.PercentageSpinner;
 import economos.Main.UpdateListener;
 
 public class EconomosGUI {
-	private JFrame					frame;
-	private GUIElements.MyTextField	typeTextField, nameTextField, possessTextField, soldTextField, averageProfitTextField, averagePriceTextField, demandSupplyTextField, rarityTextField, headlineTextField;
-	private GUIElements.MyTextArea	descriptionTextArea;
-	private GUIElements.MyPanel		resourceList, resourceDetailPanel, bodyPanel, leftDetailPanel, iconPanel, centerDetailPanel, framePanel, rightDetailPanel;
+	private JFrame						frame;
+	private GUIElements.MyTextField		typeTextField, nameTextField, possessTextField, soldTextField, averageProfitTextField, averagePriceTextField, demandSupplyTextField, rarityTextField, headlineTextField;
+	private GUIElements.MyTextArea		descriptionTextArea;
+	private GUIElements.MyPanel			resourceList, resourceDetailPanel, bodyPanel, leftDetailPanel, iconPanel, centerDetailPanel, framePanel, rightDetailPanel;
 	private GUIElements.BuySellButton	sellButton			= new GUIElements.BuySellButton("Sell");
 	private GUIElements.BuySellButton	buyButton			= new GUIElements.BuySellButton("Buy");
-	private static MerchantResource	currentResource		= null;
-	private NumberFormat			decimalFormatter	= NumberFormat.getIntegerInstance();
-	private GraphPanel				buyGraph			= new GraphPanel();
-	public static int				timeStep			= 9;
-	private String					selectedResource, selectedGuild;
-	private GUIElements.MyPanel		merchantsPanel, gamePanel, craftersPanel, overviewPanel, infoPanel, currentPanel;
-	private MinigameController		minigameController;
-	private boolean					resizing = false;
-	private int						screenWidth, screenHeight, largePanelGap = 15, smallPanelGap = 7;
-	private GuildPanel				guildPanelMerchants, guildPanelCrafters;
-	private JTextField				boughtTextField;
+	private static MerchantResource		currentResource		= null;
+	private NumberFormat				decimalFormatter	= NumberFormat.getIntegerInstance();
+	private GraphPanel					buyGraph			= new GraphPanel();
+	public static int					timeStep			= 9;
+	private String						selectedResource, selectedGuild;
+	private GUIElements.MyPanel			merchantsPanel, gamePanel, craftersPanel, overviewPanel, infoPanel, currentPanel;
+	private MinigameController			minigameController;
+	private boolean						resizing			= false;
+	private int							screenWidth, screenHeight, largePanelGap = 15, smallPanelGap = 7;
+	private GuildPanel					guildPanelMerchants, guildPanelCrafters;
+	private JTextField					boughtTextField;
 
 	public void setSelectedGuild(String selectedGuild) {
 		this.selectedGuild = selectedGuild;
@@ -147,10 +147,10 @@ public class EconomosGUI {
 		int shlast = screenHeight;
 		screenWidth = framePanel.getWidth();
 		screenHeight = framePanel.getHeight();
-		if(screenWidth < 600){
+		if (screenWidth < 600) {
 			screenWidth = 600;
 		}
-		if(screenHeight < 500){
+		if (screenHeight < 500) {
 			screenHeight = 500;
 		}
 		if (screenHeight != shlast || screenWidth != swlast) {
@@ -181,21 +181,21 @@ public class EconomosGUI {
 		springLayout.putConstraint(SpringLayout.SOUTH, guildPanelMerchants, -40, SpringLayout.SOUTH, merchantsPanel);
 		springLayout.putConstraint(SpringLayout.EAST, guildPanelMerchants, screenWidth / 4, SpringLayout.WEST, merchantsPanel);
 
-		int resourcePanelHeight = (int)((screenHeight - 40) / 2.4f);
+		int resourcePanelHeight = (int) ((screenHeight - 40) / 2.4f);
 		springLayout = (SpringLayout) (bodyPanel.getLayout());
 		springLayout.putConstraint(SpringLayout.NORTH, resourceDetailPanel, 0, SpringLayout.NORTH, bodyPanel);
 		springLayout.putConstraint(SpringLayout.WEST, resourceDetailPanel, 0, SpringLayout.WEST, bodyPanel);
 		springLayout.putConstraint(SpringLayout.SOUTH, resourceDetailPanel, resourcePanelHeight, SpringLayout.NORTH, bodyPanel);
 		springLayout.putConstraint(SpringLayout.EAST, resourceDetailPanel, 0, SpringLayout.EAST, bodyPanel);
 
-		int leftPanelWidth = (int)(resourcePanelHeight / 2 * 1.3f);
+		int leftPanelWidth = (int) (resourcePanelHeight / 2 * 1.3f);
 		springLayout = (SpringLayout) (resourceDetailPanel.getLayout());
 		springLayout.putConstraint(SpringLayout.NORTH, leftDetailPanel, 0, SpringLayout.NORTH, resourceDetailPanel);
 		springLayout.putConstraint(SpringLayout.WEST, leftDetailPanel, 0, SpringLayout.WEST, resourceDetailPanel);
 		springLayout.putConstraint(SpringLayout.SOUTH, leftDetailPanel, 0, SpringLayout.SOUTH, resourceDetailPanel);
 		springLayout.putConstraint(SpringLayout.EAST, leftDetailPanel, leftPanelWidth, SpringLayout.WEST, resourceDetailPanel);
-		
-		int centerPanelWidth = (int)(resourcePanelHeight * 0.8f);
+
+		int centerPanelWidth = (int) (resourcePanelHeight * 0.8f);
 		springLayout.putConstraint(SpringLayout.NORTH, centerDetailPanel, 0, SpringLayout.NORTH, resourceDetailPanel);
 		springLayout.putConstraint(SpringLayout.WEST, centerDetailPanel, largePanelGap, SpringLayout.EAST, leftDetailPanel);
 		springLayout.putConstraint(SpringLayout.SOUTH, centerDetailPanel, 0, SpringLayout.SOUTH, resourceDetailPanel);
@@ -205,7 +205,7 @@ public class EconomosGUI {
 		springLayout.putConstraint(SpringLayout.WEST, rightDetailPanel, largePanelGap, SpringLayout.EAST, centerDetailPanel);
 		springLayout.putConstraint(SpringLayout.SOUTH, rightDetailPanel, 0, SpringLayout.SOUTH, resourceDetailPanel);
 		springLayout.putConstraint(SpringLayout.EAST, rightDetailPanel, 0, SpringLayout.EAST, resourceDetailPanel);
-		
+
 		springLayout = (SpringLayout) (leftDetailPanel.getLayout());
 		springLayout.putConstraint(SpringLayout.NORTH, iconPanel, 0, SpringLayout.NORTH, leftDetailPanel);
 		springLayout.putConstraint(SpringLayout.WEST, iconPanel, 0, SpringLayout.WEST, leftDetailPanel);
@@ -228,12 +228,12 @@ public class EconomosGUI {
 		springLayout.putConstraint(SpringLayout.WEST, rarityTextField, 0, SpringLayout.WEST, leftDetailPanel);
 		springLayout.putConstraint(SpringLayout.SOUTH, rarityTextField, textFieldHeight, SpringLayout.SOUTH, nameTextField);
 		springLayout.putConstraint(SpringLayout.EAST, rarityTextField, 0, SpringLayout.EAST, leftDetailPanel);
-		
+
 		float eHeight = (resourcePanelHeight - (4 * smallPanelGap)) / 12f;
 		int eWidth = (screenWidth - ((screenWidth / 4) + resourcePanelHeight + 50)) / 2;
-		int smalleHeight = (int)(2 * eHeight);
-		int largeeHeight = (int)(3 * eHeight);
-		
+		int smalleHeight = (int) (2 * eHeight);
+		int largeeHeight = (int) (3 * eHeight);
+
 		springLayout = (SpringLayout) (rightDetailPanel.getLayout());
 		springLayout.putConstraint(SpringLayout.NORTH, possessTextField, 0, SpringLayout.NORTH, rightDetailPanel);
 		springLayout.putConstraint(SpringLayout.WEST, possessTextField, 0, SpringLayout.WEST, rightDetailPanel);
@@ -254,47 +254,47 @@ public class EconomosGUI {
 		springLayout.putConstraint(SpringLayout.WEST, buyButton, 0, SpringLayout.WEST, rightDetailPanel);
 		springLayout.putConstraint(SpringLayout.SOUTH, buyButton, largeeHeight + smallPanelGap, SpringLayout.SOUTH, averageProfitTextField);
 		springLayout.putConstraint(SpringLayout.EAST, buyButton, 0, SpringLayout.EAST, rightDetailPanel);
-		
+
 		buyButton.updateConstraints(largeeHeight);
 		sellButton.updateConstraints(largeeHeight);
 	}
 
-//	private void initialize() {
-//		System.out.println("potato");
-//		frame = new JFrame();
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		framePanel = new GUIElements.MyPanel(true);
-//		boolean fullscreen = true;
-//		if (fullscreen) {
-//			frame.setUndecorated(true);
-//
-//			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//			GraphicsDevice gd = ge.getDefaultScreenDevice();
-//			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-//			screenWidth = (int)screenSize.getWidth();
-//			screenHeight = (int)screenSize.getHeight();
-//
-//			System.out.println(screenWidth + " | " + screenHeight);
-//			if (gd.isFullScreenSupported()) {
-//				try {
-//					gd.setFullScreenWindow(frame);
-//				} finally {
-//					gd.setFullScreenWindow(null);
-//				}
-//			}
-//			frame.setBounds(0, 0, screenWidth, screenHeight);
-//			createPanels();
-//		} else {
-//			screenWidth = panelGap00;
-//			screenHeight = 600;
-//			framePanel.setPreferredSize(new Dimension(screenWidth, screenHeight));
-//			createPanels();
-//			frame.setVisible(true);
-//			frame.pack();
-//		}		
-//	}
+	// private void initialize() {
+	// System.out.println("potato");
+	// frame = new JFrame();
+	// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	// framePanel = new GUIElements.MyPanel(true);
+	// boolean fullscreen = true;
+	// if (fullscreen) {
+	// frame.setUndecorated(true);
+	//
+	// GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	// GraphicsDevice gd = ge.getDefaultScreenDevice();
+	// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	// screenWidth = (int)screenSize.getWidth();
+	// screenHeight = (int)screenSize.getHeight();
+	//
+	// System.out.println(screenWidth + " | " + screenHeight);
+	// if (gd.isFullScreenSupported()) {
+	// try {
+	// gd.setFullScreenWindow(frame);
+	// } finally {
+	// gd.setFullScreenWindow(null);
+	// }
+	// }
+	// frame.setBounds(0, 0, screenWidth, screenHeight);
+	// createPanels();
+	// } else {
+	// screenWidth = panelGap00;
+	// screenHeight = 600;
+	// framePanel.setPreferredSize(new Dimension(screenWidth, screenHeight));
+	// createPanels();
+	// frame.setVisible(true);
+	// frame.pack();
+	// }
+	// }
 
-	//used for windowbuilder
+	// used for windowbuilder
 	private void setFullScreen() {
 		frame = new JFrame();
 		frame.setUndecorated(true);
@@ -317,7 +317,7 @@ public class EconomosGUI {
 		frame.setBounds(0, 0, (int) screenSize.getWidth(), (int) screenSize.getHeight());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
+
 	private void initialize() {
 		decimalFormatter.setGroupingUsed(false);
 		setFullScreen();

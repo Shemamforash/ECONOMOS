@@ -517,7 +517,7 @@ public class GUIElements {
 
 		public int getSelectedQuantity() {
 			if(lastButton != null){
-				return Integer.valueOf(lastButton.getText()); 
+				return Integer.parseInt(lastButton.getText()); 
 			}	
 			return 1;
 		}

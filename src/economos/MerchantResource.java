@@ -5,8 +5,8 @@ public class MerchantResource extends UserResource {
 	private int bought;
 	private float averageSell, averageBuy, averageProfit;
 	
-	public MerchantResource(String name, String description, String type, String rarity) {
-		super(name, description, type, rarity);
+	public MerchantResource(String name, String id, String description, String type, String rarity) {
+		super(name, id, description, type, rarity);
 		marketResource = MarketController.getMarketResources().getResource(type, name);
 	}
 	

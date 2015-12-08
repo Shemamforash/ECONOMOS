@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="Spicer Raw.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -24,16 +24,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="266.25306"
-     inkscape:cy="621.7649"
+     inkscape:zoom="5.6"
+     inkscape:cx="404.24135"
+     inkscape:cy="642.30535"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:snap-grids="true"
      inkscape:object-paths="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1017"
+     inkscape:window-height="1027"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1">
@@ -49,7 +49,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -230,5 +230,68 @@
        id="path3850"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccccc" />
+    <rect
+       style="fill:#ff2a2a;fill-opacity:1;stroke:none"
+       id="rect2987-1"
+       width="140"
+       height="140"
+       x="318.40366"
+       y="330.30872" />
+    <path
+       style="fill:#ff8c00;fill-opacity:1;stroke:none"
+       d="m 318.66682,400.21884 0,-69.82142 69.82143,0 69.82142,0 0,69.82142 0,69.82143 -69.82142,0 -69.82143,0 0,-69.82143 z"
+       id="path2989-7"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:1.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 333.40365,445.30872 55,-55.00001 55,55.00001 z"
+       id="path3759-4"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 388.40365,390.30871 C 380,398.36218 378,402.36218 378,409.36218 c 0,5 5.23871,11 10,11 6,0 10,6 9,12 -1,6 -8,11 -12,13 l -51.59635,-0.0534 z"
+       id="path3761-0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="csssccc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.70000005;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path3765-7-8"
+       sodipodi:cx="215.22563"
+       sodipodi:cy="367.28934"
+       sodipodi:rx="1.7046324"
+       sodipodi:ry="1.7046324"
+       d="m 215.2151,368.99394 a 1.7046324,1.7046324 0 1 1 0.0313,-1e-4"
+       sodipodi:start="1.5769719"
+       sodipodi:end="7.8417864"
+       sodipodi:open="true"
+       transform="matrix(0.81552514,0,0,0.81552514,210.41184,80.03334)" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.70000005;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path3765-0-4"
+       sodipodi:cx="215.22563"
+       sodipodi:cy="367.28934"
+       sodipodi:rx="1.7046324"
+       sodipodi:ry="1.7046324"
+       d="m 215.2151,368.99394 a 1.7046324,1.7046324 0 1 1 0.0313,-1e-4"
+       sodipodi:start="1.5769719"
+       sodipodi:end="7.8417864"
+       sodipodi:open="true"
+       transform="matrix(0.72814888,0,0,0.72814888,242.09033,115.13952)" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.70000005;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path3765-48-5"
+       sodipodi:cx="215.22563"
+       sodipodi:cy="367.28934"
+       sodipodi:rx="1.7046324"
+       sodipodi:ry="1.7046324"
+       d="m 215.2151,368.99394 a 1.7046324,1.7046324 0 1 1 0.0313,-1e-4"
+       sodipodi:start="1.5769719"
+       sodipodi:end="7.8417864"
+       sodipodi:open="true"
+       transform="matrix(0.72814888,0,0,0.72814888,236.16748,103.24922)" />
   </g>
 </svg>

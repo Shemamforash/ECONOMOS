@@ -11,8 +11,8 @@ class ResourceType<T extends Resource>{
 		this.type = type;
 	}
 	
-	public void put(String name, T resource){
-		resources.put(name, resource);
+	public void put(String id, T resource){
+		resources.put(id, resource);
 	}
 
 	public T findResource(String name){

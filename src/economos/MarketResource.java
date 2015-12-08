@@ -19,8 +19,8 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 	int									trendDirection	= 1;																			// true is up/false is down
 	private Random						rnd				= new Random();
 
-	public MarketResource(String name, String description, String type, String rarity, int baseSupplyRate) {
-		super(name, description, type, rarity);
+	public MarketResource(String name, String id, String description, String type, String rarity, int baseSupplyRate) {
+		super(name, id, description, type, rarity);
 		this.baseSupply = rnd.nextInt(75) + 10;
 		timerMax = rnd.nextInt(1000) + 500;
 		supply = baseSupply;

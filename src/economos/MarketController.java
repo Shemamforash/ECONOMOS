@@ -3,7 +3,7 @@ package economos;
 import java.util.*;
 
 public class MarketController {
-	private static ResourceMap<MarketResource>	marketResources			= new ResourceMap<MarketResource>("Market");
+	private static ResourceMap<MarketResource>	marketResources			= new ResourceMap<MarketResource>("Market", "Merchant");
 	private ArrayList<MarketResource>			priceOrderedResources	= new ArrayList<MarketResource>();
 	private static int							graphWidth;
 

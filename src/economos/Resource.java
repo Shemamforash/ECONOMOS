@@ -1,7 +1,7 @@
 package economos;
 
 public abstract class Resource {
-	private String name, description, type, rarity;
+	private String name, id, description, type, rarity;
 	protected int quantity;
 	
 	public int getQuantity(){
@@ -10,8 +10,9 @@ public abstract class Resource {
 	
 	protected abstract void updateQuantity(int amount, float price);
 	
-	public Resource(String name, String description, String type, String rarity){
+	public Resource(String name, String id, String description, String type, String rarity){
 		this.name = name;
+		this.id = id;
 		this.description = description;
 		this.type = type;
 		this.rarity = rarity;
@@ -31,5 +32,9 @@ public abstract class Resource {
 	
 	public String getName(){
 		return name;
+	}
+
+	public String getID() {
+		return id;
 	}
 }

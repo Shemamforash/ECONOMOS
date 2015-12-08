@@ -4,8 +4,8 @@ public class CraftingResource extends UserResource {
 	private RequisiteResource[]	requisiteResources;
 	private int					value, timetocraft, cost;
 
-	public CraftingResource(String name, String description, String type, String rarity, UserResource[] prerequisites, int cost, int[] quantities) {
-		super(name, description, type, rarity);
+	public CraftingResource(String name, String id, String type, String rarity, String recipe, int cost) {
+		super(name, id, "", type, rarity);
 		this.cost = cost;
 		requisiteResources = new RequisiteResource[prerequisites.length];
 		for (int i = 0; i < prerequisites.length; ++i) {
@@ -45,15 +45,15 @@ public class CraftingResource extends UserResource {
 	}
 
 	public class RequisiteResource {
-		private UserResource	resource;
-		private int				quantity;
-		private boolean			hasMetRequirements;
+		private MerchantResource	resource;
+		private int					quantity;
+		private boolean				hasMetRequirements;
 
 		public void reduceResource() {
 			resource.updateQuantity(quantity, 0);
 		}
 
-		public RequisiteResource(UserResource resource, int quantity) {
+		public RequisiteResource(MerchantResource resource, int quantity) {
 			this.resource = resource;
 			this.quantity = quantity;
 		}

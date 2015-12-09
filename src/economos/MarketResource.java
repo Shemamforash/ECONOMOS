@@ -26,7 +26,6 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		supply = baseSupply;
 		demand = baseSupply;
 		desiredThisTick = baseSupply;
-		quantity = rnd.nextInt(1000);
 		basePrice = rnd.nextInt(1000);
 		price = getPricePerUnit();
 		marketHistory.add(new MarketSnapshot(supply, demand, price));
@@ -143,7 +142,6 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 
 	public void putPrice() {
 		price = getPricePerUnit();
-		quantity += supply;
 
 		boolean recordData = false;
 		if (ticks % 4 == 0) {
@@ -193,10 +191,6 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		} else {
 			return ((price * 90) + (price * 855) + (price * (quantity - 1000) * 0.98f));
 		}
-	}
-
-	public synchronized void updateQuantity(int amount, float price) {
-		quantity += amount;
 	}
 
 	public synchronized float getPriceDiff() {

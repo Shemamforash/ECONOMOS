@@ -6,7 +6,7 @@ import economos.Main.UpdateListener;
 
 public class AI extends User {
 	private float							greed, patience, intelligence;
-	public ResourceMap<MerchantResource>	aiMap		= new ResourceMap<MerchantResource>("AI");
+	public ResourceMap<MerchantResource>	aiMap		= new ResourceMap<MerchantResource>("AI", "Merchant");
 	private ArrayList<MerchantResource>		aiResources	= new ArrayList<MerchantResource>();
 	private Random							rnd			= new Random();
 	private AIListener listener;
@@ -118,7 +118,7 @@ public class AI extends User {
 	public void getResources() {
 		ArrayList<MarketResource> resources = DataParser.getAllMarketResources();
 		for (int i = 0; i < resources.size(); ++i) {
-			aiResources.add(aiMap.getResource(resources.get(i).getType(), resources.get(i).getName()));
+			aiResources.add(aiMap.getResource(resources.get(i).getName()));
 		}
 	}
 }

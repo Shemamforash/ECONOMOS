@@ -1,12 +1,28 @@
 package economos;
 
+import java.util.ArrayList;
+
 public class CraftingResource extends UserResource {
 	private RequisiteResource[]	requisiteResources;
 	private int					value, timetocraft, cost;
+	private String				recipe;
 
 	public CraftingResource(String name, String id, String type, String rarity, String recipe, int cost) {
 		super(name, id, "", type, rarity);
 		this.cost = cost;
+		this.recipe = recipe;
+	}
+	
+	public void assignPrerequisites(){
+		ArrayList<Resource> prerequisites = new ArrayList<Resource>();
+		ArrayList<Integer> quantities = new ArrayList<Integer>();
+		
+		for(int i = 0; i < 5; ++i){
+			if(recipe.startsWith("00")){
+				break;
+			}
+			recipe.substring(0, 6);
+		}
 		requisiteResources = new RequisiteResource[prerequisites.length];
 		for (int i = 0; i < prerequisites.length; ++i) {
 			requisiteResources[i] = new RequisiteResource(prerequisites[i], quantities[i]);
@@ -69,5 +85,9 @@ public class CraftingResource extends UserResource {
 				return false;
 			}
 		}
+	}
+
+	public synchronized void updateQuantity(int amount, float price) {
+		quantity += amount;
 	}
 }

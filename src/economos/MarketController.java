@@ -21,7 +21,6 @@ public class MarketController {
 			price = pricePerUnit * quantity;
 		}
 		r.updateQuantity(quantity, price);
-		r.getMarketResource().updateQuantity(-quantity, price);
 		u.updateMoney(-price);
 		return "Purchased " + quantity + " units of " + r.getName() + " for C" + price;
 	}
@@ -40,7 +39,6 @@ public class MarketController {
 		}
 		float price = r.getMarketResource().getSellPrice(quantity);
 		r.updateQuantity(-quantity, price);
-		r.getMarketResource().updateQuantity(quantity, price);
 		u.updateMoney(price);
 		return "Sold " + quantity + " units of " + r.getName() + " for C" + price;
 	}

@@ -70,7 +70,7 @@ public class EconomosGUI {
 
 	public void setSelectedResource(String type, String name) {
 		ResourceMap<MerchantResource> m = Main.getPlayer().getPlayerResourceMap();
-		currentResource = m.getResource(type, name);
+		currentResource = m.getResource(name);
 
 		if (currentResource != null) {
 			MarketResource mr = currentResource.getMarketResource();

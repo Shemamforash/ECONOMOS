@@ -7,7 +7,7 @@ public class MerchantResource extends UserResource {
 	
 	public MerchantResource(String name, String id, String description, String type, String rarity) {
 		super(name, id, description, type, rarity);
-		marketResource = MarketController.getMarketResources().getResource(type, name);
+		marketResource = MarketController.getMarketResources().getResource(name);
 	}
 	
 	protected void updateQuantity(int amount, float price) { 

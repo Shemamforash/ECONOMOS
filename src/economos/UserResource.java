@@ -2,6 +2,7 @@ package economos;
 
 public abstract class UserResource extends Resource{
 	protected int sold;
+	protected int quantity;
 	
 	public UserResource(String name, String id, String description, String type, String rarity) {
 		super(name, id, description, type, rarity);
@@ -11,8 +12,9 @@ public abstract class UserResource extends Resource{
 		return sold;
 	}
 	
-	@Override
-	protected void updateQuantity(int amount, float price) {
-		quantity += amount;
+	public int getQuantity(){
+		return quantity;
 	}
+	
+	protected abstract void updateQuantity(int amount, float price);
 }

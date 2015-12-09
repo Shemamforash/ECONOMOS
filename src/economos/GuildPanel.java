@@ -62,7 +62,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 	}
 
 	public void updateMyList(String guildName) {
-		if (Main.getPlayer().getPlayerResourceMap().getResourceTypes().containsKey(guildName)) {
+		if (Main.getPlayer().getPlayerResourceMap().getResourceTypes().contains(guildName)) {
 			resourceList.removeAll();
 			GridBagConstraints gc = new GridBagConstraints();
 			gc.gridx = 0;
@@ -70,7 +70,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 			gc.ipady = height / 30 + 10;
 			gc.fill = GridBagConstraints.HORIZONTAL;
 			gc.weightx = 1;
-			ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(Main.getPlayer().getPlayerResourceMap().getResourceTypes().get(guildName).getResourcesInType());
+			ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(Main.getPlayer().getPlayerResourceMap().getResourcesInType(guildName));
 			String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
 			int ctr = 0;
 			boolean setDarker = false;
@@ -141,7 +141,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 			}
 			g.drawString(resourceName, 10, getHeight() / 2 + yOffset);
 
-			MarketResource r = MarketController.getMarketResources().getResource(main.getSelectedGuild(), resourceName);
+			MarketResource r = MarketController.getMarketResources().getResource(resourceName);
 			if (r != null) {
 				g.setFont(thisButton.getFont().deriveFont(10f));
 				g.setColor(new Color(200, 200, 200));

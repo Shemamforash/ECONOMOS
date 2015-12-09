@@ -2,14 +2,7 @@ package economos;
 
 public abstract class Resource {
 	private String name, id, description, type, rarity;
-	protected int quantity;
-	
-	public int getQuantity(){
-		return quantity;
-	}
-	
-	protected abstract void updateQuantity(int amount, float price);
-	
+		
 	public Resource(String name, String id, String description, String type, String rarity){
 		this.name = name;
 		this.id = id;

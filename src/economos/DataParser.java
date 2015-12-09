@@ -42,6 +42,20 @@ public class DataParser {
 		}
 	}
 	
+	public Resource findResourceWithID(String id){
+		for(MarketResource m : allMarketResources){
+			if(m.getID().equals(id)){
+				return m;
+			}
+		}
+		for(CraftingResource r : craftingResources){
+			if(r.getID().equals(id)){
+				return r;
+			}
+		}
+		return null;
+	}
+	
 	public void readCraftingData(BufferedReader reader) throws IOException{
 		String[] rarities = new String[]{"Dabbler", "Apprentice", "Journeyman", "Master", "Adept"};
 		String next = " ";

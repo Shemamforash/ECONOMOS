@@ -2,20 +2,17 @@ package economos;
 
 import java.util.*;
 
-import economos.Main.UpdateListener;
+import Resources.DataParser;
+import Resources.MarketController;
+import Resources.MarketResource;
+import Resources.MerchantResource;
+import Resources.ResourceMap;
 
-public class AI extends User {
+public class AI extends User implements UpdateListener {
 	private float							greed, patience, intelligence;
 	public ResourceMap<MerchantResource>	aiMap		= new ResourceMap<MerchantResource>("AI", "Merchant");
 	private ArrayList<MerchantResource>		aiResources	= new ArrayList<MerchantResource>();
 	private Random							rnd			= new Random();
-	private AIListener listener;
-	
-	private class AIListener implements UpdateListener{
-		public void receiveUpdate() {
-			tick();
-		}
-	}
 
 	public AI(String name, String company) {
 		super(name, company);
@@ -44,10 +41,10 @@ public class AI extends User {
 			--personalityPoints;
 		}
 		getResources();
-		Main.addUpdateListener(new AIListener());
+		UpdateCaller.addListener(this);
 	}
 
-	public void tick() {
+	public void receiveUpdate() {
 		for (MerchantResource r : aiResources) {
 			MarketResource mr = r.getMarketResource();
 			float predictedProfit = r.getPredictedProfit(-1, mr.getSellPrice(1));

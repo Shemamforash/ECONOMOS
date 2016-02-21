@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import Resources.MerchantResource;
+import Resources.ResourceMap;
+
 public class Player extends User{
 	private ArrayList<MerchantResource> userResources = new ArrayList<MerchantResource>();
 	public ResourceMap<MerchantResource> resourceMap = new ResourceMap<MerchantResource>("Player", "Merchant");

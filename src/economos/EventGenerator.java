@@ -2,6 +2,8 @@ package economos;
 
 import java.util.Random;
 
+import Resources.MarketResource;
+
 public class EventGenerator {
 	private Random rnd = new Random();
 	

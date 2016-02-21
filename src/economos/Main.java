@@ -1,15 +1,16 @@
 package economos;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.TimerTask;
 
 import javax.swing.SwingUtilities;
 
+import GUI.EconomosGUI;
+import Resources.DataParser;
+
 public class Main {
 	private boolean running = true;
 	private float optimumFrameTime = 1000000000f / 60f;
-	private static UpdateCaller loopUpdater;
 	private static Player			player;
 	
 	public static void main(String[] args) {
@@ -18,13 +19,13 @@ public class Main {
 	}
 	
 	private void start(){
-		loopUpdater = new UpdateCaller();
 		loadData();
 		createAI();
 		startGUI();
 		loop();
 	}
 	
+	//Start the GUI in the event dispatch thread.
 	private void startGUI(){
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -37,6 +38,8 @@ public class Main {
 		});
 	}
 	
+	
+	//Load in all the resource data
 	private void loadData() {
 		try {
 			DataParser parser = new DataParser();
@@ -47,12 +50,16 @@ public class Main {
 		player = new Player("Sam", "Potatronics");
 	}
 	
+	//Create some AI
 	private void createAI(){
 		for(int i = 0; i < 5; ++i){
 			AI ai = new AI("Some ai" + i, "A company");
 		}
 	}
 	
+	
+	//Start the gameloop- this will try to run at 60fps.
+	//Calls the relevant method in the UpdateCaller so that all classes that need to be updated per frame are told when the frame is updated.
 	public void loop(){
 		int fps = 0;
 		long lastFrameTime = System.nanoTime(), time = 0;
@@ -67,7 +74,7 @@ public class Main {
 			
 			float delta = (System.nanoTime() - lastFrameTime) / optimumFrameTime;
 			lastFrameTime = System.nanoTime();
-			loopUpdater.callUpdate();
+			UpdateCaller.callUpdate();
 			
 			try{
 				Thread.sleep((long) ((lastFrameTime - System.nanoTime() + optimumFrameTime) / 1000000));
@@ -75,28 +82,6 @@ public class Main {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	class UpdateCaller {
-		private ArrayList<UpdateListener> listeners = new ArrayList<UpdateListener>();
-		
-		public void addListener(UpdateListener listener){
-			listeners.add(listener);
-		}
-		
-		public void callUpdate(){
-			for(UpdateListener l : listeners){
-				l.receiveUpdate();
-			}
-		}
-	}
-	
-	public static void addUpdateListener(UpdateListener l){
-		loopUpdater.addListener(l);
-	}
-	
-	interface UpdateListener {
-		public void receiveUpdate();
 	}
 	
 	public static Player getPlayer() {

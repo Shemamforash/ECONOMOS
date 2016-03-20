@@ -1,11 +1,12 @@
-package Resources;
+package MerchantResources;
 
 import java.util.*;
 
+import DataImportExport.DataParser;
 import economos.User;
 
 public class MarketController {
-	private static ResourceMap<MarketResource>	marketResources			= new ResourceMap<MarketResource>("Market", "Merchant");
+	private static ResourceMap<MarketResource>	marketResources			= new ResourceMap<MarketResource>(false);
 	private ArrayList<MarketResource>			priceOrderedResources	= new ArrayList<MarketResource>();
 	private static int							graphWidth;
 
@@ -13,16 +14,14 @@ public class MarketController {
 		return marketResources;
 	}
 
-	public static synchronized String buyResource(int quantity, MerchantResource r, User u) {
-		r.getMarketResource().updateDesiredThisTick(quantity);
-		MarketResource mr = r.getMarketResource();
+	public static synchronized String buyResource(int quantity, MarketResource mr, User u) {
+		MerchantResource r = u.findUserResource(mr.getName());
 		float pricePerUnit = mr.getBuyPrice(1);
 		float price = pricePerUnit * quantity;
 		if (u.getMoney() < price) {
 			quantity = (int) Math.floor(u.getMoney() / pricePerUnit);
-			price = pricePerUnit * quantity;
 		}
-		r.updateQuantity(quantity, price);
+		price = pricePerUnit * quantity;
 		u.updateMoney(-price);
 		return "Purchased " + quantity + " units of " + r.getName() + " for C" + price;
 	}
@@ -39,14 +38,17 @@ public class MarketController {
 		return marketResources.getResource(lookup);
 	}
 	
-	public static synchronized String sellResource(int quantity, MerchantResource r, User u) {
-		if (r.getQuantity() < quantity) {
+	/*
+	 * Gets the amount of money made from selling the resource.
+	 */
+	public static synchronized String sellResource(int quantity, MarketResource mr, User u) {
+		MerchantResource r = u.findUserResource(mr.getName());
+		if(quantity > r.getQuantity()){
 			quantity = r.getQuantity();
 		}
-		float price = r.getMarketResource().getSellPrice(quantity);
-		r.updateQuantity(-quantity, price);
-		u.updateMoney(price);
-		return "Sold " + quantity + " units of " + r.getName() + " for C" + price;
+		float moneyEarned = r.sell(quantity);
+		u.updateMoney(moneyEarned);
+		return "Sold " + quantity + " units of " + r.getName() + " for C" + moneyEarned;
 	}
 
 	public ArrayList<MarketResource> getOrderedResources() {

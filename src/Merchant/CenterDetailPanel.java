@@ -3,7 +3,8 @@ package Merchant;
 import java.awt.BorderLayout;
 
 import GUI.GUIElements;
-import Resources.MerchantResource;
+import MerchantResources.MarketResource;
+import MerchantResources.MerchantResource;
 
 public class CenterDetailPanel extends DetailPanel{	
 	private GUIElements.MyTextArea descriptionTextArea;
@@ -17,7 +18,7 @@ public class CenterDetailPanel extends DetailPanel{
 		add(descriptionTextArea, BorderLayout.CENTER);
 	}
 
-	public void selectedResourceChanged(MerchantResource m) {
+	public void selectedResourceChanged(MarketResource m) {
 		if(m != null){
 			descriptionTextArea.setText(m.getDescription());
 		} else {

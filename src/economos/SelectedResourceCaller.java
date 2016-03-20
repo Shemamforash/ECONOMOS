@@ -2,8 +2,8 @@ package economos;
 
 import java.util.ArrayList;
 
-import Resources.MerchantResource;
-import Resources.ResourceMap;
+import MerchantResources.MerchantResource;
+import MerchantResources.ResourceMap;
 
 public class SelectedResourceCaller {
 	private static ArrayList<SelectedResourceListener> listeners = new ArrayList<SelectedResourceListener>();
@@ -12,11 +12,12 @@ public class SelectedResourceCaller {
 		listeners.add(listener);
 	}
 	
-	public static void updateResource(String resource){
-		ResourceMap<MerchantResource> m = Main.getPlayer().getPlayerResourceMap();
-		MerchantResource currentResource = m.getResource(resource);
-		for(SelectedResourceListener l : listeners){
-			l.selectedResourceChanged(currentResource);
+	public static void updateResource(String name){
+		MerchantResource currentResource = Main.getPlayer().findUserResource(name);
+		if(currentResource != null){
+			for(SelectedResourceListener l : listeners){
+				l.selectedResourceChanged(currentResource.getMarketResource());
+			}
 		}
 	}
 	

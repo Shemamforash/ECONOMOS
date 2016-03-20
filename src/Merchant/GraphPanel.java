@@ -6,9 +6,9 @@ import java.text.NumberFormat;
 import java.util.*;
 import javax.swing.*;
 
-import Resources.MarketController;
-import Resources.MarketResource;
-import Resources.MerchantResource;
+import MerchantResources.MarketController;
+import MerchantResources.MarketResource;
+import MerchantResources.MerchantResource;
 import economos.SelectedResourceListener;
 import economos.UpdateListener;
 
@@ -17,7 +17,6 @@ public class GraphPanel extends JPanel implements SelectedResourceListener, Upda
 	private ArrayList<MarketResource.MarketSnapshot>	marketHistory;
 	private Graphics									bGraphics;
 	private MarketResource								marketResource;
-	private MerchantResource							merchantResource;
 	private int											offset	= 0, accumulator = 0;
 
 	public GraphPanel() {
@@ -57,8 +56,7 @@ public class GraphPanel extends JPanel implements SelectedResourceListener, Upda
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		((Graphics2D) g).setRenderingHints(rh);
 
-		if (merchantResource != null) {
-			marketResource = merchantResource.getMarketResource();
+		if (marketResource != null) {
 			marketHistory = marketResource.getMarketHistory(getWidth());
 			BufferedImage bImg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 			bGraphics = bImg.createGraphics();
@@ -121,8 +119,8 @@ public class GraphPanel extends JPanel implements SelectedResourceListener, Upda
 		}
 	}
 
-	public void selectedResourceChanged(MerchantResource m) {
-		merchantResource = m;		
+	public void selectedResourceChanged(MarketResource m) {
+		marketResource = m;		
 	}
 
 	public void selectedGuildChanged(String g) {

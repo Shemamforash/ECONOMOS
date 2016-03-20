@@ -1,4 +1,4 @@
-package Resources;
+package MerchantResources;
 
 public abstract class Resource {
 	private String name, id, description, type, rarity;

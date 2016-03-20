@@ -2,20 +2,19 @@ package economos;
 
 import java.util.*;
 
-import Resources.DataParser;
-import Resources.MarketController;
-import Resources.MarketResource;
-import Resources.MerchantResource;
-import Resources.ResourceMap;
+import DataImportExport.DataParser;
+import MerchantResources.MarketController;
+import MerchantResources.MarketResource;
+import MerchantResources.MerchantResource;
+import MerchantResources.ResourceMap;
 
 public class AI extends User implements UpdateListener {
 	private float							greed, patience, intelligence;
-	public ResourceMap<MerchantResource>	aiMap		= new ResourceMap<MerchantResource>("AI", "Merchant");
-	private ArrayList<MerchantResource>		aiResources	= new ArrayList<MerchantResource>();
+	public ResourceMap<MarketResource>	aiMap		= new ResourceMap<MarketResource>(false);
 	private Random							rnd			= new Random();
 
-	public AI(String name, String company) {
-		super(name, company);
+	public AI(String name) {
+		super(name);
 		int personalityPoints = rnd.nextInt(75) + 75;
 		while (personalityPoints > 0) {
 			int trait = rnd.nextInt(3);
@@ -40,12 +39,11 @@ public class AI extends User implements UpdateListener {
 			}
 			--personalityPoints;
 		}
-		getResources();
 		UpdateCaller.addListener(this);
 	}
 
 	public void receiveUpdate() {
-		for (MerchantResource r : aiResources) {
+		for (MerchantResource r : userResources) {
 			MarketResource mr = r.getMarketResource();
 			float predictedProfit = r.getPredictedProfit(-1, mr.getSellPrice(1));
 			float percentageProfit = predictedProfit / r.getAverageProfit();
@@ -100,7 +98,7 @@ public class AI extends User implements UpdateListener {
 	}
 
 	public void sell(MerchantResource r) {
-		MarketController.sellResource(r.getQuantity(), r, this);
+		MarketController.sellResource(r.getQuantity(), r.getMarketResource(), this);
 		money = 10000;
 	}
 
@@ -108,14 +106,7 @@ public class AI extends User implements UpdateListener {
 		float amountToSpend = rnd.nextFloat() * (greed + (1 - intelligence)) * 0.3f;
 		int quantity = (int) Math.ceil((amountToSpend * getMoney()) / r.getMarketResource().getBuyPrice(1));
 		if (quantity > 0) {
-			MarketController.buyResource(quantity, r, this);
-		}
-	}
-
-	public void getResources() {
-		ArrayList<MarketResource> resources = DataParser.getAllMarketResources();
-		for (int i = 0; i < resources.size(); ++i) {
-			aiResources.add(aiMap.getResource(resources.get(i).getName()));
+			MarketController.buyResource(quantity, r.getMarketResource(), this);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package Resources;
+package MerchantResources;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -6,13 +6,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import economos.Main;
+import economos.UpdateCaller;
 import economos.UpdateListener;
 
 public class MarketResource extends Resource implements Comparable<MarketResource> {
 	private ArrayList<MarketSnapshot>	marketHistory	= new ArrayList<MarketSnapshot>();
 
-	private int							baseSupply, basePrice, ticks = 1;
-	private int							desiredThisTick, timeSinceEvent;
+	private float							baseSupply, basePrice, desiredThisTick;
+	private int ticks = 1;
 	private float						maxPrice, minPrice, maxDemand, minDemand, maxSupply, minSupply, averagePrice, supply, demand;
 	private float						price, trend;
 	float								changeTrend		= 1, changeTrendModifier = 0f;													// between 0 and 1
@@ -20,20 +21,20 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 	int									trendDirection	= 1;																			// true is up/false is down
 	private Random						rnd				= new Random();
 
-	public MarketResource(String name, String id, String description, String type, String rarity, int baseSupplyRate) {
+	public MarketResource(String id, String name, String type, String rarity, String description, float baseSupply, float basePrice) {
 		super(name, id, description, type, rarity);
-		this.baseSupply = rnd.nextInt(75) + 10;
+		this.baseSupply = baseSupply;
+		this.basePrice = basePrice;
 		timerMax = rnd.nextInt(1000) + 500;
 		supply = baseSupply;
 		demand = baseSupply;
 		desiredThisTick = baseSupply;
-		basePrice = rnd.nextInt(1000);
 		price = getPricePerUnit();
 		marketHistory.add(new MarketSnapshot(supply, demand, price));
 		maxPrice = getPricePerUnit();
 		minPrice = getPricePerUnit();
 		averagePrice = price;
-		Main.addUpdateListener(new MarketResourceListener());
+		UpdateCaller.addListener(new MarketResourceListener());
 	}
 
 	private class MarketResourceListener implements UpdateListener {
@@ -265,11 +266,6 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 			return 1;
 		}
 		return 0;
-	}
-
-	public int getTmeSinceEvent() {
-		++timeSinceEvent;
-		return timeSinceEvent;
 	}
 
 	public class MarketSnapshot {

@@ -22,16 +22,16 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class GUIElements {
-	private static Color	backgroundColor	= new Color(17, 17, 17);
-	static Color			darkColor		= new Color(10, 10, 10);
-	private static Border	emptyBorder		= BorderFactory.createEmptyBorder(10, 10, 10, 10);
-	static Color			goldenOrange	= new Color(255, 140, 0);
+	private static Color backgroundColor = new Color(17, 17, 17);
+	public static Color darkColor = new Color(10, 10, 10);
+	private static Border emptyBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+	public static Color goldenOrange = new Color(255, 140, 0);
 
 	public static class MyButton extends JButton {
-		private Color	hoverColor		= new Color(255, 180, 0);
-		private Color	pressedColor	= new Color(255, 80, 0);
-		private Color	unpressedColor	= new Color(255, 140, 0);
-		private boolean	selected		= false, inList = false;
+		private Color hoverColor = new Color(255, 180, 0);
+		private Color pressedColor = new Color(255, 80, 0);
+		private Color unpressedColor = new Color(255, 140, 0);
+		private boolean selected = false, inList = false;
 
 		public MyButton() {
 			this(null, false);
@@ -67,7 +67,7 @@ public class GUIElements {
 
 		protected void paintComponent(Graphics g) {
 			if (getModel().isPressed() || selected) {
-				if(inList){
+				if (inList) {
 					g.setColor(pressedColor);
 					g.fillRect(getWidth() - 4, 0, 4, getHeight());
 				}
@@ -92,10 +92,10 @@ public class GUIElements {
 	}
 
 	public static class MyPanel extends JPanel {
-		public MyPanel(){
+		public MyPanel() {
 			this(true);
 		}
-		
+
 		public MyPanel(boolean darker) {
 			super();
 			if (darker) {
@@ -177,10 +177,10 @@ public class GUIElements {
 	}
 
 	public static class MyList extends JList {
-		public MyList(){
+		public MyList() {
 			this(new MyButton[0]);
 		}
-		
+
 		public MyList(MyButton[] arr) {
 			super(arr);
 			setBackground(backgroundColor);
@@ -191,22 +191,23 @@ public class GUIElements {
 	}
 
 	public static class BuySellButton extends MyPanel {
-		private MyButton					transactionButton;
-		private MyButtonExtended			quantityOne, quantityTwo, quantityFive, quantityTen, lastButton;
-		private MyTextField					priceField;
-		
+		private MyButton transactionButton;
+		private MyButtonExtended quantityOne, quantityTwo, quantityFive, quantityTen, lastButton;
+		private MyTextField priceField;
+
 		class MyButtonExtended extends MyButton {
 			private MyButtonExtended thisButton;
-			public MyButtonExtended(){
+
+			public MyButtonExtended() {
 				this("");
 			}
-			
+
 			public MyButtonExtended(String s) {
 				super(s, true);
 				thisButton = this;
 				this.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(lastButton != null){
+						if (lastButton != null) {
 							lastButton.setSelected(false);
 						}
 						lastButton = thisButton;
@@ -215,9 +216,9 @@ public class GUIElements {
 				});
 			}
 		}
-		
-		public void reset(){
-			if(lastButton != null){
+
+		public void reset() {
+			if (lastButton != null) {
 				lastButton.setSelected(false);
 				lastButton = null;
 			}
@@ -225,10 +226,10 @@ public class GUIElements {
 			repaint();
 		}
 
-		public BuySellButton(){
+		public BuySellButton() {
 			this("");
 		}
-		
+
 		public BuySellButton(String text) {
 			super(true);
 			SpringLayout springLayout = new SpringLayout();
@@ -245,9 +246,9 @@ public class GUIElements {
 		}
 
 		public int getSelectedQuantity() {
-			if(lastButton != null){
-				return Integer.parseInt(lastButton.getText()); 
-			}	
+			if (lastButton != null) {
+				return Integer.parseInt(lastButton.getText());
+			}
 			return 1;
 		}
 
@@ -270,7 +271,8 @@ public class GUIElements {
 			springLayout.putConstraint(SpringLayout.NORTH, quantityOne, 0, SpringLayout.NORTH, transactionButton);
 			springLayout.putConstraint(SpringLayout.WEST, quantityOne, 10, SpringLayout.EAST, transactionButton);
 			springLayout.putConstraint(SpringLayout.SOUTH, quantityOne, 0, SpringLayout.SOUTH, transactionButton);
-			springLayout.putConstraint(SpringLayout.EAST, quantityOne, buttonWidth, SpringLayout.EAST, transactionButton);
+			springLayout.putConstraint(SpringLayout.EAST, quantityOne, buttonWidth, SpringLayout.EAST,
+					transactionButton);
 
 			springLayout.putConstraint(SpringLayout.NORTH, quantityTwo, 0, SpringLayout.NORTH, quantityOne);
 			springLayout.putConstraint(SpringLayout.WEST, quantityTwo, 10, SpringLayout.EAST, quantityOne);
@@ -291,7 +293,7 @@ public class GUIElements {
 			springLayout.putConstraint(SpringLayout.WEST, priceField, 10, SpringLayout.EAST, quantityTen);
 			springLayout.putConstraint(SpringLayout.SOUTH, priceField, 0, SpringLayout.SOUTH, quantityTen);
 			springLayout.putConstraint(SpringLayout.EAST, priceField, 0, SpringLayout.EAST, this);
-			
+
 			repaint();
 		}
 	}

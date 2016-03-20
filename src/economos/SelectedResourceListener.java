@@ -1,8 +1,8 @@
 package economos;
 
-import Resources.MerchantResource;
+import MerchantResources.MarketResource;
 
 public interface SelectedResourceListener {	
-	public void selectedResourceChanged(MerchantResource m);
+	public void selectedResourceChanged(MarketResource m);
 	public void selectedGuildChanged(String g);
 }

@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.SpringLayout;
 
 import GUI.*;
-import Resources.*;
+import MerchantResources.*;
 import economos.*;
 
 public class MerchantsPanel extends GUIElements.MyPanel implements UpdateListener {

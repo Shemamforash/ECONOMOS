@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import Resources.MarketController;
-import Resources.MarketResource;
-import Resources.MerchantResource;
+import MerchantResources.MarketController;
+import MerchantResources.MarketResource;
+import MerchantResources.MerchantResource;
 import economos.Main;
 import economos.SelectedResourceCaller;
 
@@ -69,7 +69,7 @@ public class GuildPanel extends GUIElements.MyPanel{
 	}
 
 	public void updateMyList(String guildName) {
-		if (Main.getPlayer().getPlayerResourceMap().getResourceTypes().contains(guildName)) {
+		if (MarketController.getMarketResources().getResourceTypes().contains(guildName)) {
 			resourceList.removeAll();
 			GridBagConstraints gc = new GridBagConstraints();
 			gc.gridx = 0;
@@ -77,7 +77,7 @@ public class GuildPanel extends GUIElements.MyPanel{
 			gc.ipady = height / 30 + 10;
 			gc.fill = GridBagConstraints.HORIZONTAL;
 			gc.weightx = 1;
-			ArrayList<MerchantResource> arr = new ArrayList<MerchantResource>(Main.getPlayer().getPlayerResourceMap().getResourcesInType(guildName));
+			ArrayList<MarketResource> arr = new ArrayList<MarketResource>(MarketController.getMarketResources().getResourcesInType(guildName));
 			String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
 			int ctr = 0;
 			boolean setDarker = false;

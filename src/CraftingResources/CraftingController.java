@@ -1,18 +1,14 @@
-package Resources;
+package CraftingResources;
 
 import java.util.ArrayList;
+
+import MerchantResources.Resource;
+import MerchantResources.ResourceMap;
 
 public class CraftingController {
 	private static ArrayList<Guild> guilds = new ArrayList<Guild>();
 	private static String[] craftingLevels = new String[]{"Dabbler", "Apprentice", "Journeyman", "Master", "Adept"};
-	private static ResourceMap<CraftingResource> craftingResources = new ResourceMap<CraftingResource>("", "Crafting");
-	
-	public static void calculateRecipes(){
-		ArrayList<CraftingResource> temp = (ArrayList<CraftingResource>)craftingResources.getResourcesInType("");
-		for(CraftingResource cr : temp){
-			cr.assignPrerequisites();
-		}
-	}
+	private static ResourceMap<CraftingResource> craftingResources = new ResourceMap<CraftingResource>(true);
 	
 	private class Guild{
 		private String name;

@@ -1,6 +1,8 @@
-package Resources;
+package MerchantResources;
 
 import java.util.*;
+
+import DataImportExport.DataParser;
 
 public class ResourceMap<T extends Resource> {
 	private HashMap<String, T>	resourceMap	= new HashMap<String, T>();
@@ -9,20 +11,19 @@ public class ResourceMap<T extends Resource> {
 	// private String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
 
 	@SuppressWarnings("unchecked")
-	public ResourceMap(String owner, String type) {
+	public ResourceMap(boolean isCraftingMap) {
 		ArrayList<T> resources;
 
-		if (type.equals("Crafting")) {
+		if (isCraftingMap) {
 			types = DataParser.getCraftingTypes();
 			resources = (ArrayList<T>) DataParser.getCraftingResources();
 		} else {
 			types = DataParser.getMerchantTypes();
-			resources = (ArrayList<T>) DataParser.getResourceData(owner);
+			resources = (ArrayList<T>) DataParser.getAllMarketResources();
 		}
 
 		for (int j = 0; j < resources.size(); ++j) {
 			resourceMap.put(resources.get(j).getName(), (T) resources.get(j));
-			resourceMap.put(resources.get(j).getID(), (T) resources.get(j));
 		}
 	}
 

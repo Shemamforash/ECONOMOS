@@ -1,39 +1,23 @@
-package Resources;
+package CraftingResources;
 
 import java.util.ArrayList;
 
+import MerchantResources.MarketController;
+import MerchantResources.Resource;
+import economos.Main;
 import economos.Player;
 
-public class CraftingResource extends UserResource {
-	private RequisiteResource[]	requisiteResources;
-	private int					value, timetocraft, cost;
-	private String				recipe;
+public class CraftingResource extends Resource {
+	private ArrayList<RequisiteResource>	requisiteResources = new ArrayList<RequisiteResource>();
+	private int					value, cost, quantity = 0;
 
-	public CraftingResource(String name, String id, String type, String rarity, String recipe, int cost) {
-		super(name, id, "", type, rarity);
+	public CraftingResource(String name, String id, String type, String rarity, String description, int cost) {
+		super(name, id, description, type, rarity);
 		this.cost = cost;
-		this.recipe = recipe;
 	}
 	
-	public void assignPrerequisites(){
-		ArrayList<Resource> prerequisites = new ArrayList<Resource>();
-		ArrayList<Integer> quantities = new ArrayList<Integer>();
-		
-		for(int i = 0; i < 5; ++i){
-			if(recipe.startsWith("00")){
-				break;
-			}
-			String lookup = recipe.substring(0, 6);
-			recipe = recipe.substring(6);
-			Resource r = CraftingController.findResource(lookup);
-			if(r == null){
-				r = MarketController.findResource(lookup);
-			}
-		}
-		requisiteResources = new RequisiteResource[prerequisites.size()];
-		for (int i = 0; i < prerequisites.size(); ++i) {
-			requisiteResources[i] = new RequisiteResource(prerequisites.get(i), quantities.get(i));
-		}
+	public void addPrerequisite(Resource r, int quantity){
+		requisiteResources.add(new RequisiteResource(r, quantity));
 	}
 
 	private boolean hasResources() {
@@ -68,12 +52,12 @@ public class CraftingResource extends UserResource {
 	}
 
 	public class RequisiteResource {
-		private Resource	resource;
+		private Resource			resource;
 		private int					quantity;
 		private boolean				hasMetRequirements;
 
 		public void reduceResource() {
-			resource.updateQuantity(quantity, 0);
+			Main.getPlayer().findUserResource(resource.getName()).consumeResource(quantity);
 		}
 
 		public RequisiteResource(Resource resource, int quantity) {
@@ -85,7 +69,7 @@ public class CraftingResource extends UserResource {
 			if (hasMetRequirements) {
 				return true;
 			} else {
-				if (resource.getQuantity() >= quantity) {
+				if (Main.getPlayer().findUserResource(resource.getName()).getQuantity() >= quantity) {
 					hasMetRequirements = true;
 					return true;
 				}

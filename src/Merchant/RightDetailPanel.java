@@ -7,8 +7,9 @@ import javax.swing.SpringLayout;
 
 import GUI.EconomosGUI;
 import GUI.GUIElements;
-import Resources.MarketController;
-import Resources.MerchantResource;
+import MerchantResources.MarketController;
+import MerchantResources.MarketResource;
+import MerchantResources.MerchantResource;
 import economos.Main;
 
 public class RightDetailPanel extends DetailPanel {
@@ -16,7 +17,7 @@ public class RightDetailPanel extends DetailPanel {
 	averagePriceTextField, demandSupplyTextField;
 	private GUIElements.BuySellButton sellButton = new GUIElements.BuySellButton("Sell");
 	private GUIElements.BuySellButton buyButton = new GUIElements.BuySellButton("Buy");
-	private static MerchantResource		currentResource		= null;
+	private static MarketResource		currentResource		= null;
 	
 	public RightDetailPanel(){
 		super();
@@ -87,24 +88,25 @@ public class RightDetailPanel extends DetailPanel {
 		add(sellButton);
 	}
 
-	public void selectedResourceChanged(MerchantResource m) {
+	public void selectedResourceChanged(MarketResource m) {
 		currentResource = m;
+		MerchantResource userResource = Main.getPlayer().findUserResource(currentResource.getName());
 		sellButton.reset();
 		buyButton.reset();
-		if(m != null){
-			demandSupplyTextField.setText("S/D: " + m.getMarketResource().getSupply() / m.getMarketResource().getDemand());
-			possessTextField.setText("OWN " + currentResource.getQuantity());
-			averagePriceTextField.setText("Average Price: C" + EconomosGUI.decimalFormatter().format(m.getMarketResource().getAveragePrice()));
-			averageProfitTextField.setText("Average Profit: C" + EconomosGUI.decimalFormatter().format(currentResource.getAverageProfit()));
-			soldTextField.setText("Sold " + currentResource.getSold() + " units");
+		if(m != null && userResource != null){
+			demandSupplyTextField.setText("S/D: " + m.getSupply() / m.getDemand());
+			possessTextField.setText("OWN " + userResource.getQuantity());
+			averagePriceTextField.setText("Average Price: C" + EconomosGUI.decimalFormatter().format(m.getAveragePrice()));
+			averageProfitTextField.setText("Average Profit: C" + EconomosGUI.decimalFormatter().format(userResource.getAverageProfit()));
+			soldTextField.setText("Sold " + userResource.getSold() + " units");
 			try {
-				buyButton.setText("C" + EconomosGUI.decimalFormatter().format(currentResource.getMarketResource().getBuyPrice(buyButton.getSelectedQuantity())));
+				buyButton.setText("C" + EconomosGUI.decimalFormatter().format(currentResource.getBuyPrice(buyButton.getSelectedQuantity())));
 			} catch (NumberFormatException n) {
 				// DOSOMETHING
 			}
 
 			try {
-				sellButton.setText("C" + EconomosGUI.decimalFormatter().format(currentResource.getMarketResource().getSellPrice(sellButton.getSelectedQuantity())));
+				sellButton.setText("C" + EconomosGUI.decimalFormatter().format(currentResource.getSellPrice(sellButton.getSelectedQuantity())));
 			} catch (NumberFormatException n) {
 				// DOSOMETHING
 			}

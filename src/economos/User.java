@@ -1,16 +1,21 @@
 package economos;
 
+import java.util.ArrayList;
+
+import DataImportExport.DataParser;
+import MerchantResources.MerchantResource;
+
 public abstract class User {
-	private String name, companyName, playTime;
-	private UserResource companyShare;
+	private String name, playTime;
 	protected float money = 100f;
 	private float moneyMade;
 	private float moneySpent;
 	private float value;
+	protected ArrayList<MerchantResource> userResources = new ArrayList<MerchantResource>();
 
-	public User(String name, String companyName) {
+	public User(String name) {
 		this.name = name;
-		this.companyName = companyName;
+		loadUserResources();
 	}
 
 	public float getMoney() {
@@ -23,5 +28,18 @@ public abstract class User {
 	
 	public String getName(){
 		return name;
+	}
+	
+	public void loadUserResources(){
+		userResources = DataParser.getUserResources();
+	}
+	
+	public MerchantResource findUserResource(String name){
+		for(MerchantResource r : userResources){
+			if(r.getName().equals(name)){
+				return r;
+			}
+		}
+		return null;
 	}
 }

@@ -5,8 +5,8 @@ import java.util.TimerTask;
 
 import javax.swing.SwingUtilities;
 
+import DataImportExport.DataParser;
 import GUI.EconomosGUI;
-import Resources.DataParser;
 
 public class Main {
 	private boolean running = true;
@@ -47,13 +47,13 @@ public class Main {
 			System.out.println("Failed to load. Terminating");
 			System.exit(0);
 		}
-		player = new Player("Sam", "Potatronics");
+		player = new Player("Sam");
 	}
 	
 	//Create some AI
 	private void createAI(){
 		for(int i = 0; i < 5; ++i){
-			AI ai = new AI("Some ai" + i, "A company");
+			AI ai = new AI("Some ai" + i);
 		}
 	}
 	

@@ -7,7 +7,8 @@ import javax.swing.SpringLayout;
 
 import GUI.EconomosGUI;
 import GUI.GUIElements;
-import Resources.MerchantResource;
+import MerchantResources.MarketResource;
+import MerchantResources.MerchantResource;
 
 public class LeftDetailPanel extends DetailPanel {
 	private GUIElements.MyPanel iconPanel;
@@ -34,7 +35,7 @@ public class LeftDetailPanel extends DetailPanel {
 		add(rarityTextField);
 	}
 
-	public void selectedResourceChanged(MerchantResource m) {
+	public void selectedResourceChanged(MarketResource m) {
 		if (m != null) {
 			typeTextField.setText(m.getType());
 			nameTextField.setText(m.getName());

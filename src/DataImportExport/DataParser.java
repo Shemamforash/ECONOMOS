@@ -1,12 +1,16 @@
-package Resources;
+package DataImportExport;
 
 import java.io.*;
 import java.util.*;
 
+import CraftingResources.CraftingResource;
+import MerchantResources.MarketResource;
+import MerchantResources.MerchantResource;
+import MerchantResources.Resource;
+
 public class DataParser {
 	private File								craftingResourceFile	= new File("CraftingResourceData.csv");
 	private File								merchantResourceFile	= new File("MerchantResourceData.csv");
-	private static ArrayList<RawResourceData>	rawMerchantResourceData		= new ArrayList<RawResourceData>();
 	private static ArrayList<String>			craftingTypes				= new ArrayList<String>();
 	private static ArrayList<String>			merchantTypes				= new ArrayList<String>();
 	private static ArrayList<MarketResource>	allMarketResources	= new ArrayList<MarketResource>();
@@ -33,7 +37,7 @@ public class DataParser {
 				String description = arr[2];
 				float price = Float.parseFloat(arr[3]);
 				float supply = Float.parseFloat(arr[4]);
-				rawMerchantResourceData.add(new RawResourceData(name, id, currentType, description, price, supply, rarities[currentRarity]));
+				allMarketResources.add(new MarketResource(id, name, currentType, rarities[currentRarity], description, supply, price));
 				++counter;
 				if(counter % 4 == 0){
 					++currentRarity;
@@ -42,15 +46,15 @@ public class DataParser {
 		}
 	}
 	
-	public Resource findResourceWithID(String id){
-		for(MarketResource m : allMarketResources){
-			if(m.getID().equals(id)){
-				return m;
-			}
-		}
+	public static Resource findResource(String id){
 		for(CraftingResource r : craftingResources){
 			if(r.getID().equals(id)){
 				return r;
+			}
+		}
+		for(MarketResource m : allMarketResources){
+			if(m.getID().equals(id)){
+				return m;
 			}
 		}
 		return null;
@@ -61,6 +65,7 @@ public class DataParser {
 		String next = " ";
 		int counter = 0, currentRarity = 0;
 		String currentType = null;
+		ArrayList<CRTemp> temporaryCraftingResources = new ArrayList<CRTemp>();
 		while (true) {
 			next = reader.readLine();
 			if (next == null) {
@@ -76,12 +81,17 @@ public class DataParser {
 				String id = arr[1];
 				String recipe = arr[2];
 				int cost = Integer.parseInt(arr[3]);
-				craftingResources.add(new CraftingResource(name, id, currentType, rarities[currentRarity], recipe, cost));
+				CraftingResource c = new CraftingResource(id, name, currentType, rarities[currentRarity], "", cost);
+				craftingResources.add(c);
+				temporaryCraftingResources.add(new CRTemp(recipe, c));
 				++counter;
 				if(counter % 8 == 0){
 					++currentRarity;
 				}
 			}
+		}
+		for(CRTemp t : temporaryCraftingResources){
+			t.convertRecipe();
 		}
 	}
 	
@@ -100,27 +110,6 @@ public class DataParser {
 		}
 	}
 
-	public static ArrayList<Resource> getResourceData(String owner) {
-		ArrayList<Resource> arr = new ArrayList<Resource>();
-
-		for (int i = 0; i < rawMerchantResourceData.size(); ++i) {
-			Resource r = null;
-			RawResourceData rawDatum = rawMerchantResourceData.get(i);
-
-			if (owner.equals("Player") || owner.equals("AI")) {
-				r = new MerchantResource(rawDatum.name(), rawDatum.id(), rawDatum.description(), rawDatum.type(), rawDatum.rarity());
-			} else if (owner.equals("Market")) {
-				r = new MarketResource(rawDatum.name(), rawDatum.id(), rawDatum.description(), rawDatum.type(), rawDatum.rarity(), 0);
-				allMarketResources.add((MarketResource) r);
-			}
-			if (r != null) {
-				arr.add(r);
-			}
-		}
-
-		return arr;
-	}
-
 	public static ArrayList<String> getMerchantTypes() {
 		return merchantTypes;
 	}
@@ -137,46 +126,12 @@ public class DataParser {
 		return craftingResources;
 	}
 
-	class RawResourceData {
-		private String	name, description, type, rarity, id;
-		private float price, supply;
-
-		public RawResourceData(String name, String id, String type, String description, float price, float supply, String rarity) {
-			this.name = name;
-			this.id = id;
-			this.type = type;
-			this.description = description;
-			this.price = price;
-			this.price = supply;
-			this.rarity = rarity;
+	public static ArrayList<MerchantResource> getUserResources() {
+		ArrayList<MerchantResource> userResources = new ArrayList<MerchantResource>();
+		for(MarketResource r : allMarketResources){
+			MerchantResource userResource = new MerchantResource(r);
+			userResources.add(userResource);
 		}
-
-		public String name() {
-			return name;
-		}
-
-		public String id(){
-			return id;
-		}
-		
-		public String type() {
-			return type;
-		}
-		
-		public String description() {
-			return description;
-		}
-		
-		public float price(){
-			return price;
-		}
-		
-		public float supply(){
-			return supply;
-		}
-		
-		public String rarity() {
-			return rarity;
-		}	
+		return userResources;
 	}
 }

@@ -11,11 +11,10 @@ public abstract class User {
 	private float moneyMade;
 	private float moneySpent;
 	private float value;
-	protected ArrayList<MerchantResource> userResources = new ArrayList<MerchantResource>();
+	public ArrayList<MerchantResource> userResources = DataParser.getUserResources();
 
 	public User(String name) {
 		this.name = name;
-		loadUserResources();
 	}
 
 	public float getMoney() {
@@ -28,10 +27,6 @@ public abstract class User {
 	
 	public String getName(){
 		return name;
-	}
-	
-	public void loadUserResources(){
-		userResources = DataParser.getUserResources();
 	}
 	
 	public MerchantResource findUserResource(String name){

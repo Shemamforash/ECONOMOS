@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class MerchantResource {
 	private MarketResource marketResource;
-	private int bought, sold, quantity;
-	private float averageSell, averageBuy, averageProfit;
+	private int bought = 0, sold = 0, quantity = 0;
+	private float averageSell = 0f, averageBuy = 0f, averageProfit = 0f;
 	private ArrayList<ResourcePacket> resourcePackets = new ArrayList<ResourcePacket>();
 
 	public MerchantResource(MarketResource mr) {
@@ -40,11 +40,11 @@ public class MerchantResource {
 
 	public void buy(int quantity, float price) {
 		getMarketResource().updateDesiredThisTick(quantity);
-		ResourcePacket p = new ResourcePacket(price, quantity);
+		resourcePackets.add(new ResourcePacket(price, quantity));
 		averageBuy = ((averageBuy * bought) + (price * quantity)) / (bought + quantity);
 		bought += quantity;
 		averageProfit = getPredictedProfit(quantity, price);
-		this.quantity += quantity;
+		this.quantity += quantity;											//TODO THIS IS THE ERRO :O
 	}
 
 	public float getPredictedProfit(int amount, float price) {
@@ -73,13 +73,14 @@ public class MerchantResource {
 	
 	public float breakDownPackets(int amount, float value){
 		float moneyGained = 0;
-		while (amount > 0) {
+		int remaining = amount;
+		while (remaining > 0) {
 			for (int i = 0; i < resourcePackets.size(); ++i) {
 				ResourcePacket p = resourcePackets.get(i);
-				if (p.getQuantity() <= amount) {
-					amount -= p.getQuantity();
+				if (p.getQuantity() <= remaining) {
+					remaining -= p.getQuantity();
 					moneyGained = value * p.getQuantity();
-					averageSell = ((averageSell * sold) + (value * p.getQuantity())) / (sold - amount);
+					averageSell = ((averageSell * sold) + (value * p.getQuantity())) / (sold - remaining);
 					resourcePackets.remove(i);
 				}
 			}
@@ -91,7 +92,7 @@ public class MerchantResource {
 				resourcePackets.remove(0);
 			}
 		}
-		averageProfit = getPredictedProfit(quantity, moneyGained);
+		averageProfit = getPredictedProfit(amount, moneyGained);
 		this.quantity -= amount;
 		return moneyGained;
 	}

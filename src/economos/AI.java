@@ -98,15 +98,29 @@ public class AI extends User implements UpdateListener {
 	}
 
 	public void sell(MerchantResource r) {
-		MarketController.sellResource(r.getQuantity(), r.getMarketResource(), this);
+		int quantity = r.getQuantity();
+		if(quantity > 2 && quantity < 5){
+			quantity = 2;
+		} else if (quantity > 5 && quantity < 10){
+			quantity = 5;
+		} else if (quantity > 10){
+			quantity = 10;
+		}
+		
+		MarketController.sellResource(quantity, r.getMarketResource(), this);
 		money = 10000;
 	}
 
 	public void buy(MerchantResource r, float trend) {
 		float amountToSpend = rnd.nextFloat() * (greed + (1 - intelligence)) * 0.3f;
 		int quantity = (int) Math.ceil((amountToSpend * getMoney()) / r.getMarketResource().getBuyPrice(1));
-		System.out.println(quantity + "/" + amountToSpend + "/" + r.getMarketResource().getBuyPrice(1));
-
+		if(quantity > 2 && quantity < 5){
+			quantity = 2;
+		} else if (quantity > 5 && quantity < 10){
+			quantity = 5;
+		} else if (quantity > 10){
+			quantity = 10;
+		}
 		if (quantity > 0) {
 			MarketController.buyResource(quantity, r.getMarketResource(), this);
 		}

@@ -9,7 +9,6 @@ public class MarketController {
 	private static ResourceMap<MarketResource>	marketResources			= new ResourceMap<MarketResource>(false);
 	private ArrayList<MarketResource>			priceOrderedResources	= new ArrayList<MarketResource>();
 	private static int							graphWidth;
-	static long ordersThisSec = 0, currentT = 0, lastT = 1000;
 
 	public static ResourceMap<MarketResource> getMarketResources() {
 		return marketResources;
@@ -25,7 +24,6 @@ public class MarketController {
 		price = pricePerUnit * quantity;
 		r.buy(quantity, pricePerUnit);
 		u.updateMoney(-price);
-		++ordersThisSec;
 		return "Purchased " + quantity + " units of " + r.getName() + " for C" + price;
 	}
 

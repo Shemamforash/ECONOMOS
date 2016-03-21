@@ -9,7 +9,9 @@ import javax.swing.*;
 import MerchantResources.MarketController;
 import MerchantResources.MarketResource;
 import MerchantResources.MerchantResource;
+import economos.SelectedResourceCaller;
 import economos.SelectedResourceListener;
+import economos.UpdateCaller;
 import economos.UpdateListener;
 
 public class GraphPanel extends JPanel implements SelectedResourceListener, UpdateListener{
@@ -22,6 +24,8 @@ public class GraphPanel extends JPanel implements SelectedResourceListener, Upda
 	public GraphPanel() {
 		setBackground(new Color(30, 30, 30));
 		d.setMaximumFractionDigits(2);
+		UpdateCaller.addListener(this);
+		SelectedResourceCaller.addListener(this);
 	}
 
 	public void drawGrid() {
@@ -130,5 +134,10 @@ public class GraphPanel extends JPanel implements SelectedResourceListener, Upda
 
 	public void receiveUpdate() {
 		repaint();		
+	}
+
+	@Override
+	public boolean isInitialised() {
+		return true;
 	}
 }

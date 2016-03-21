@@ -23,11 +23,6 @@ public class GuildPanel extends GUIElements.MyPanel{
 	private int					height, width;
 	private JButton				selectedResourceButton, selectedGuildButton;
 	private JScrollPane			resourceScrollPane;
-
-	public GuildPanel(){
-		this(null, 0, 0);
-		System.out.println("Looks like you used the wrong constructor");
-	}
 	
 	public GuildPanel(String[] guildNames, int height, int width) {
 		super(true);
@@ -97,7 +92,6 @@ public class GuildPanel extends GUIElements.MyPanel{
 			resourceList.validate();
 			resourceList.repaint();
 			resourceScrollPane.getViewport().revalidate();
-			System.out.println("loo");
 		}
 	}
 

@@ -86,6 +86,7 @@ public class RightDetailPanel extends DetailPanel {
 		springLayout.putConstraint(SpringLayout.SOUTH, sellButton, 0, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, sellButton, 0, SpringLayout.EAST, this);
 		add(sellButton);
+		initialised = true;
 	}
 
 	public void selectedResourceChanged(MarketResource m) {
@@ -94,7 +95,7 @@ public class RightDetailPanel extends DetailPanel {
 		sellButton.reset();
 		buyButton.reset();
 		if(m != null && userResource != null){
-			demandSupplyTextField.setText("S/D: " + m.getSupply() / m.getDemand());
+			demandSupplyTextField.setText("S/D: " + m.getSupply() + "/" + m.getDemand());
 			possessTextField.setText("OWN " + userResource.getQuantity());
 			averagePriceTextField.setText("Average Price: C" + EconomosGUI.decimalFormatter().format(m.getAveragePrice()));
 			averageProfitTextField.setText("Average Profit: C" + EconomosGUI.decimalFormatter().format(userResource.getAverageProfit()));

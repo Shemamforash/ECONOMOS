@@ -41,6 +41,11 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		public void receiveUpdate() {
 			updateResource();
 		}
+
+		@Override
+		public boolean isInitialised() {
+			return true;
+		}
 	}
 
 	private void updateResource() {

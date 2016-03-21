@@ -5,13 +5,15 @@ import java.util.ArrayList;
 public class UpdateCaller {
 	private static ArrayList<UpdateListener> listeners = new ArrayList<UpdateListener>();
 	
-	public static void addListener(UpdateListener listener){
+	public static synchronized void addListener(UpdateListener listener){
 		listeners.add(listener);
 	}
 	
-	public static void callUpdate(){
+	public static synchronized void callUpdate(){
 		for(UpdateListener l : listeners){
-			l.receiveUpdate();
+			if(l.isInitialised()){
+				l.receiveUpdate();
+			}
 		}
 	}
 }

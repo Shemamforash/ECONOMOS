@@ -1,496 +1,168 @@
-TYPE,Spicer,,,,,,,,,,,,
-Hormones,SP01,Increased response time,2.17,23,,,,,,,,,
-Panacea,SP02,Heals wounds,1.79,28,,,,,,,,,
-Oxytocin,SP03,Mental soothing,2.08,24,,,,,,,,,
-Lubricants,SP04,For industrial use,1.92,26,,,,,,,,,
-Neverclear,SP05,Medicinal alcohol,4.21,19,,,,,,,,,
-Aphroditus,SP06,Aphrodisiac and sensory enhancer,4.00,20,,,,,,,,,
-Nectar,SP07,Psychotropic drug,4.44,18,,,,,,,,,
-Orpheus Slumber,SP08,Sleep inducer,3.64,22,,,,,,,,,
-Attenuated Viruses,SP09,Natural cleaning fluid,8.57,14,,,,,,,,,
-Immunosuppressants,SP10,Industrial precursor to GMOs,8.57,14,,,,,,,,,
-Morteks,SP11,Prevents fear responses,7.50,16,,,,,,,,,
-Antiballistic Serum,SP12,Natural gel with antiballistic properties,7.50,16,,,,,,,,,
-Confusia,SP13,Clears confusion and mental health issues,20.00,8,,,,,,,,,
-Proteins,SP14,Natural lighting,32.00,5,,,,,,,,,
-Bacterial Payloads,SP15,Can contain smoke and pollutants,17.78,9,,,,,,,,,
-Ambrosia,SP16,Amber based nootropic drug,22.86,7,,,,,,,,,
-Chronomorph,SP17,Slows users perception of time,40.00,4,,,,,,,,,
-Epiphos,SP18,Allows greater concentration and insight,40.00,4,,,,,,,,,
-Nidrfoenix,SP19,Can resuscitate recently deceased,53.33,3,,,,,,,,,
-Athelas,SP20,Very rare tobacco alternative,40.00,4,,,,,,,,,
-TYPE,Weaver,,,,,,,,,,,,
-Wire,WE01,Food transportation. Precursor.,1.85,27,,,,,,,,,
-Cloth,WE02,Weaving. Clothing.,2.00,25,,,,,,,,,
-Elastics,WE03,Thread. Insulation. Comfort. Bandages.,1.92,26,,,,,,,,,
-Leather,WE04,Temperature control. Civilian clothing.,1.85,27,,,,,,,,,
-eFabric,WE05,Expensive clothing. Military applications.,4.21,19,,,,,,,,,
-Aramid,WE06,Sports wear. Underarmour. Protection.,4.00,20,,,,,,,,,
-Linen,WE07,Rugs. Decoration. Clothing.,3.81,21,,,,,,,,,
-Cotton,WE08,Industrial and commercial applications.,3.81,21,,,,,,,,,
-Silk,WE09,Luxury clothing.,8.57,14,,,,,,,,,
-Cashmere,WE10,Luxury clothing.,8.00,15,,,,,,,,,
-Soft Leather,WE11,Luxury clothing.,8.57,14,,,,,,,,,
-Adamantis,WE12,Armour. Civilian defense clothing.,9.23,13,,,,,,,,,
-Nydian Fur,WE13,Luxury clothing.,16.00,10,,,,,,,,,
-Mokros Skin,WE14,Armour. Decoration.,16.00,10,,,,,,,,,
-Plaited Amber,WE15,Amber-based. Wear resistant. Luxury clothing.,26.67,6,,,,,,,,,
-Nagl Hide,WE16,Trophies. Luxury clothing.,17.78,9,,,,,,,,,
-Boreal Gossamer,WE17,Luxury clothing.,53.33,3,,,,,,,,,
-Woven Metal,WE18,Military and industrial applications. Luxury clothing.,53.33,3,,,,,,,,,
-Liquid Cloth,WE19,Luxury clothing.,40.00,4,,,,,,,,,
-Hera's Tears,WE20,Luxury clothing. Decoration.,53.33,3,,,,,,,,,
-TYPE,Temperer,,,,,,,,,,,,
-Clay,TE01,Industrial applications. Base for other materials.,2.08,24,,,,,,,,,
-Carbon Fibre,TE02,Strong structural material.,2.00,25,,,,,,,,,
-Silica Glass,TE03,Ordinary glass.,2.27,22,,,,,,,,,
-Alumina,TE04,Purification. Catalysis. Base for other materials.,1.92,26,,,,,,,,,
-Hologlass,TE05,3D displays and laser refractors.,4.44,18,,,,,,,,,
-Nanotubes,TE06,High tensile strength applications.,4.71,17,,,,,,,,,
-Dilatants,TE07,Very high temperature heat absorbers.,4.00,20,,,,,,,,,
-Boron-Carbide,TE08,Structural reinforcement.,4.00,20,,,,,,,,,
-Vac-Glass,TE09,Ship windows.,9.23,13,,,,,,,,,
-Selfsetting Ceramics,TE10,Data storage.,8.57,14,,,,,,,,,
-Graphene,TE11,Medical. Military. Civilian. Electronics.,13.33,9,,,,,,,,,
-Ceramic Cloth,TE12,Low weight/cost structural material.,9.23,13,,,,,,,,,
-Pellucidic Glass,TE13,Wearproof heat absorbers.,16.00,10,,,,,,,,,
-Ceramic Solvent,TE14,Self illuminating glass. Displays.,20.00,8,,,,,,,,,
-Trinitite,TE15,Safe radioactive material storage.,20.00,8,,,,,,,,,
-ElectroActive Glass,TE16,Extreme heat resistance and transparency.,22.86,7,,,,,,,,,
-Permacarbon,TE17,Laser light promotion/protection.,80.00,2,,,,,,,,,
-Obsidian,TE18,Optics. Jewellery.,80.00,2,,,,,,,,,
-Semisolids,TE19,Mouldable/bendable yet strong products.,80.00,2,,,,,,,,,
-Photophilic Glass,TE20,Photon capture and storage.,160.00,1,,,,,,,,,
-TYPE,Purifier,,,,,,,,,,,,
-Simple Metals,PU01,0,2.27,22,,,,,,,,,
-Carbon,PU02,Chemical rocket fuel. Oxygen storage.,2.38,21,,,,,,,,,
-Alkalines,PU03,0,2.00,25,,,,,,,,,
-Metalloids,PU04,0,2.38,21,,,,,,,,,
-Ductile Metals,PU05,0,4.44,18,,,,,,,,,
-Conductors,PU06,0,4.21,19,,,,,,,,,
-Resilient Metals,PU07,Basic conductor. Heat dissapator.,4.00,20,,,,,,,,,
-Reactive Gases,PU08,0,3.81,21,,,,,,,,,
-Inert Gases,PU09,0,8.00,15,,,,,,,,,
-Semi-Precious Metals,PU10,0,10.00,12,,,,,,,,,
-Industry Grade Metals,PU11,Fusion generators.,10.91,11,,,,,,,,,
-Catalytic Metals,PU12,0,7.50,16,,,,,,,,,
-Earth Alkalines,PU13,0,17.78,9,,,,,,,,,
-Resistive Metals,PU14,0,16.00,10,,,,,,,,,
-Precious Metals,PU15,Fusion reactors. Superconductor component.,40.00,4,,,,,,,,,
-Fuseable Isotopes,PU16,0,22.86,7,,,,,,,,,
-Radioactives,PU17,0,40.00,4,,,,,,,,,
-Cobalt,PU18,Radioactive sources. Military. Scientific.,80.00,2,,,,,,,,,
-Tartarium,PU19,0,80.00,2,,,,,,,,,
-Iridis,PU20,0,53.33,3,,,,,,,,,
-TYPE,Mercer,0,0.00,0,,,,,,,,,
-Unstable Compounds,ME01,0,2.17,23,,,,,,,,,
-Construction Materials,ME02,0,2.00,25,,,,,,,,,
-Bonding Agents,ME03,0,1.92,26,,,,,,,,,
-Circuit Boards,ME04,0,2.00,25,,,,,,,,,
-Stressless Bolts,ME05,0,3.81,21,,,,,,,,,
-Precious Gems,ME06,0,4.00,20,,,,,,,,,
-High Precision Motors,ME07,0,4.21,19,,,,,,,,,
-Parallel Processors,ME08,0,4.21,19,,,,,,,,,
-Organic Data Storage,ME09,0,8.00,15,,,,,,,,,
-Volcanic Earth,ME10,0,8.57,14,,,,,,,,,
-Partical Shield Projector,ME11,0,8.00,15,,,,,,,,,
-Neural Networks,ME12,0,8.57,14,,,,,,,,,
-Hermetic Walls,ME13,0,20.00,8,,,,,,,,,
-Genetic Algorithms,ME14,0,17.78,9,,,,,,,,,
-Apsum,ME15,0,22.86,7,,,,,,,,,
-Ambronite,ME16,0,32.00,5,,,,,,,,,
-Exotic Matter,ME17,0,160.00,1,,,,,,,,,
-Bifrostite,ME18,0,160.00,1,,,,,,,,,
-Helenite,ME19,0,53.33,3,,,,,,,,,
-NP Hard Solutions,ME20,0,80.00,2,,,,,,,,,
-TYPE,Smelter,,,,,,,,,,,,
-BioPlastic,SM01,Simple iron base metals.,2.38,21,,,,,,,,,
-Sulphur,SM02,Corrosion and abrasion. Solvent. Explosives.,1.85,27,,,,,,,,,
-Silicates,SM03,Textiles. Antimicrobials. Nitrogenous base.,2.08,24,,,,,,,,,
-Pure Water,SM04,Structural support.,2.00,25,,,,,,,,,
-Memorite,SM05,Base for electronic circuits.,4.44,18,,,,,,,,,
-Superlubricants,SM06,Hydrogen storage.,4.21,19,,,,,,,,,
-Superconductors,SM07,Electronics.,6.67,12,,,,,,,,,
-Coloured Amber,SM08,Fertilisers.,6.15,13,,,,,,,,,
-Warpalloy,SM09,High strength natural magnets.,10.91,11,,,,,,,,,
-Staballoy,SM10,Military and civilian blades.,8.57,14,,,,,,,,,
-Ambroids,SM11,Memory retention for deformable structures.,9.23,13,,,,,,,,,
-Fungal Foam,SM12,Base metal for artillery.,8.00,15,,,,,,,,,
-Crystalline Organisms,SM13,Perfect light absorption.,26.67,6,,,,,,,,,
-Frost Birch,SM14,Low temperature superconduting.,22.86,7,,,,,,,,,
-Dark Matter,SM15,Rare amber alloy used to make warp coils.,22.86,7,,,,,,,,,
-Ultradarks,SM16,Extremely strong and light material. Brittle.,20.00,8,,,,,,,,,
-Impermite,SM17,Antientropic alloy. Ship construction.,160.00,1,,,,,,,,,
-Tempereal Gland,SM18,"Very expensive alloy of gold, silver and amber.",160.00,1,,,,,,,,,
-Transreal Alloys,SM19,Not fully understood.,80.00,2,,,,,,,,,
-Lustre,SM20,Alloy with proton retaining properties.,160.00,1,,,,,,,,,
-TYPE,Designer,,,,,,,,,,,,
-Engine Housing,DE01,0,1.85,27,,,,,,,,,
-Modular Hull,DE02,0,2.08,24,,,,,,,,,
-Gyro Thrusters,DE03,0,2.17,23,,,,,,,,,
-Beam Laser,DE04,0,2.00,25,,,,,,,,,
-Cryo Resistant Electronics,DE05,0,3.81,21,,,,,,,,,
-Ship Computer,DE06,0,4.00,20,,,,,,,,,
-Percept Array,DE07,DNA synthesis. Acids. Anti bacterials.,4.00,20,,,,,,,,,
-Harvesting Machinery,DE08,0,3.81,21,,,,,,,,,
-Advanced Drive Shield,DE09,0,7.50,16,,,,,,,,,
-Power Management,DE10,Industrial applications. Material and chemical production.,10.91,11,,,,,,,,,
-Weapon Mounts,DE11,Explosives. Material production.,10.00,12,,,,,,,,,
-Long Distance Comms,DE12,Jewellery.,7.50,16,,,,,,,,,
-Warp Shielding,DE13,Dye. Jewellery.,17.78,9,,,,,,,,,
-Crash Couches,DE14,0,17.78,9,,,,,,,,,
-Intensive Scanners,DE15,0,17.78,9,,,,,,,,,
-Life Support Systems,DE16,Amber infused metals. Jewellery.,17.78,9,,,,,,,,,
-High Altitude Weapons,DE17,0,40.00,4,,,,,,,,,
-Highly Tolerant Mechanics,DE18,0,160.00,1,,,,,,,,,
-Miniaturised Components,DE19,0,53.33,3,,,,,,,,,
-Ultra Long Distance Comms,DE20,Jewellery. Some minor industrial applications.,40.00,4,,,,,,,,,
-TYPE,Crofter,,,,,,,,,,,,
-Algae,CR01,Cheap protein source.,2.17,23,,,,,,,,,
-Cereals,CR02,Cheap carbohydrate source.,2.17,23,,,,,,,,,
-Legumes,CR03,Cheap fibre and vitamin source.,2.00,25,,,,,,,,,
-Syrup,CR04,Cheap sugar source.,2.17,23,,,,,,,,,
-Chocolate,CR05,Luxury cooking and foodstuff.,3.81,21,,,,,,,,,
-Soybeans,CR06,High protein source and base for complex meals.,4.21,19,,,,,,,,,
-Auroch Meat,CR07,Used for meat simulation. Does not go off.,4.00,20,,,,,,,,,
-Coffee,CR08,Expensive foodstuff. Base for puddings.,4.21,19,,,,,,,,,
-Micoprotein,CR09,Most widely available meat.,8.00,15,,,,,,,,,
-Eggs,CR10,Fruit used for making alcoholic beverages.,8.57,14,,,,,,,,,
-Fruit,CR11,Reasonable rare drink.,9.23,13,,,,,,,,,
-Nattslangen,CR12,All purpose cooking spice.,8.00,15,,,,,,,,,
-Saffron,CR13,Very rare cooking ingredient.,16.00,10,,,,,,,,,
-Oliolis,CR14,Fragrant oil for cooking.,32.00,5,,,,,,,,,
-Lychnusberry,CR15,Rare and refreshing berry with healing properties.,20.00,8,,,,,,,,,
-Nutmeg,CR16,Very dark root used in fermentation.,16.00,10,,,,,,,,,
-Worldspice,CR17,Universally rare spice used in restaurants.,53.33,3,,,,,,,,,
-Summer Dust,CR18,Lentil like bean used in stews and curries.,40.00,4,,,,,,,,,
-Pearls of Uriel,CR19,Very rare caviar from fish on Uriel III.,40.00,4,,,,,,,,,
-Melculum Sac,CR20,Fruit sack filled with fruit juice.,40.00,4,,,,,,,,,
-TYPE,Apothecary,,,,,,,,,,,,
-Antibiotics,AP01,SP0214PU0313000000,500,14,Panacea,13,Alkalines,0,0,0,0,0,0
-Painkillers,AP02,SP0214SP0312000000,500,14,Panacea,12,Oxytocin,0,0,0,0,0,0
-Boostershot,AP03,SP0312SP0112000000,500,12,Oxytocin,12,Hormones,0,0,0,0,0,0
-Creosote,AP04,SP0413PU0211000000,375,13,Lubricants,11,Carbon,0,0,0,0,0,0
-Herbicide,AP05,SP0112PU0313000000,375,12,Hormones,13,Alkalines,0,0,0,0,0,0
-Inhaleables,AP06,SP0413SM0312000000,375,13,Lubricants,12,Silicates,0,0,0,0,0,0
-Personal Lubricants,AP07,SP0312SM0111000000,375,12,Oxytocin,11,Bioplastic,0,0,0,0,0,0
-Pestle and Mortar,AP08,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Antivirals,AP09,AP0101CR0116SP07080000,1000,1,Antibiotics,16,Algae,8,Nectar,0,0,0,0
-Medigel,AP10,AP0201SP0116SP05080000,1000,1,Painkillers,16,Hormones,8,Neverclear,0,0,0,0
-Narcotics,AP11,AP0301SP0708SP08100000,1000,1,Boostershot,8,Nectar,10,Orpheus Slumber,0,0,0,0
-Field Alcohols,AP12,SP0508SM0417SP03160000,750,8,Neverclear,17,Pure Water,16,Oxytocin,0,0,0,0
-Aphrodisiacs,AP13,SP0609SP0116CR04160000,750,9,Aphroditus,16,Hormones,16,Syrup,0,0,0,0
-Doping Tablets,AP14,SP0116PU0214SP07080000,750,16,Hormones,14,Carbon,8,Nectar,0,0,0,0
-Contraceptives,AP15,WE0318SP0418SP06090000,750,18,Elastics,18,Lubricants,9,Aphroditus,0,0,0,0
-Balance Scales,AP16,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Antimicrobials,AP17,AP0901SP1008SP09080000,2000,1,Antivirals,8,Immunosuppressants,8,Attenuated Viruses,0,0,0,0
-Stem Cell Creams,AP18,AP1001CR0131SP06170000,2000,1,Medigel,31,Algae,17,Aphroditus,0,0,0,0
-Steroids,AP19,AP1101SP1008SP03320000,2000,1,Narcotics,8,Immunosuppressants,32,Oxytocin,0,0,0,0
-Bone Lattice Bandages,AP20,AP1201TE1105SP12090000,1500,1,Field Alcohols,5,Graphene,9,Antiballistic Serum,0,0,0,0
-Novacco,AP21,AP0601SP0819SP07150000,1500,1,Inhaleables,19,Orpheus Slumber,15,Nectar,0,0,0,0
-Pheremones,AP22,AP1301SP0908CR06160000,1500,1,Aphrodisiacs,8,Attenuated Viruses,16,Soybeans,0,0,0,0
-Focussin,AP23,AP0301SP1109SP07150000,1500,1,Boostershot,9,Morteks,15,Nectar,0,0,0,0
-Fractionating Column,AP24,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Adaptive Antimicrobials,AP25,AP1701SP1012SP1404SP150600,4000,1,Antimicrobials,12,Immunosuppressants,4,Proteins,6,Bacterial Payloads,0,0
-Universal Panacea,AP26,AP1801SP1305SP1605CR140400,4000,1,Stem Cell Creams,5,Confusia,5,Ambrosia,4,Oliolis,0,0
-Metabolic Enhancers,AP27,AP1901SP1012SP1305SP091200,4000,1,Steroids,12,Immunosuppressants,5,Confusia,12,Attenuated Viruses,0,0
-SynthSkin Patches,AP28,AP2001SP1404SP0912PU111000,3000,1,Bone Lattice Bandages,4,Proteins,12,Attenuated Viruses,10,Industry Grade Metals,0,0
-Muscle Relaxants,AP29,AP1101SP1605SP1305SP052400,3000,1,Narcotics,5,Ambrosia,5,Confusia,24,Neverclear,0,0
-Artificial Blood,AP30,AP1401SP1404SP1605TE170200,3000,1,Doping Tablets,4,Proteins,5,Ambrosia,2,Permacarbon,0,0
-Telomerase Promoters,AP31,AP2101SM0254SP1605SP140400,3000,1,Novacco,54,Sulphur,5,Ambrosia,4,Proteins,0,0
-Atomic Tweezers,AP32,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Medical Nanites,AP33,AP2501AP2201SP2004SP1405SM1306,8000,1,Adaptive Antimicrobials,1,Pheremones,4,Athelas,5,Proteins,6,Crystalline Organisms
-Second Wind,AP34,AP2601AP0601SP1903SP2004SP1222,8000,1,Universal Panacea,1,Inhaleables,3,Nidrfoenix,4,Athelas,22,Antiballistic Serum
-Neural Enhancers,AP35,AP2701AP2301SP1704SP1122TE1112,8000,1,Metabolic Enhancers,1,Focussin,4,Chronomorph,22,Morteks,12,Graphene
-Age Extenders,AP36,AP3101AP1401SP1704SP1804SP1405,6000,1,Telomerase Promoters,1,Doping Tablets,4,Chronomorph,4,Epiphos,5,Proteins
-Living Tissues,AP37,AP2801AP0701SP1903SP1509TE1902,6000,1,Synthskin Patches,1,Personal Lubricants,3,Nidrfoenix,9,Bacterial Payloads,2,Semisolids
-Anti-Sleep Tablets,AP38,AP2301AP2201SP1308SP1804CR1703,6000,1,Focussin,1,Pheremones,8,Confusia,4,Epiphos,3,Worldspice
-Universal Diagnostics,AP39,AP3001AP1701SP1509SP1903SM0724,6000,1,Artificial Blood,1,Antimicrobials,9,Bacterial Payloads,3,Nidrfoenix,24,Superconductors
-Eternal Apothecary,AP40,0000000000,0,0,0,0,0,0,0,0,0,0,0
-TYPE,Embroider,,,,,,,,,,,,
-Circlet,EM01,WE0114PU0111000000,500,14,Wire,11,Simple Metals,0,0,0,0,0,0
-Bracelet,EM02,WE0114WE0414000000,500,14,Wire,14,Leather,0,0,0,0,0,0
-Skin Suit,EM03,WE0313SM0312000000,500,13,Elastics,12,Silicates,0,0,0,0,0,0
-Civilian Clothing,EM04,WE0213WE0313000000,375,13,Cloth,13,Elastics,0,0,0,0,0,0
-Hardened Materials,EM05,WE0213TE0213000000,375,13,Cloth,13,Carbon Fibre,0,0,0,0,0,0
-Decorative Ring,EM06,WE0114TE0311000000,375,14,Wire,11,Silica Glass,0,0,0,0,0,0
-Refined Leather,EM07,WE0414WE0213000000,375,14,Leather,13,Cloth,0,0,0,0,0,0
-Needle,EM08,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Tiara,EM09,EM0101WE0508ME06090000,1000,1,Circlet,8,eFabric,9,Precious Gems,0,0,0,0
-Bangle,EM10,EM0201WE0508SM05080000,1000,1,Bracelet,8,eFabric,8,Memorite,0,0,0,0
-Radiation Suit,EM11,EM0301WE0609PU05080000,1000,1,Skin suit,9,Aramid,8,Ductile Metals,0,0,0,0
-Unbreakable Footwear,EM12,WE0609WE0217TE06080000,750,9,Aramid,17,Cloth,8,NanoTubes,0,0,0,0
-Luxury Clothing,EM13,WE0709WE0809WE04180000,750,9,Linen,9,Cotton,18,Leather,0,0,0,0
-Functional Materials,EM14,WE0508WE0809PU05080000,750,8,eFabric,9,Cotton,8,Ductile Metals,0,0,0,0
-Refined Materials,EM15,WE0809WE0709WE02170000,750,9,Cotton,9,Linen,17,Cloth,0,0,0,0
-Superfine Needle,EM16,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Diadem,EM17,EM0901WE1108SM08110000,2000,1,Tiara,8,Soft Leather,11,Coloured Amber,0,0,0,0
-Armlet,EM18,EM1001WE1108WE12080000,2000,1,Bangle,8,Soft Leather,8,Adamantis,0,0,0,0
-Environment Suit,EM19,EM1101WE1208WE05160000,2000,1,Radiation Suit,8,Adamantis,16,eFabric,0,0,0,0
-Amber Thread,EM20,EM0501SM0811WE09080000,1500,1,Hardened Materials,11,Coloured Amber,8,Silk,0,0,0,0
-Cashmere Scarf,EM21,EM1301WE1009WE11080000,1500,1,Luxury Clothing,9,Cashmere,8,Soft Leather,0,0,0,0
-Engagement Ring,EM22,EM0601WE1208PU10070000,1500,1,Decorative Ring,8,Adamantis,7,Semi-Precious Metals,0,0,0,0
-Delicates,EM23,EM1501WE0908WE10090000,1500,1,Refined Materials,8,Silk,9,Cashmere,0,0,0,0
-Loom,EM24,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Crown,EM25,EM1701WE1606WE1504PU150300,4000,1,Diadem,6,Nagl Hide,4,Plaited Amber,3,Precious Metals,0,0
-Glove,EM26,EM1801WE1606WE1112SM071500,4000,1,Armlet,6,Nagl Hide,12,Soft Leather,15,Superconductors,0,0
-Homeostatic Suit,EM27,EM1901WE1504WE0625SM052300,4000,1,Environment Suit,4,Plaited Amber,25,Aramid,23,Memorite,0,0
-Amber Decorum,EM28,EM2001WE1307WE1407SM081700,3000,1,Amber Thread,7,Nydian Fur,7,Mokros Skin,17,Coloured Amber,0,0
-Silk Wraps,EM29,EM2301WE0912WE1013WE130700,3000,1,Delicates,12,Silk,13,Cashmere,7,Nydian Fur,0,0
-Ceremonial Armour,EM30,EM0501WE1504WE1606WE072700,3000,1,Hardened Materials,4,Plaited Amber,6,Nagl Hide,27,Linen,0,0
-Advanced Meshes,EM31,EM1301WE1504WE1211TE121100,3000,1,Luxury Clothing,4,Plaited Amber,11,Adamantis,11,Ceramic Cloth,0,0
-Exquisite Loom,EM32,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Headdress,EM33,EM2501EM2301WE1703WE2003PU1802,8000,1,Crown,1,Delicates,3,Boreal Gossamer,3,Hera's Tears,2,Cobalt
-Gauntlet,EM34,EM2601EM3101WE1803WE0919ME1605,8000,1,Glove,1,Advanced Meshes,3,Woven Metal,19,Silk,5,Ambronite
-Exo Suit,EM35,EM2701EM0501WE1803WE1506WE1218,8000,1,Homeostatic Suit,1,Hardened Materials,3,Woven Metal,6,Plaited Amber,18,Adamantis
-Liquid Cloak,EM36,EM3101EM2101WE1703WE1904TE2001,6000,1,Advanced Meshes,1,Cashmere Scarf,3,Boreal Gossamer,4,Liquid Cloth,1,Photophilic Glass
-Feathered Neckguard,EM37,EM2801EM0701WE1803WE2003WE1410,6000,1,Amber Decorum,1,Refined Leather,3,Woven Metal,3,Hera's Tears,10,Mokros Skin
-Spectrum Ring,EM38,EM2201EM1401WE2003SM2001ME1801,6000,1,Engagement Ring,1,Functional Materials,3,Hera's Tears,1,Lustre,1,Bifrostite
-Royal Gown,EM39,EM3001EM2901WE1703WE1904ME1903,6000,1,Ceremonial Armour,1,Silk Wraps,3,Boreal Gossamer,4,Liquid Cloth,3,Helenite
-Eternal Weaver,EM40,0000000000,0,0,0,0,0,0,0,0,0,0,0
-TYPE,Artificier,,,,,,,,,,,,
-Lossless Magnets,AR01,TE0112PU0111000000,500,12,Clay,11,Simple Metals,0,0,0,0,0,0
-Dark Ceramics,AR02,TE0112TE0213000000,500,12,Clay,13,Carbon Fibre,0,0,0,0,0,0
-PermaSteel,AR03,TE0311PU0111000000,500,11,Silica Glass,11,Simple Metals,0,0,0,0,0,0
-Intelligent Putty,AR04,TE0112PU0411000000,375,12,Clay,11,Metalloids,0,0,0,0,0,0
-Nano Crystals,AR05,TE0311TE0413000000,375,11,Silica Glass,13,Alumina,0,0,0,0,0,0
-Bonding Matrix,AR06,TE0413ME0313000000,375,13,Alumina,13,Bonding Agents,0,0,0,0,0,0
-Magnet Wrapping,AR07,TE0213TE0112000000,375,13,Carbon Fibre,12,Clay,0,0,0,0,0,0
-Filter,AR08,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Decatesla Magnets,AR09,AR0101TE0809PU06080000,1000,1,Lossless Magnets,9,Boron-Carbide,8,Conductors,0,0,0,0
-Superceramics,AR10,AR0201TE0809TE07090000,1000,1,Dark Ceramics,9,Boron-Carbide,9,Dilatants,0,0,0,0
-Low Resistivity Metals,AR11,AR0301TE0608SM02180000,1000,1,Permasteel,8,Nanotubes,18,Sulphur,0,0,0,0
-Purified Amber,AR12,TE0418TE0508SM08060000,750,18,Alumina,8,Hologlass,6,Coloured Amber,0,0,0,0
-Soft Ceramics,AR13,TE0315TE0709SM06080000,750,15,Silica Glass,9,Dilatants,8,Superlubricants,0,0,0,0
-Antirefractive Glass,AR14,TE0508TE0608TE03150000,750,8,Hologlass,8,Nanotubes,15,Silica Glass,0,0,0,0
-Air Cubes,AR15,TE0608TE0315PU02140000,750,8,Nanotubes,15,Silica Glass,14,Carbon,0,0,0,0
-Evaporator,AR16,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Centatesla Magnets,AR17,AR0901TE1105SM11080000,2000,1,Decatesla Magnets,5,Graphene,8,Ambroids,0,0,0,0
-Universal Ceramic,AR18,AR1001TE1008TE07170000,2000,1,Superceramics,8,Selfsetting Ceramics,17,Dilatants,0,0,0,0
-HTSCs,AR19,AR1101TE1208SM07100000,2000,1,Low Resistivity Metals,8,Ceramic Cloth,10,Superconductors,0,0,0,0
-Hard Carbons,AR20,AR1501TE1105TE12080000,1500,1,Air Cubes,5,Graphene,8,Ceramic Cloth,0,0,0,0
-Ambrogen,AR21,AR1201TE0817TE12080000,1500,1,Purified Amber,17,Boron-Carbide,8,Ceramic Cloth,0,0,0,0
-Hydrodynamic Ceramic,AR22,AR1301TE1008TE11050000,1500,1,Soft Ceramics,8,Selfsetting Ceramics,5,Graphene,0,0,0,0
-Solar Glass,AR23,AR1401TE1105TE09080000,1500,1,Antirefractive Glass,5,Graphene,8,Vac-Glass,0,0,0,0
-Centrifuge,AR24,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Kilotesla Magnets,AR25,AR1701TE1505TE0622SM071500,4000,1,Centatesla Magnets,5,Trinitite,22,Nanotubes,15,Superconductors,0,0
-Cerametals,AR26,AR1801TE1405TE0452PU111000,4000,1,Universal Ceramic,5,Ceramic Solvent,52,Alumina,10,Industry Grade Metals,0,0
-Selfhealing Metals,AR27,AR1901TE1605TE1108TE101200,4000,1,HTSCs,5,ElectroActive Glass,8,Graphene,12,Selfsetting Ceramics,0,0
-Amber Matrix,AR28,AR0601TE1108TE1605SM111100,3000,1,Bonding Matrix,8,Graphene,5,ElectroActive Glass,11,Ambroids,0,0
-Ceramiglass,AR29,AR2301TE1505TE1405TE130700,3000,1,Solar Glass,5,Trinitite,5,Ceramic Solvent,7,Pellucidic Glass,0,0
-Superfluids,AR30,AR2201TE1405TE0911PU160500,3000,1,Hydrodynamic Ceramic,5,Ceramic Solvent,11,Vac-Glass,5,Fuseable Isotopes,0,0
-Cryonic Materials,AR31,AR2001TE1405TE1307SM140500,3000,1,Hard Carbons,5,Ceramic Solvent,7,Pellucidic Glass,5,Frost Birch,0,0
-Electrolyser,AR32,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Monopole Magnets,AR33,AR2501AR0701TE1902TE1607TE0840,8000,1,Kilotesla Magnets,1,Magnet Wrapping,2,Semisolids,7,ElectroActive Glass,40,Boron-Carbide
-Glassinite,AR34,AR2901AR2101TE2001TE0918ME1507,8000,1,Ceramiglass,1,Ambrogen,1,Photophilic Glass,18,Vac-Glass,7,Apsum
-Entropy Alloys,AR35,AR3101AR1001TE1802TE1702TE1508,8000,1,Cryonic Materials,1,Superceramics,2,Obsidian,2,Permacarbon,8,Trinitite
-Dual Band Entangled Particles,AR36,AR0501AR3001TE1802TE2001SM1801,6000,1,Nano Crystals,1,Superfluids,2,Obsidian,1,Photophilic Glass,1,Tempereal Gland
-Void Amber,AR37,AR2801AR2001TE1802TE1508SM0826,6000,1,Amber Matrix,1,Hard Carbons,2,Obsidian,8,Trinitite,26,Coloured Amber
-Malleable Matter,AR38,AR2601AR1301TE1902TE1702SM0536,6000,1,Cerametals,1,Soft Ceramics,2,Semisolids,2,Permacarbon,36,Memorite
-Programmeable Matter,AR39,AR2701AR0401TE1902TE1702SM1220,6000,1,Selfhealing Metals,1,Intelligent Putty,2,Semisolids,2,Permacarbon,20,Fungal Foam
-Eternal Artificer,AR40,0000000000,0,0,0,0,0,0,0,0,0,0,0
-TYPE,Philosopher,,,,,,,,,,,,
-Fuel Cell,PH01,PU0211PU0313000000,500,11,Carbon,13,Alkalines,0,0,0,0,0,0
-Radiation Damper,PH02,PU0111PU0313000000,500,11,Simple Metals,13,Alkalines,0,0,0,0,0,0
-Capacitative Screens,PH03,PU0411PU0211000000,500,11,Metalloids,11,Carbon,0,0,0,0,0,0
-Electromagnetic Suspension,PH04,PU0111PU0411000000,375,11,Simple Metals,11,Metalloids,0,0,0,0,0,0
-Modular Links,PH05,PU0111SM0111000000,375,11,Simple Metals,11,Bioplastic,0,0,0,0,0,0
-Ablative Shielding,PH06,PU0211PU0411000000,375,11,Carbon,11,Metalloids,0,0,0,0,0,0
-Impact Pads,PH07,PU0211TE0112000000,375,11,Carbon,12,Clay,0,0,0,0,0,0
-Loupe,PH08,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Paper Batteries,PH09,PH0101PU0608PU08090000,1000,1,Fuel Cell,8,Conductors,9,Reactive Gases,0,0,0,0
-Light Cloak,PH10,PH0201PU0608TE03150000,1000,1,Radiation Damper,8,Conductors,15,Silica Glass,0,0,0,0
-OLED Displays,PH11,PH0301PU0809PU05080000,1000,1,Capacitative Screens,9,Reactive Gases,8,Ductile Metals,0,0,0,0
-EM Noise Bubble,PH12,PU0608PU0214PU04140000,750,8,Conductors,14,Carbon,14,Metalloids,0,0,0,0
-Tension Thread,PH13,PU0709PU0414TE06080000,750,9,Resilient Metals,14,Metalloids,8,Nanotubes,0,0,0,0
-Continuous Gearing,PH14,PU0709PU0115SP04180000,750,9,Resilient Metals,15,Simple Metals,18,Lubricants,0,0,0,0
-Deformable Airlocks,PH15,PU0709PU0508WE06090000,750,9,Resilient Metals,8,Ductile Metals,9,Aramid,0,0,0,0
-Oculary,PH16,0000000000,0,0,0,0,0,0,0,0,0,0,0
-High Efficiency PV,PH17,PH0901PU1007PU09090000,2000,1,Paper Batteries,7,Semi-Precious Metals,9,Inert Gases,0,0,0,0
-Full Spectrum Cloak,PH18,PH1001PU0909TE09080000,2000,1,Light Cloak,9,Inert Gases,8,Vac-Glass,0,0,0,0
-E-Paper,PH19,PH1101PU1007PU12090000,2000,1,OLED Displays,7,Semi-Precious Metals,9,Catalytic Metals,0,0,0,0
-Supercapacitors,PH20,PH0901PU1007SM01280000,1500,1,Paper Batteries,7,Semi-Precious Metals,28,BioPlastic,0,0,0,0
-Magnetic Inertion Dampeners,PH21,PH0401PU0909PU11070000,1500,1,Electromagnetic Suspension,9,Inert Gases,7,Industry Grade Metals,0,0,0,0
-Frictionless Mechanics,PH22,PH1401PU1107SM06160000,1500,1,Continuous Gearing,7,Industry Grade Metals,16,Superlubricants,0,0,0,0
-Neutron Plates,PH23,PH0601PU1209PU11070000,1500,1,Ablative Shielding,9,Catalytic Metals,7,Industry Grade Metals,0,0,0,0
-Optical Microscope,PH24,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Organic PV,PH25,PH1701PU1306PU1503SM130400,4000,1,High Efficiency PV,6,Earth Alkalines,3,Precious Metals,4,Crystalline Organisms,0,0
-Stealth Plates,PH26,PH1801PU1110PU0624SM160500,4000,1,Full Spectrum Cloak,10,Industry Grade Metals,24,Conductors,5,Ultradarks,0,0
-Holodisplays,PH27,PH1901PU1503PU1010TE052300,4000,1,E-Paper,3,Precious Metals,10,Semi-Precious Metals,23,Hologlass,0,0
-Ultracapacitors,PH28,PH2001PU1306PU1407PU044200,3000,1,Supercapacitors,6,Earth Alkalines,7,Resistive Metals,42,Metalloids,0,0
-Semisolid Lens,PH29,PH1501PU1306PU0523TE110800,3000,1,Deformable Airlocks,6,Earth Alkalines,23,Ductile Metals,8,Graphene,0,0
-Ranged Energy Transmitters,PH30,PH2001PU1407PU1605ME160400,3000,1,Supercapacitors,7,Resistive Metals,5,Fuseable Isotopes,4,Ambronite,0,0
-Entropic Lock,PH31,PH0501PU1503PU1605TE072500,3000,1,Modular Links,3,Precious Metals,5,Fuseable Isotopes,25,Dilatants,0,0
-Electron Microscope,PH32,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Lux Sheets,PH33,PH2501PH1101PU1802PU1704SM0826,8000,1,Organic PV,1,OLED Displays,2,Cobalt,4,Radioactives,26,Coloured Amber
-Obfuscation Shell,PH34,PH2601PH2801PU1902PU1704TE2001,8000,1,Stealth Plates,1,Ultracapacitors,2,Tartarium,4,Radioactives,1,Photophilic Glass
-Tangible Display,PH35,PH2701PH3001PU1504PU1902PU1607,8000,1,Holodisplays,1,Ranged Energy Transmitters,4,Precious Metals,2,Tartarium,7,Fuseable Isotopes
-Warp Shielding,PH36,PH0701PH2301PU1902PU2003SM1701,6000,1,Impact Pads,1,Neutron Plates,2,Tartarium,3,Iridis,1,Impermite
-Superlens,PH37,PH2901PH2101PU1504PU1115SM2001,6000,1,Semisolid Lens,1,Magnetic Inertion Dampeners,4,Precious Metals,15,Industry Grade Metals,1,Lustre
-Thermodynamic Insulator,PH38,PH1201PH2201PU1802PU1504SM1507,6000,1,EM Noise Bubble,1,Frictionless Mechanics,2,Cobalt,4,Precious Metals,7,Dark Matter
-Temporal Fold,PH39,PH3101PH1301PU2003PU1802SM1801,6000,1,Entropic Lock,1,Tension Thread,3,Iridis,2,Cobalt,1,Tempereal Gland
-Eternal Philosopher,PH40,0000000000,0,0,0,0,0,0,0,0,0,0,0
-TYPE,Smith,,,,,,,,,,,,
-Carbon Capture Facilities,SM01,ME0213TE0311000000,500,13,Construction Materials,11,Silica Glass,0,0,0,0,0,0
-Explosives,SM02,ME0112ME0313000000,500,12,Unstable Compounds,13,Bonding Agents,0,0,0,0,0,0
-Skyscraper,SM03,ME0213ME0313000000,500,13,Construction Materials,13,Bonding Agents,0,0,0,0,0,0
-Personal Shield,SM04,ME0112SM0111000000,375,12,Unstable Compounds,11,Bioplastic,0,0,0,0,0,0
-Redundant Infrastructure,SM05,ME0413PU0411000000,375,13,Circuit Boards,11,Metalloids,0,0,0,0,0,0
-Tightbeam Laser,SM06,ME0112ME0413000000,375,12,Unstable Compounds,13,Circuit Boards,0,0,0,0,0,0
-Maglev Transportation,SM07,ME0213ME0413000000,375,13,Construction Materials,13,Circuit Boards,0,0,0,0,0,0
-Hammer,SM08,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Terrestrial Solar Plant,SM09,SM0101ME0708TE05080000,1000,1,Carbon Capture Facilities,8,High Precision Motors,8,Hologlass,0,0,0,0
-Thermal Warheads,SM10,SM0201ME0116SM08060000,1000,1,Explosives,16,Unstable Compounds,6,Coloured Amber,0,0,0,0
-Spacescraper,SM11,SM0301ME0509TE06080000,1000,1,Skyscraper,9,Stressless Bolts,8,Nanotubes,0,0,0,0
-Shield Dome,SM12,ME0509ME0217ME06090000,750,9,Stressless Bolts,17,Construction Materials,9,Precious Gems,0,0,0,0
-Directed Energy Weapons,SM13,ME0708ME0808SM07050000,750,8,High Precision Motors,8,Parallel Processors,5,Superconductors,0,0,0,0
-Massive Transport Networks,SM14,ME0708ME0808ME06090000,750,8,High Precision Motors,8,Parallel Processors,9,Precious Gems,0,0,0,0
-Superstructure Foundations,SM15,ME0509ME0217ME03180000,750,9,Stressless Bolts,17,Construction Materials,18,Bonding Agents,0,0,0,0
-Anvil,SM16,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Carbon Negative Housing,SM17,SM0901ME1208ME10080000,2000,1,Terrestrial Solar Plant,8,Neural Networks,8,Volcanic Earth,0,0,0,0
-Kinetic Warheads,SM18,SM1001ME0816SM10080000,2000,1,Thermal Warheads,16,Parallel Processors,8,Staballoy,0,0,0,0
-Fountain of Paradise,SM19,SM1101ME1109DE03310000,2000,1,Spacescraper,9,Partical Shield Projector,31,Gyro Thrusters,0,0,0,0
-Catastrophe Bunker,SM20,SM1201ME1008TE10080000,1500,1,Shield Dome,8,Volcanic Earth,8,Selfsetting Ceramics,0,0,0,0
-High-Speed Freight,SM21,SM0401ME1208ME09090000,1500,1,Personal Shield,8,Neural Networks,9,Organic Data Storage,0,0,0,0
-Mass Driver,SM22,SM0701ME1109DE11070000,1500,1,Maglev Transportation,9,Partical Shield Projector,7,Weapon Mounts,0,0,0,0
-Synchronised Distribution Systems,SM23,SM1401ME1208ME09090000,1500,1,Massive Transport Networks,8,Neural Networks,9,Organic Data Storage,0,0,0,0
-Fuller,SM24,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Vertical Farms,SM25,SM1701ME1406ME1604ME101200,4000,1,Carbon Negative Housing,6,Genetic Algorithms,4,Ambronite,12,Volcanic Earth,0,0
-Neutron Payloads,SM26,SM1801ME1505ME1604SM150500,4000,1,Kinetic Warheads,5,Apsum,4,Ambronite,5,Dark Matter,0,0
-Habitation Dome,SM27,SM1901ME1305ME1012DE082700,4000,1,Fountain of Paradise,5,Hermetic Walls,12,Volcanic Earth,27,Harvesting Machinery,0,0
-Shield Sphere,SM28,SM1201ME1305ME1505TE160500,3000,1,Shield Dome,5,Hermetic Walls,5,Apsum,5,ElectroActive Glass,0,0
-Warp Gate,SM29,SM2101ME1305ME1604SM091000,3000,1,High-Speed Freight,5,Hermetic Walls,4,Ambronite,10,Warpalloy,0,0
-Interstellar Artillery,SM30,SM2201ME1505ME1406ME014600,3000,1,Mass Driver,5,Apsum,6,Genetic Algorithms,46,Unstable Compounds,0,0
-Adaptive Resource Management,SM31,SM2301ME1406ME0625DE101000,3000,1,Synchronised Distribution Systems,6,Genetic Algorithms,25,Precious Gems,10,Power Management,0,0
-Foundry,SM32,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Biosphere,SM33,SM2501SM1501ME1801ME1903TE2001,8000,1,Vertical Farms,1,Superstructure Foundations,1,Bifrostite,3,Helenite,1,Photophilic Glass
-Singularity Bomb,SM34,SM2601SM3001ME2002ME1701ME1801,8000,1,Neutron Payloads,1,Interstellar Artillery,2,NP Hard Solutions,1,Exotic Matter,1,Bifrostite
-Nomad Cities,SM35,SM2701SM2001ME1801ME0838DE1801,8000,1,Habitation Dome,1,Catastrophe Bunker,1,Bifrostite,38,Parallel Processors,1,Highly Tolerant Mechanics
-Planet Shifters,SM36,SM2901SM0601ME1701ME1120SM1902,6000,1,Warp Gate,1,Tightbeam Laser,1,Exotic Matter,20,Partical Shield Projector,2,Transreal Alloys
-Proton Gas,SM37,SM1301SM2601ME1701ME1801PU2003,6000,1,Directed Energy Weapons,1,Neutron Payloads,1,Exotic Matter,1,Bifrostite,3,Iridis
-Lossless Supply Chains,SM38,SM3101SM0501ME2002ME0738SM0724,6000,1,Adaptive Resource Management,1,Redundant Infrastructure,2,NP Hard Solutions,38,High Precision Motors,24,Superconductors
-Structual Perfection,SM39,SM2801SM1501ME2002ME1903TE1802,6000,1,Shield Sphere,1,Superstructure Foundations,2,NP Hard Solutions,3,Helenite,2,Obsidian
-Eternal Smith,SM40,0000000000,0,0,0,0,0,0,0,0,0,0,0
-TYPE,Voyager,,,,,,,,,,,,
-Ion Drive,VO01,DE0114DE0312000000,500,14,Engine Housing,12,Gyro Thrusters,0,0,0,0,0,0
-Scout Ship,VO02,DE0212DE0312000000,500,12,Modular Hull,12,Gyro Thrusters,0,0,0,0,0,0
-Satellite,VO03,DE0413ME0413000000,500,13,Beam Laser,13,Circuit Boards,0,0,0,0,0,0
-Transport Ship,VO04,DE0212DE0114000000,375,12,Modular Hull,14,Engine Housing,0,0,0,0,0,0
-High Altitude Station,VO05,DE0212WE0313000000,375,12,Modular Hull,13,Elastics,0,0,0,0,0,0
-Space Based Solar Plant,VO06,DE0413DE0212000000,375,13,Beam Laser,12,Modular Hull,0,0,0,0,0,0
-Helicycle,VO07,DE0312SM0111000000,375,12,Gyro Thrusters,11,Bioplastic,0,0,0,0,0,0
-Cast,VO08,0000000000,0,0,0,0,0,0,0,0,0,0,0
-SABRE Engine,VO09,VO0101DE0509DE04170000,1000,1,Ion Drive,9,Cryo Resistant Electronics,17,Beam Laser,0,0,0,0
-Interceptor,VO10,VO0201DE0709TE02170000,1000,1,Scout Ship,9,Percept Array,17,Carbon Fibre,0,0,0,0
-Probe,VO11,VO0301DE0709ME08080000,1000,1,Satellite,9,Percept Array,8,Parallel Processors,0,0,0,0
-Harvester Drones,VO12,DE0709DE0809DE06090000,750,9,Percept Array,9,Harvesting Machinery,9,Ship Computer,0,0,0,0
-Dicopter,VO13,DE0509DE0316SM06080000,750,9,Cryo Resistant Electronics,16,Gyro Thrusters,8,Superlubricants,0,0,0,0
-Cargo Ship,VO14,DE0609DE0216PU07090000,750,9,Ship Computer,16,Modular Hull,9,Resilient Metals,0,0,0,0
-Mining Ship,VO15,DE0809DE0118DE04170000,750,9,Harvesting Machinery,18,Engine Housing,17,Beam Laser,0,0,0,0
-Injection Mold,VO16,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Fusion Drive,VO17,VO0901DE0909DE10070000,2000,1,SABRE Engine,9,Advanced Drive Shield,7,Power Management,0,0,0,0
-Bomber,VO18,VO1001DE1107ME01310000,2000,1,Interceptor,7,Weapon Mounts,31,Unstable Compounds,0,0,0,0
-Communication Buoy,VO19,VO1101DE1007DE12090000,2000,1,Probe,7,Power Management,9,Long Distance Comms,0,0,0,0
-Dropship,VO20,VO1301DE1107SM10080000,1500,1,Dicopter,7,Weapon Mounts,8,Staballoy,0,0,0,0
-Helios Station,VO21,VO0501DE1107DE12090000,1500,1,High Altitude Station,7,Weapon Mounts,9,Long Distance Comms,0,0,0,0
-Armed Warp Vehicle,VO22,VO0401DE0909SM09070000,1500,1,Transport Ship,9,Advanced Drive Shield,7,Warpalloy,0,0,0,0
-Jump Belt,VO23,VO0701DE1007PU05150000,1500,1,Helicycle,7,Power Management,15,Ductile Metals,0,0,0,0
-Lathe,VO24,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Warp Drive,VO25,VO1701DE1306DE1110SM091000,4000,1,Fusion Drive,6,Warp Shielding,10,Weapon Mounts,10,Warpalloy,0,0
-Destroyer,VO26,VO1801DE1306DE1406ME150500,4000,1,Bomber,6,Warp Shielding,6,Crash Couches,5,Apsum,0,0
-Star Mapper,VO27,VO1901DE1506DE0625ME091300,4000,1,Communication Buoy,6,Intensive Scanners,25,Ship Computer,13,Organic Data Storage,0,0
-Orbital Habitation Platform,VO28,VO2101DE1506DE1606ME130500,3000,1,Helios Station,6,Intensive Scanners,6,Life Support Systems,5,Hermetic Walls,0,0
-Seed Ship,VO29,VO1401DE1306DE1606SM130400,3000,1,Cargo Ship,6,Warp Shielding,6,Life Support Systems,4,Crystalline Organisms,0,0
-Rescue Ship,VO30,VO1501DE1406DE1506DE160600,3000,1,Mining Ship,6,Crash Couches,6,Intensive Scanners,6,Life Support Systems,0,0
-Space Plane,VO31,VO0901DE1406DE1010SM140500,3000,1,Sabre Engine,6,Crash Couches,10,Power Management,5,Frost Birch,0,0
-Dockyard,VO32,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Reactionless Drive,VO33,VO2501VO1701DE1801DE0374ME1701,8000,1,Warp Drive,1,Fusion Drive,1,Highly Tolerant Mechanics,74,Gyro Thrusters,1,Exotic Matter
-Capital Ship,VO34,VO2601VO2501DE1704DE2004SM1019,8000,1,Destroyer,1,Warp Drive,4,High Altitude Weapons,4,Ultra Long Distance Comms,19,Staballoy
-Interdimensional Probe,VO35,VO2701VO2201DE1801DE1903SM1902,8000,1,Star Mapper,1,Armed Warp Vehicle,1,Highly Tolerant Mechanics,3,Miniaturised Components,2,Transreal Alloys
-Eye of Horus,VO36,VO2801VO0601DE1704DE1116ME1605,6000,1,Orbital Habitation Platform,1,Space Based Solar Plant,4,High Altitude Weapons,16,Weapon Mounts,5,Ambronite
-Swarm Ships,VO37,VO2001VO3101DE1903DE0740ME1219,6000,1,Dropship,1,Space Plane,3,Miniaturised Components,40,Percept Array,19,Neural Networks
-Nanostarship,VO38,VO3001VO2301DE1903DE1015PU1902,6000,1,Rescue Ship,1,Jump Belt,3,Miniaturised Components,15,Power Management,2,Tartarium
-Wanderer Probe,VO39,VO1201VO2901DE1801DE2004SM1701,6000,1,Harvester Drones,1,Seed Ship,1,Highly Tolerant Mechanics,4,Ultra Long Distance Comms,1,Impermite
-Eternal Voyager,VO40,0000000000,0,0,0,0,0,0,0,0,0,0,0
-TYPE,Sage,,,,,,,,,,,,
-Microprocessors,SA01,SM0111ME0413000000,500,11,BioPlastic,13,Circuit Boards,0,0,0,0,0,0
-Laser Torch,SA02,SM0413DE0413000000,500,13,Pure Water,13,Beam Laser,0,0,0,0,0,0
-Optical Array,SA03,SM0312PU0411000000,500,12,Silicates,11,Metalloids,0,0,0,0,0,0
-Radio Sphere,SA04,SM0312PU0111000000,375,12,Silicates,11,Simple Metals,0,0,0,0,0,0
-Gyroscopes,SA05,SM0413DE0312000000,375,13,Pure Water,12,Gyro Thrusters,0,0,0,0,0,0
-3D Printers,SA06,SM0111TE0112000000,375,11,BioPlastic,12,Clay,0,0,0,0,0,0
-Downloadable Food,SA07,SM0214CR0112000000,375,14,Sulphur,12,Algae,0,0,0,0,0,0
-Texbook,SA08,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Multilayer Processors,SA09,SA0101SM0508TE05080000,1000,1,Microprocessors,8,Memorite,8,Hologlass,0,0,0,0
-LOx Cycler,SA10,SA0201SM0705TE02170000,1000,1,Laser Torch,5,Superconductors,17,Carbon Fibre,0,0,0,0
-Distributed Telescopic Array,SA11,SA0301SM0508ME07080000,1000,1,Optical Array,8,Memorite,8,High Precision Motors,0,0,0,0
-Weather Modification Pylon,SA12,SM0806SM0608PU08090000,750,6,Coloured Amber,8,Superlubricants,9,Reactive Gases,0,0,0,0
-UltraSmartphones,SA13,SM0508SM0806WE05080000,750,8,Memorite,6,Coloured Amber,8,eFabric,0,0,0,0
-CryoSleep Technology,SA14,SM0705SM0608DE05090000,750,5,Superconductors,8,Superlubricants,9,Cryo Resistant Electronics,0,0,0,0
-Perfect Batteries,SA15,SM0705SM0806PU03170000,750,5,Superconductors,6,Coloured Amber,17,Alkalines,0,0,0,0
-Research Paper,SA16,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Optical Processors,SA17,SA0901SM1108PU10070000,2000,1,Multilayer Processors,8,Ambroids,7,Semi-Precious Metals,0,0,0,0
-Fusion Reactor,SA18,SA1001SM1503SM10080000,2000,1,LOx Cycler,3,Dark Matter,8,Staballoy,0,0,0,0
-Space Telescope,SA19,SA1101SM1108TE09080000,2000,1,Distributed Telescopic Array,8,Ambroids,8,Vac-Glass,0,0,0,0
-Terraforming Station,SA20,SA1201SM1209SM15030000,1500,1,Weather Modification Pylon,9,Fungal Foam,3,Dark Matter,0,0,0,0
-Worldweb,SA21,SA0401SM1108SM07100000,1500,1,Radio Sphere,8,Ambroids,10,Superconductors,0,0,0,0
-Neural Implants,SA22,SA1301SM1209SM01280000,1500,1,UltraSmartphones,9,Fungal Foam,28,BioPlastic,0,0,0,0
-Holocameras,SA23,SA0501SM0128TE05150000,1500,1,Gyroscopes,28,Bioplastic,15,Hologlass,0,0,0,0
-Protected Documents,SA24,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Massively Parallel Banks,SA25,SA1701SM1405SM0715DE101000,4000,1,Optical Processors,5,Frost Birch,15,Superconductors,10,Power Management,0,0
-Warp Coil,SA26,SA1801SM0910SM0817PU160500,4000,1,Fusion Reactor,10,Warpalloy,17,Coloured Amber,5,Fuseable Isotopes,0,0
-Ultra Deep Field Telescope,SA27,SA1901SM1605SM1505TE160500,4000,1,Space Telescope,5,Ultradarks,5,Dark Matter,5,ElectroActive Glass,0,0
-Oroboros Collider,SA28,SA2001SM0910SM0715PU150300,3000,1,Terraforming Station,10,Warpalloy,15,Superconductors,3,Precious Metals,0,0
-QComms,SA29,SA2101SM0910SM1405SM160500,3000,1,Worldweb,10,Warpalloy,5,Frost Birch,5,Ultradarks,0,0
-Artificial Photosynthesis,SA30,SA1501SM1304SM1405CR150500,3000,1,Perfect Batteries,4,Crystalline Organisms,5,Frost Birch,5,Lychnusberry,0,0
-Augmented Limbs,SA31,SA2201SM1304SM0348TE121100,3000,1,Neural Implants,4,Crystalline Organisms,48,Silicates,11,Ceramic Cloth,0,0
-Arcane Tomes,SA32,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Computing Satellites,SA33,SA2501SA2901SM1701SM2001DE0640,8000,1,Massively Parallel Banks,1,QComms,1,Impermite,1,Lustre,40,Ship Computer
-Gravity Modifiers,SA34,SA2601SA0501SM1801SM1902ME1701,8000,1,Warp Coil,1,Gyroscopes,1,Tempereal Gland,2,Transreal Alloys,1,Exotic Matter
-Artificial Gravitational Lenses,SA35,SA2701SA2301SM1801SM2001SM0915,8000,1,Ultra Deep Field Telescope,1,Holocameras,1,Tempereal Gland,1,Lustre,15,Warpalloy
-Supertorus,SA36,SA2801SA3001SM1902SM1701DE1801,6000,1,Oroboros Collider,1,Artificial Photosynthesis,2,Transreal Alloys,1,Impermite,1,Highly Tolerant Mechanics
-AI,SA37,SA2101SA1401SM1306SM2001ME2002,6000,1,Worldweb,1,Cryosleep Technology,6,Crystalline Organisms,1,Lustre,2,NP Hard Solutions
-Spin Ring,SA38,SA2801SA0601SM1701SM1608DE0277,6000,1,Oroboros Collider,1,3D Printers,1,Impermite,8,Ultradarks,77,Modular Hull
-Synthetic Organs,SA39,SA3101SA0701SM1801SM0480WE1506,6000,1,Augmented Limbs,1,Downloadable Food,1,Tempereal Gland,80,Pure Water,6,Plaited Amber
-Eternal Sage,SA40,0000000000,0,0,0,0,0,0,0,0,0,0,0
-TYPE,Chef,,,,,,,,,,,,
-Sweets,CH01,CR0412CR0313000000,500,12,Syrup,13,Legumes,0,0,0,0,0,0
-Feed Pellets,CH02,CR0112SP0312000000,500,12,Algae,12,Oxytocin,0,0,0,0,0,0
-Ready Vegetables,CH03,CR0313SM0312000000,500,13,Legumes,12,Silicates,0,0,0,0,0,0
-Bread,CH04,CR0212CR0112000000,375,12,Cereals,12,Algae,0,0,0,0,0,0
-Animal Feed,CH05,CR0313SP0112000000,375,13,Legumes,12,Hormones,0,0,0,0,0,0
-Herbs and Spices,CH06,CR0313CR0212000000,375,13,Legumes,12,Cereals,0,0,0,0,0,0
-Cooking Oils,CH07,CR0212CR0412000000,375,12,Cereals,12,Syrup,0,0,0,0,0,0
-Wooden Spoon,CH08,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Luxury Chocolate,CH09,CH0101CR0509CR08080000,1000,1,Sweets,9,Chocolate,8,Coffee,0,0,0,0
-Protein Bar,CH10,CH0201CR0608SP01160000,1000,1,Feed Pellets,8,Soybeans,16,Hormones,0,0,0,0
-Soup,CH11,CH0301CR0216CR01160000,1000,1,Ready Vegetables,16,Cereals,16,Algae,0,0,0,0
-Beers,CH12,CR0216CR1104SP05080000,750,16,Cereals,4,Fruit,8,Neverclear,0,0,0,0
-Braised Auroch,CH13,CR0709CR0317PU02140000,750,9,Auroch Meat,17,Legumes,14,Carbon,0,0,0,0
-Flavoured Coffee,CH14,CR0808CR0509SP07080000,750,8,Coffee,9,Chocolate,8,Nectar,0,0,0,0
-Milk,CH15,CR0608CR0416SM04170000,750,8,Soybeans,16,Syrup,17,Pure Water,0,0,0,0
-Wok,CH16,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Waffles,CH17,CH0901CR1008CR02310000,2000,1,Luxury Chocolate,8,Eggs,31,Cereals,0,0,0,0
-Emergency Rations,CH18,CH1001CR0909CR01310000,2000,1,Protein Bar,9,Micoprotein,31,Algae,0,0,0,0
-Casserole,CH19,CH1101CR0717CR09090000,2000,1,Soup,17,Auroch Meat,9,Micoprotein,0,0,0,0
-Chocolate Drink,CH20,CH1501CR0518CR04310000,1500,1,Milk,18,Chocolate,31,Syrup,0,0,0,0
-Herbal Tea,CH21,CH0601CR1108CR04310000,1500,1,Herbs and Spices,8,Fruit,31,Syrup,0,0,0,0
-Pastry,CH22,CH0401CR0616CR10080000,1500,1,Bread,16,Soybeans,8,Eggs,0,0,0,0
-Nocturnal Succulents,CH23,CH0701CR1209CR07170000,1500,1,Cooking Oils,9,Nattslangen,17,Auroch Meat,0,0,0,0
-Golden Ladel,CH24,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Chocolate Tart,CH25,CH1701CR1505CR1607CR082400,4000,1,Waffles,5,Lychnusberry,7,Nutmeg,24,Coffee,0,0
-Soylent,CH26,CH1801CR0913CR0446SP140400,4000,1,Emergency Rations,13,Micoprotein,46,Syrup,4,Proteins,0,0
-Curry,CH27,CH1901CR1213CR1404CR101200,4000,1,Casserole,13,Nattslangen,4,Oliolis,12,Eggs,0,0
-Liquor,CH28,CH1201CR1505CR0246SP052400,3000,1,Beers,5,Lychnusberry,46,Cereals,24,Neverclear,0,0
-Hot Sauce,CH29,CH0601CR1213CR1404ME014600,3000,1,Herbs and Spices,13,Nattslangen,4,Oliolis,46,Unstable Compounds,0,0
-Parisian Souffle,CH30,CH2201CR1404CR1607CR072500,3000,1,Pastry,4,Oliolis,7,Nutmeg,25,Auroch Meat,0,0
-Lychnus Coolie,CH31,CH2001CR1505CR1111CR062400,3000,1,Chocolate Drink,5,Lychnusberry,11,Fruit,24,Soybeans,0,0
-Salad Fork,CH32,0000000000,0,0,0,0,0,0,0,0,0,0,0
-Aphrodite's Mousse,CH33,CH2501CH2301CR1804CR1019SP0640,8000,1,Chocolate Tart,1,Nocturnal Succulents,4,Summer Dust,19,Eggs,40,Aphroditus
-Water of Carthage,CH34,CH2601CH1401CR2004CR0838SP1607,8000,1,Soylent,1,Flavoured Coffee,4,Melculum Sac,38,Coffee,7,Ambrosia
-Nidhogg Stew,CH35,CH2701CH1201CR1703CR2004CR1405,8000,1,Curry,1,Beers,3,Worldspice,4,Melculum Sac,5,Oliolis
-Wine,CH36,CH2801CH0601CR1904CR1118ME1605,6000,1,Liquor,1,Herbs and Spices,4,Pearls of Uriel,18,Fruit,5,Ambronite
-Delicates of Repose,CH37,CH3101CH1501CR1310CR1405CR0838,6000,1,Lychnus Coolie,1,Milk,10,Saffron,5,Oliolis,38,Coffee
-Summer Meats,CH38,CH1901CH1301CR1310CR1118CR1703,6000,1,Casserole,1,Braised Auroch,10,Saffron,18,Fruit,3,Worldspice
-Crystalline Pearls,CH39,CH2901CH2801CR1904CR1804CR1405,6000,1,Hot Sauce,1,Liquor,4,Pearls of Uriel,4,Summer Dust,5,Oliolis
-Eternal Chef,CH40,0000000000,0,0,0,0,0,0,0,0,0,0,0
+TYPE,Spicer,,,
+Hormones,SP01,Increased response time,2.17,23
+Panacea,SP02,Heals wounds,1.79,28
+Oxytocin,SP03,Mental soothing,2.08,24
+Lubricants,SP04,For industrial use,1.92,26
+Neverclear,SP05,Medicinal alcohol,4.21,19
+Aphroditus,SP06,Aphrodisiac and sensory enhancer,4,20
+Nectar,SP07,Psychotropic drug,4.44,18
+Orpheus Slumber,SP08,Sleep inducer,3.64,22
+Attenuated Viruses,SP09,Natural cleaning fluid,8.57,14
+Immunosuppressants,SP10,Industrial precursor to GMOs,8.57,14
+Morteks,SP11,Prevents fear responses,7.5,16
+Antiballistic Serum,SP12,Natural gel with antiballistic properties,7.5,16
+Confusia,SP13,Clears confusion and mental health issues,20,8
+Proteins,SP14,Natural lighting,32,5
+Bacterial Payloads,SP15,Can contain smoke and pollutants,17.78,9
+Ambrosia,SP16,Amber based nootropic drug,22.86,7
+Chronomorph,SP17,Slows users perception of time,40,4
+Epiphos,SP18,Allows greater concentration and insight,40,4
+Nidrfoenix,SP19,Can resuscitate recently deceased,53.33,3
+Athelas,SP20,Very rare tobacco alternative,40,4
+TYPE,Weaver,,,
+Wire,WE01,Food transportation. Precursor.,1.85,27
+Cloth,WE02,Weaving. Clothing.,2,25
+Elastics,WE03,Thread. Insulation. Comfort. Bandages.,1.92,26
+Leather,WE04,Temperature control. Civilian clothing.,1.85,27
+eFabric,WE05,Expensive clothing. Military applications.,4.21,19
+Aramid,WE06,Sports wear. Underarmour. Protection.,4,20
+Linen,WE07,Rugs. Decoration. Clothing.,3.81,21
+Cotton,WE08,Industrial and commercial applications.,3.81,21
+Silk,WE09,Luxury clothing.,8.57,14
+Cashmere,WE10,Luxury clothing.,8,15
+Soft Leather,WE11,Luxury clothing.,8.57,14
+Adamantis,WE12,Armour. Civilian defense clothing.,9.23,13
+Nydian Fur,WE13,Luxury clothing.,16,10
+Mokros Skin,WE14,Armour. Decoration.,16,10
+Plaited Amber,WE15,Amber-based. Wear resistant. Luxury clothing.,26.67,6
+Nagl Hide,WE16,Trophies. Luxury clothing.,17.78,9
+Boreal Gossamer,WE17,Luxury clothing.,53.33,3
+Woven Metal,WE18,Military and industrial applications. Luxury clothing.,53.33,3
+Liquid Cloth,WE19,Luxury clothing.,40,4
+Hera's Tears,WE20,Luxury clothing. Decoration.,53.33,3
+TYPE,Temperer,,,
+Clay,TE01,Industrial applications. Base for other materials.,2.08,24
+Carbon Fibre,TE02,Strong structural material.,2,25
+Silica Glass,TE03,Ordinary glass.,2.27,22
+Alumina,TE04,Purification. Catalysis. Base for other materials.,1.92,26
+Hologlass,TE05,3D displays and laser refractors.,4.44,18
+Nanotubes,TE06,High tensile strength applications.,4.71,17
+Dilatants,TE07,Very high temperature heat absorbers.,4,20
+Boron-Carbide,TE08,Structural reinforcement.,4,20
+Vac-Glass,TE09,Ship windows.,9.23,13
+Selfsetting Ceramics,TE10,Data storage.,8.57,14
+Graphene,TE11,Medical. Military. Civilian. Electronics.,13.33,9
+Ceramic Cloth,TE12,Low weight/cost structural material.,9.23,13
+Pellucidic Glass,TE13,Wearproof heat absorbers.,16,10
+Ceramic Solvent,TE14,Self illuminating glass. Displays.,20,8
+Trinitite,TE15,Safe radioactive material storage.,20,8
+ElectroActive Glass,TE16,Extreme heat resistance and transparency.,22.86,7
+Permacarbon,TE17,Laser light promotion/protection.,80,2
+Obsidian,TE18,Optics. Jewellery.,80,2
+Semisolids,TE19,Mouldable/bendable yet strong products.,80,2
+Photophilic Glass,TE20,Photon capture and storage.,160,1
+TYPE,Purifier,,,
+Simple Metals,PU01,0,2.27,22
+Carbon,PU02,Chemical rocket fuel. Oxygen storage.,2.38,21
+Alkalines,PU03,0,2,25
+Metalloids,PU04,0,2.38,21
+Ductile Metals,PU05,0,4.44,18
+Conductors,PU06,0,4.21,19
+Resilient Metals,PU07,Basic conductor. Heat dissapator.,4,20
+Reactive Gases,PU08,0,3.81,21
+Inert Gases,PU09,0,8,15
+Semi-Precious Metals,PU10,0,10,12
+Industry Grade Metals,PU11,Fusion generators.,10.91,11
+Catalytic Metals,PU12,0,7.5,16
+Earth Alkalines,PU13,0,17.78,9
+Resistive Metals,PU14,0,16,10
+Precious Metals,PU15,Fusion reactors. Superconductor component.,40,4
+Fuseable Isotopes,PU16,0,22.86,7
+Radioactives,PU17,0,40,4
+Cobalt,PU18,Radioactive sources. Military. Scientific.,80,2
+Tartarium,PU19,0,80,2
+Iridis,PU20,0,53.33,3
+TYPE,Mercer,0,0,0
+Unstable Compounds,ME01,0,2.17,23
+Construction Materials,ME02,0,2,25
+Bonding Agents,ME03,0,1.92,26
+Circuit Boards,ME04,0,2,25
+Stressless Bolts,ME05,0,3.81,21
+Precious Gems,ME06,0,4,20
+High Precision Motors,ME07,0,4.21,19
+Parallel Processors,ME08,0,4.21,19
+Organic Data Storage,ME09,0,8,15
+Volcanic Earth,ME10,0,8.57,14
+Partical Shield Projector,ME11,0,8,15
+Neural Networks,ME12,0,8.57,14
+Hermetic Walls,ME13,0,20,8
+Genetic Algorithms,ME14,0,17.78,9
+Apsum,ME15,0,22.86,7
+Ambronite,ME16,0,32,5
+Exotic Matter,ME17,0,160,1
+Bifrostite,ME18,0,160,1
+Helenite,ME19,0,53.33,3
+NP Hard Solutions,ME20,0,80,2
+TYPE,Smelter,,,
+BioPlastic,SM01,Simple iron base metals.,2.38,21
+Sulphur,SM02,Corrosion and abrasion. Solvent. Explosives.,1.85,27
+Silicates,SM03,Textiles. Antimicrobials. Nitrogenous base.,2.08,24
+Pure Water,SM04,Structural support.,2,25
+Memorite,SM05,Base for electronic circuits.,4.44,18
+Superlubricants,SM06,Hydrogen storage.,4.21,19
+Superconductors,SM07,Electronics.,6.67,12
+Coloured Amber,SM08,Fertilisers.,6.15,13
+Warpalloy,SM09,High strength natural magnets.,10.91,11
+Staballoy,SM10,Military and civilian blades.,8.57,14
+Ambroids,SM11,Memory retention for deformable structures.,9.23,13
+Fungal Foam,SM12,Base metal for artillery.,8,15
+Crystalline Organisms,SM13,Perfect light absorption.,26.67,6
+Frost Birch,SM14,Low temperature superconduting.,22.86,7
+Dark Matter,SM15,Rare amber alloy used to make warp coils.,22.86,7
+Ultradarks,SM16,Extremely strong and light material. Brittle.,20,8
+Impermite,SM17,Antientropic alloy. Ship construction.,160,1
+Tempereal Gland,SM18,Very expensive alloy of gold; silver and amber.,160,1
+Transreal Alloys,SM19,Not fully understood.,80,2
+Lustre,SM20,Alloy with proton retaining properties.,160,1
+TYPE,Designer,,,
+Engine Housing,DE01,0,1.85,27
+Modular Hull,DE02,0,2.08,24
+Gyro Thrusters,DE03,0,2.17,23
+Beam Laser,DE04,0,2,25
+Cryo Resistant Electronics,DE05,0,3.81,21
+Ship Computer,DE06,0,4,20
+Percept Array,DE07,DNA synthesis. Acids. Anti bacterials.,4,20
+Harvesting Machinery,DE08,0,3.81,21
+Advanced Drive Shield,DE09,0,7.5,16
+Power Management,DE10,Industrial applications. Material and chemical production.,10.91,11
+Weapon Mounts,DE11,Explosives. Material production.,10,12
+Long Distance Comms,DE12,Jewellery.,7.5,16
+Warp Shielding,DE13,Dye. Jewellery.,17.78,9
+Crash Couches,DE14,0,17.78,9
+Intensive Scanners,DE15,0,17.78,9
+Life Support Systems,DE16,Amber infused metals. Jewellery.,17.78,9
+High Altitude Weapons,DE17,0,40,4
+Highly Tolerant Mechanics,DE18,0,160,1
+Miniaturised Components,DE19,0,53.33,3
+Ultra Long Distance Comms,DE20,Jewellery. Some minor industrial applications.,40,4
+TYPE,Crofter,,,
+Algae,CR01,Cheap protein source.,2.17,23
+Cereals,CR02,Cheap carbohydrate source.,2.17,23
+Legumes,CR03,Cheap fibre and vitamin source.,2,25
+Syrup,CR04,Cheap sugar source.,2.17,23
+Chocolate,CR05,Luxury cooking and foodstuff.,3.81,21
+Soybeans,CR06,High protein source and base for complex meals.,4.21,19
+Auroch Meat,CR07,Used for meat simulation. Does not go off.,4,20
+Coffee,CR08,Expensive foodstuff. Base for puddings.,4.21,19
+Micoprotein,CR09,Most widely available meat.,8,15
+Eggs,CR10,Fruit used for making alcoholic beverages.,8.57,14
+Fruit,CR11,Reasonable rare drink.,9.23,13
+Nattslangen,CR12,All purpose cooking spice.,8,15
+Saffron,CR13,Very rare cooking ingredient.,16,10
+Oliolis,CR14,Fragrant oil for cooking.,32,5
+Lychnusberry,CR15,Rare and refreshing berry with healing properties.,20,8
+Nutmeg,CR16,Very dark root used in fermentation.,16,10
+Worldspice,CR17,Universally rare spice used in restaurants.,53.33,3
+Summer Dust,CR18,Lentil like bean used in stews and curries.,40,4
+Pearls of Uriel,CR19,Very rare caviar from fish on Uriel III.,40,4
+Melculum Sac,CR20,Fruit sack filled with fruit juice.,40,4

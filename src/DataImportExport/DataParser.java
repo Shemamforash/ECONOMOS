@@ -31,6 +31,7 @@ public class DataParser {
 				merchantTypes.add(arr[1]);
 				currentType = arr[1];
 				counter = 0;
+				currentRarity = 0;
 			} else {
 				String name = arr[0];
 				String id = arr[1];
@@ -75,6 +76,7 @@ public class DataParser {
 			if (arr[0].equals("TYPE")) {
 				craftingTypes.add(arr[1]);
 				currentType = arr[1];
+				currentRarity = 0;
 				counter = 0;
 			} else {
 				String name = arr[0];

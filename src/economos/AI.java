@@ -105,8 +105,15 @@ public class AI extends User implements UpdateListener {
 	public void buy(MerchantResource r, float trend) {
 		float amountToSpend = rnd.nextFloat() * (greed + (1 - intelligence)) * 0.3f;
 		int quantity = (int) Math.ceil((amountToSpend * getMoney()) / r.getMarketResource().getBuyPrice(1));
+		System.out.println(quantity + "/" + amountToSpend + "/" + r.getMarketResource().getBuyPrice(1));
+
 		if (quantity > 0) {
 			MarketController.buyResource(quantity, r.getMarketResource(), this);
 		}
+	}
+
+	@Override
+	public boolean isInitialised() {
+		return true;
 	}
 }

@@ -83,7 +83,7 @@ public class DataParser {
 				String id = arr[1];
 				String recipe = arr[2];
 				int cost = Integer.parseInt(arr[3]);
-				CraftingResource c = new CraftingResource(id, name, currentType, rarities[currentRarity], "", cost);
+				CraftingResource c = new CraftingResource(name, id, currentType, rarities[currentRarity], "", cost);
 				craftingResources.add(c);
 				temporaryCraftingResources.add(new CRTemp(recipe, c));
 				++counter;

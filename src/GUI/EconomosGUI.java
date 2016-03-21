@@ -12,6 +12,7 @@ import java.util.TimerTask;
 import javax.swing.*;
 
 import Crafter.MinigameController;
+import CraftingResources.CraftingController;
 import Merchant.MerchantsPanel;
 import economos.UpdateCaller;
 import economos.UpdateListener;
@@ -210,8 +211,7 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 		craftersPanel.setEnabled(false);
 		gamePanel.add(craftersPanel, "Crafters");
 
-		guildPanelCrafters = new GuildPanel(new String[] { "Apothecary", "Embroider", "Artificer", "Philosopher",
-				"Smith", "Voyager", "Sage", "Chef" }, screenHeight - 50, screenWidth / 4);
+		guildPanelCrafters = new GuildPanel(screenHeight - 50, screenWidth / 4, CraftingController.getCraftingResources());
 		sl_craftersPanel.putConstraint(SpringLayout.NORTH, guildPanelCrafters, largePanelGap, SpringLayout.NORTH,
 				craftersPanel);
 		sl_craftersPanel.putConstraint(SpringLayout.WEST, guildPanelCrafters, largePanelGap, SpringLayout.WEST,

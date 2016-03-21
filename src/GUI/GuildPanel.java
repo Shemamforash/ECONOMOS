@@ -11,35 +11,38 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import CraftingResources.CraftingResource;
 import MerchantResources.MarketController;
 import MerchantResources.MarketResource;
 import MerchantResources.MerchantResource;
+import MerchantResources.Resource;
+import MerchantResources.ResourceMap;
 import economos.Main;
 import economos.SelectedResourceCaller;
 
-public class GuildPanel extends GUIElements.MyPanel{
-	private MyGuildButton[]		buttons			= new MyGuildButton[8];
-	private GUIElements.MyPanel	resourceList	= new GUIElements.MyPanel(false);
-	private int					height, width;
-	private JButton				selectedResourceButton, selectedGuildButton;
-	private JScrollPane			resourceScrollPane;
-	
-	public GuildPanel(String[] guildNames, int height, int width) {
+public class GuildPanel extends GUIElements.MyPanel {
+	private GUIElements.MyPanel resourceList = new GUIElements.MyPanel(false);
+	private int height, width;
+	private JButton selectedResourceButton, selectedGuildButton;
+	private JScrollPane resourceScrollPane;
+	private ResourceMap<? extends Resource> resourceMap;
+
+	public GuildPanel(int height, int width, ResourceMap<? extends Resource> resourceMap) {
 		super(true);
 		this.height = height;
 		this.width = width;
-		setup(guildNames);
+		this.resourceMap = resourceMap;
+		setup();
 	}
 
-	public void setup(String[] guildNames) {
+	public void setup() {
 		GUIElements.MyPanel guildButtonPanel = new GUIElements.MyPanel(true);
-		guildButtonPanel.setLayout(new GridLayout(1, 8));
-
-		for (int i = 0; i < buttons.length; ++i) {
-			buttons[i] = new MyGuildButton(guildNames[i]);
-			guildButtonPanel.add(buttons[i]);
-		}
-
+		guildButtonPanel.setLayout(new GridLayout(1, 4));
+		guildButtonPanel.add(new JLabel("Filter by:"));
+		guildButtonPanel.add(new GUIElements.MyButton("Guild", true));
+		guildButtonPanel.add(new GUIElements.MyButton("Rarity", true));
+		guildButtonPanel.add(new GUIElements.MyButton("Both", true));
+		
 		SpringLayout sl_listPanel = new SpringLayout();
 		setLayout(sl_listPanel);
 
@@ -61,38 +64,40 @@ public class GuildPanel extends GUIElements.MyPanel{
 
 		this.add(guildButtonPanel);
 		resourceList.setLayout(new GridBagLayout());
+		updateMyList();
 	}
 
-	public void updateMyList(String guildName) {
-		if (MarketController.getMarketResources().getResourceTypes().contains(guildName)) {
-			resourceList.removeAll();
-			GridBagConstraints gc = new GridBagConstraints();
-			gc.gridx = 0;
-			gc.gridy = 0;
-			gc.ipady = height / 30 + 10;
-			gc.fill = GridBagConstraints.HORIZONTAL;
-			gc.weightx = 1;
-			ArrayList<MarketResource> arr = new ArrayList<MarketResource>(MarketController.getMarketResources().getResourcesInType(guildName));
-			String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
-			int ctr = 0;
-			boolean setDarker = false;
-			for (int i = 0; i < arr.size(); ++i) {
-				setDarker = !setDarker;
-				ResourceButton tempButton;
-				if (i % 4 == 0) {
-					tempButton = new ResourceButton(rarities[ctr], false, setDarker);
-					resourceList.add(tempButton, gc);
-					++gc.gridy;
-					++ctr;
+	public void updateMyList() {
+		resourceList.removeAll();
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.gridx = 0;
+		gc.gridy = 0;
+		gc.ipady = height / 30 + 10;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		gc.weightx = 1;
+		ArrayList<? extends Resource> arr = resourceMap.getResources();
+		String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
+		int ctr = 0;
+		boolean setDarker = false;
+		for (int i = 0; i < arr.size(); ++i) {
+			setDarker = !setDarker;
+			ResourceButton tempButton;
+			if (i % 4 == 0) {
+				if(ctr == 5){
+					ctr = 0;
 				}
-				tempButton = new ResourceButton(arr.get(i).getName(), true, setDarker);
+				tempButton = new ResourceButton(rarities[ctr], false, setDarker);
 				resourceList.add(tempButton, gc);
 				++gc.gridy;
+				++ctr;
 			}
-			resourceList.validate();
-			resourceList.repaint();
-			resourceScrollPane.getViewport().revalidate();
+			tempButton = new ResourceButton(arr.get(i).getName(), true, setDarker);
+			resourceList.add(tempButton, gc);
+			++gc.gridy;
 		}
+		resourceList.validate();
+		resourceList.repaint();
+		resourceScrollPane.getViewport().revalidate();
 	}
 
 	private void setSelectedResource(ResourceButton b) {
@@ -105,8 +110,8 @@ public class GuildPanel extends GUIElements.MyPanel{
 	}
 
 	private class ResourceButton extends GUIElements.MyButton {
-		private ResourceButton	thisButton;
-		private String			resourceName;
+		private ResourceButton thisButton;
+		private String resourceName;
 
 		public ResourceButton(String text, boolean enabled, boolean darker) {
 			super("", enabled, new Color(30, 30, 30), new Color(25, 25, 25), true);
@@ -128,7 +133,8 @@ public class GuildPanel extends GUIElements.MyPanel{
 
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+					RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 			int yOffset;
 			if (!isEnabled()) {
@@ -142,53 +148,20 @@ public class GuildPanel extends GUIElements.MyPanel{
 			}
 			g.drawString(resourceName, 10, getHeight() / 2 + yOffset);
 
-			MarketResource r = MarketController.getMarketResources().getResource(resourceName);
+			Resource r = resourceMap.getResource(resourceName);
 			if (r != null) {
 				g.setFont(thisButton.getFont().deriveFont(10f));
 				g.setColor(new Color(200, 200, 200));
-				BigDecimal price = new BigDecimal(r.getAveragePrice());
-				BigDecimal roundedPrice = price.setScale(2, BigDecimal.ROUND_HALF_UP);
-				String str = "C" + roundedPrice + " (D" + r.getDemand() + "/ S" + r.getSupply() + ")";
+				String str;
+				if(r.getClass().getName().equals("MerchantResources.MarketResource")){
+					BigDecimal price = new BigDecimal(((MarketResource)r).getAveragePrice());
+					BigDecimal roundedPrice = price.setScale(2, BigDecimal.ROUND_HALF_UP);
+					str = "C" + roundedPrice + " (D" + ((MarketResource)r).getDemand() + "/ S" + ((MarketResource)r).getSupply() + ")";
+				} else {
+					str = "C" + ((CraftingResource)r).getValue();
+				}
 				int stringLength = (int) g.getFontMetrics().getStringBounds(str, g).getWidth();
 				g.drawString(str, getWidth() - (stringLength + 10), getHeight() / 2 + 5);
-			}
-		}
-	}
-
-	private class MyGuildButton extends GUIElements.MyButton {
-		public MyGuildButton	thisButton;
-		private BufferedImage	iconImage	= null;
-
-		public MyGuildButton(String text) {
-			super(text, true);
-			if (text.equals("Spicer")) {
-				try {
-					iconImage = ImageIO.read(new File("Spicer PNG.png"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			thisButton = this;
-			this.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if (selectedGuildButton != null) {
-						selectedGuildButton.setSelected(false);
-						selectedGuildButton.repaint();
-					}
-					SelectedResourceCaller.updateGuild(thisButton.getText());
-					selectedGuildButton = thisButton;
-					selectedGuildButton.setSelected(true);
-					updateMyList(thisButton.getText());
-					resourceScrollPane.requestFocus();
-					thisButton.repaint();
-				}
-			});
-		}
-
-		public void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			if (iconImage != null) {
-				g.drawImage(iconImage, 2, 2, this.getWidth() - 4, this.getHeight() - 4, null);
 			}
 		}
 	}

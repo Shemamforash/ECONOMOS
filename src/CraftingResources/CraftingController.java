@@ -26,4 +26,8 @@ public class CraftingController {
 	public static Resource findResource(String lookup) {
 		return craftingResources.getResource(lookup);
 	}
+	
+	public static ResourceMap<CraftingResource> getCraftingResources(){
+		return craftingResources;
+	}
 }

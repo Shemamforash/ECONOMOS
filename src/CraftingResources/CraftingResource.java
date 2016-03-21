@@ -50,6 +50,10 @@ public class CraftingResource extends Resource {
 		updateQuantity(-1, 0);
 		p.updateMoney(value);
 	}
+	
+	public int getValue(){
+		return value;
+	}
 
 	public class RequisiteResource {
 		private Resource			resource;

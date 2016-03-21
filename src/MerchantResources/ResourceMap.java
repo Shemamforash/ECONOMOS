@@ -37,35 +37,39 @@ public class ResourceMap<T extends Resource> {
 		}
 		return null;
 	}
-
-	public ArrayList<T> getResourcesInType(String type) {
-		ArrayList<T> vals = new ArrayList<T>(resourceMap.values());
-		ArrayList<T> tempArr = new ArrayList<T>();
-
-		if (type == null) {
-			return vals;
-		} else {
-			for (T r : vals) {
-				if (r.getType().equals(type)) {
-					tempArr.add(r);
-				}
-			}
-		}
-
-		// int current = 0, ctr = 0;
-		// while (!vals.isEmpty()) {
-		// String resourceRarity = vals.get(current).getRarity();
-		// if (resourceRarity.equals(rarities[ctr])) {
-		// tempArr.add(vals.remove(current));
-		// } else {
-		// ++current;
-		// }
-		// if (current == vals.size()) {
-		// current = 0;
-		// ++ctr;
-		// }
-		// }
-
-		return tempArr;
+	
+	public ArrayList<T> getResources(){
+		return new ArrayList<T>(resourceMap.values());
 	}
+
+//	public ArrayList<T> getResourcesInType(String type) {
+//		ArrayList<T> vals = new ArrayList<T>(resourceMap.values());
+//		ArrayList<T> tempArr = new ArrayList<T>();
+//
+//		if (type == null) {
+//			return vals;
+//		} else {
+//			for (T r : vals) {
+//				if (r.getType().equals(type)) {
+//					tempArr.add(r);
+//				}
+//			}
+//		}
+//
+//		// int current = 0, ctr = 0;
+//		// while (!vals.isEmpty()) {
+//		// String resourceRarity = vals.get(current).getRarity();
+//		// if (resourceRarity.equals(rarities[ctr])) {
+//		// tempArr.add(vals.remove(current));
+//		// } else {
+//		// ++current;
+//		// }
+//		// if (current == vals.size()) {
+//		// current = 0;
+//		// ++ctr;
+//		// }
+//		// }
+//
+//		return tempArr;
+//	}
 }

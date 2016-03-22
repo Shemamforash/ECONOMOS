@@ -54,10 +54,6 @@ public class CRTemp {
 			}
 			String lookup = recipe.substring(0, 6);
 			String recipePartId = lookup.substring(0, 4);
-			if(recipePartId.startsWith("ST03")){
-				System.out.println(recipePartId);
-				System.out.println(DataParser.findResource(recipePartId).getName());
-			}
 			int recipePartQuantity = Integer.valueOf(lookup.substring(5, 6));
 			recipe = recipe.substring(6);
 			Resource r = DataParser.findResource(recipePartId);

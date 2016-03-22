@@ -15,7 +15,7 @@ import economos.*;
 
 public class MerchantsPanel extends GUIElements.MyPanel implements UpdateListener {
 	private GuildPanel guilds;
-	private GUIElements.MyPanel resourceList, resourceDetailPanel, bodyPanel;
+	private GUIElements.MyPanel resourceDetailPanel, bodyPanel;
 	private GraphPanel buyGraph = new GraphPanel();
 	private LeftDetailPanel leftDetailPanel;
 	private RightDetailPanel rightDetailPanel;
@@ -27,7 +27,8 @@ public class MerchantsPanel extends GUIElements.MyPanel implements UpdateListene
 		springLayout = new SpringLayout();
 		setLayout(springLayout);
 
-		guilds = new GuildPanel(EconomosGUI.screenHeight() - 50, EconomosGUI.screenWidth() / 4, GuildPanel.PanelType.MERCHANT);
+		guilds = new GuildPanel(EconomosGUI.screenHeight() - 50, EconomosGUI.screenWidth() / 4,
+				GuildPanel.PanelType.MERCHANT);
 		add(guilds);
 
 		bodyPanel = new GUIElements.MyPanel(true);
@@ -65,47 +66,55 @@ public class MerchantsPanel extends GUIElements.MyPanel implements UpdateListene
 		resourceDetailPanel.add(rightDetailPanel);
 
 		resourceGraphPanel.add(buyGraph);
-		
+
 		UpdateCaller.addListener(this);
 		initialised = true;
 	}
 
 	public void receiveUpdate() {
-		springLayout.putConstraint(SpringLayout.NORTH, guilds, EconomosGUI.largePanelGap(), SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, guilds, EconomosGUI.largePanelGap(), SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, guilds, -40, SpringLayout.SOUTH, this);
-		springLayout.putConstraint(SpringLayout.EAST, guilds, (int) (EconomosGUI.screenWidth() / 4), SpringLayout.WEST,
-				this);
+		if (isVisible()) {
+			springLayout.putConstraint(SpringLayout.NORTH, guilds, EconomosGUI.largePanelGap(), SpringLayout.NORTH,
+					this);
+			springLayout.putConstraint(SpringLayout.WEST, guilds, EconomosGUI.largePanelGap(), SpringLayout.WEST, this);
+			springLayout.putConstraint(SpringLayout.SOUTH, guilds, -40, SpringLayout.SOUTH, this);
+			springLayout.putConstraint(SpringLayout.EAST, guilds, (int) (EconomosGUI.screenWidth() / 4),
+					SpringLayout.WEST, this);
 
-		int resourcePanelHeight = (int) ((EconomosGUI.screenHeight() - 40) / 2.4f);
-		springLayout = (SpringLayout) (bodyPanel.getLayout());
-		springLayout.putConstraint(SpringLayout.NORTH, resourceDetailPanel, 0, SpringLayout.NORTH, bodyPanel);
-		springLayout.putConstraint(SpringLayout.WEST, resourceDetailPanel, 0, SpringLayout.WEST, bodyPanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, resourceDetailPanel, resourcePanelHeight, SpringLayout.NORTH,
-				bodyPanel);
-		springLayout.putConstraint(SpringLayout.EAST, resourceDetailPanel, 0, SpringLayout.EAST, bodyPanel);
+			int resourcePanelHeight = (int) ((EconomosGUI.screenHeight() - 40) / 2.4f);
+			springLayout = (SpringLayout) (bodyPanel.getLayout());
+			springLayout.putConstraint(SpringLayout.NORTH, resourceDetailPanel, 0, SpringLayout.NORTH, bodyPanel);
+			springLayout.putConstraint(SpringLayout.WEST, resourceDetailPanel, 0, SpringLayout.WEST, bodyPanel);
+			springLayout.putConstraint(SpringLayout.SOUTH, resourceDetailPanel, resourcePanelHeight, SpringLayout.NORTH,
+					bodyPanel);
+			springLayout.putConstraint(SpringLayout.EAST, resourceDetailPanel, 0, SpringLayout.EAST, bodyPanel);
 
-		int leftPanelWidth = (int) (resourcePanelHeight / 2 * 1.3f);
-		springLayout = (SpringLayout) (resourceDetailPanel.getLayout());
-		springLayout.putConstraint(SpringLayout.NORTH, leftDetailPanel, 0, SpringLayout.NORTH, resourceDetailPanel);
-		springLayout.putConstraint(SpringLayout.WEST, leftDetailPanel, 0, SpringLayout.WEST, resourceDetailPanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, leftDetailPanel, 0, SpringLayout.SOUTH, resourceDetailPanel);
-		springLayout.putConstraint(SpringLayout.EAST, leftDetailPanel, leftPanelWidth, SpringLayout.WEST,
-				resourceDetailPanel);
+			int leftPanelWidth = (int) (resourcePanelHeight / 2 * 1.3f);
+			springLayout = (SpringLayout) (resourceDetailPanel.getLayout());
+			springLayout.putConstraint(SpringLayout.NORTH, leftDetailPanel, 0, SpringLayout.NORTH, resourceDetailPanel);
+			springLayout.putConstraint(SpringLayout.WEST, leftDetailPanel, 0, SpringLayout.WEST, resourceDetailPanel);
+			springLayout.putConstraint(SpringLayout.SOUTH, leftDetailPanel, 0, SpringLayout.SOUTH, resourceDetailPanel);
+			springLayout.putConstraint(SpringLayout.EAST, leftDetailPanel, leftPanelWidth, SpringLayout.WEST,
+					resourceDetailPanel);
 
-		int centerPanelWidth = (int) (resourcePanelHeight * 0.8f);
-		springLayout.putConstraint(SpringLayout.NORTH, centerDetailPanel, 0, SpringLayout.NORTH, resourceDetailPanel);
-		springLayout.putConstraint(SpringLayout.WEST, centerDetailPanel, EconomosGUI.largePanelGap(), SpringLayout.EAST,
-				leftDetailPanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, centerDetailPanel, 0, SpringLayout.SOUTH, resourceDetailPanel);
-		springLayout.putConstraint(SpringLayout.EAST, centerDetailPanel, centerPanelWidth + EconomosGUI.largePanelGap(),
-				SpringLayout.EAST, leftDetailPanel);
+			int centerPanelWidth = (int) (resourcePanelHeight * 0.8f);
+			springLayout.putConstraint(SpringLayout.NORTH, centerDetailPanel, 0, SpringLayout.NORTH,
+					resourceDetailPanel);
+			springLayout.putConstraint(SpringLayout.WEST, centerDetailPanel, EconomosGUI.largePanelGap(),
+					SpringLayout.EAST, leftDetailPanel);
+			springLayout.putConstraint(SpringLayout.SOUTH, centerDetailPanel, 0, SpringLayout.SOUTH,
+					resourceDetailPanel);
+			springLayout.putConstraint(SpringLayout.EAST, centerDetailPanel,
+					centerPanelWidth + EconomosGUI.largePanelGap(), SpringLayout.EAST, leftDetailPanel);
 
-		springLayout.putConstraint(SpringLayout.NORTH, rightDetailPanel, 0, SpringLayout.NORTH, resourceDetailPanel);
-		springLayout.putConstraint(SpringLayout.WEST, rightDetailPanel, EconomosGUI.largePanelGap(), SpringLayout.EAST,
-				centerDetailPanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, rightDetailPanel, 0, SpringLayout.SOUTH, resourceDetailPanel);
-		springLayout.putConstraint(SpringLayout.EAST, rightDetailPanel, 0, SpringLayout.EAST, resourceDetailPanel);
+			springLayout.putConstraint(SpringLayout.NORTH, rightDetailPanel, 0, SpringLayout.NORTH,
+					resourceDetailPanel);
+			springLayout.putConstraint(SpringLayout.WEST, rightDetailPanel, EconomosGUI.largePanelGap(),
+					SpringLayout.EAST, centerDetailPanel);
+			springLayout.putConstraint(SpringLayout.SOUTH, rightDetailPanel, 0, SpringLayout.SOUTH,
+					resourceDetailPanel);
+			springLayout.putConstraint(SpringLayout.EAST, rightDetailPanel, 0, SpringLayout.EAST, resourceDetailPanel);
+			repaint();
+		}
 	}
 
 	@Override

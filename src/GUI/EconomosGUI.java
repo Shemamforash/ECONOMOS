@@ -11,6 +11,7 @@ import java.util.TimerTask;
 
 import javax.swing.*;
 
+import Crafter.CraftingPanel;
 import Crafter.MinigameController;
 import CraftingResources.CraftingController;
 import Merchant.MerchantsPanel;
@@ -21,12 +22,11 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 	private static GUIElements.MyTextField headlineTextField;
 	private static NumberFormat decimalFormatter = NumberFormat.getIntegerInstance();
 	public static int timeStep = 9;
-	private GUIElements.MyPanel gamePanel, craftersPanel, overviewPanel, infoPanel, currentPanel;
+	private GUIElements.MyPanel gamePanel, overviewPanel, infoPanel;
 	private MerchantsPanel merchantsPanel;
-	private MinigameController minigameController;
+	private CraftingPanel craftersPanel;
 	private static boolean resizing = false;
 	private static int screenWidth = 800, screenHeight = 600;
-	private GuildPanel guildPanelCrafters;
 	private static int largePanelGap = 15, smallPanelGap = 7;
 	private boolean initialised;
 
@@ -77,12 +77,6 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 		} else {
 			resizing = false;
 		}
-		// setSelectedResource(selectedGuild, selectedResource);
-		updateSpringConstraints();
-		minigameController.repaint();
-		if (craftersPanel.isVisible()) {
-			guildPanelCrafters.repaint();
-		}
 	}
 
 	// used for windowbuilder
@@ -107,18 +101,7 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 		setBounds(0, 0, (int) screenSize.getWidth(), (int) screenSize.getHeight());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
-	private void updateSpringConstraints() {
-		SpringLayout springLayout = (SpringLayout) (craftersPanel.getLayout());
-		springLayout.putConstraint(SpringLayout.NORTH, minigameController, (int) (-screenHeight / 2),
-				SpringLayout.SOUTH, craftersPanel);
-		springLayout.putConstraint(SpringLayout.WEST, minigameController, largePanelGap, SpringLayout.EAST,
-				guildPanelCrafters);
-		springLayout.putConstraint(SpringLayout.SOUTH, minigameController, -40, SpringLayout.SOUTH, craftersPanel);
-		springLayout.putConstraint(SpringLayout.EAST, minigameController, -largePanelGap, SpringLayout.EAST,
-				craftersPanel);
-	}
-
+	
 	private void initialize() {
 		decimalFormatter.setGroupingUsed(false);
 		setFullScreen();
@@ -143,12 +126,18 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 		this.add(infoPanel);
 
 		merchantsPanel = new MerchantsPanel();
-		currentPanel = merchantsPanel;
 		springLayout.putConstraint(SpringLayout.NORTH, merchantsPanel, 0, SpringLayout.NORTH, gamePanel);
 		springLayout.putConstraint(SpringLayout.WEST, merchantsPanel, 0, SpringLayout.WEST, gamePanel);
 		springLayout.putConstraint(SpringLayout.SOUTH, merchantsPanel, 0, SpringLayout.SOUTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, merchantsPanel, 0, SpringLayout.EAST, getContentPane());
 		gamePanel.add(merchantsPanel, "Merchants");
+		
+		craftersPanel = new CraftingPanel();
+		springLayout.putConstraint(SpringLayout.NORTH, craftersPanel, 0, SpringLayout.NORTH, gamePanel);
+		springLayout.putConstraint(SpringLayout.WEST, craftersPanel, 0, SpringLayout.WEST, gamePanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, craftersPanel, 0, SpringLayout.SOUTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, craftersPanel, 0, SpringLayout.EAST, getContentPane());
+		gamePanel.add(craftersPanel, "Crafters");
 
 		headlineTextField = new GUIElements.MyTextField();
 		sl_infoPanel.putConstraint(SpringLayout.NORTH, headlineTextField, 6, SpringLayout.NORTH, infoPanel);
@@ -163,6 +152,7 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cardLayout = (CardLayout) gamePanel.getLayout();
 				cardLayout.show(gamePanel, "Merchants");
+				gamePanel.revalidate();
 			}
 		});
 		sl_infoPanel.putConstraint(SpringLayout.NORTH, merchantsPanelButton, 0, SpringLayout.NORTH, headlineTextField);
@@ -176,6 +166,7 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cardLayout = (CardLayout) gamePanel.getLayout();
 				cardLayout.show(gamePanel, "Crafters");
+				gamePanel.revalidate();
 			}
 		});
 
@@ -201,28 +192,6 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 		sl_infoPanel.putConstraint(SpringLayout.EAST, overviewPanelButton, 80, SpringLayout.EAST, craftersPanelButton);
 		infoPanel.add(overviewPanelButton);
 
-		craftersPanel = new GUIElements.MyPanel(true);
-		springLayout.putConstraint(SpringLayout.NORTH, craftersPanel, 5, SpringLayout.NORTH, gamePanel);
-		springLayout.putConstraint(SpringLayout.WEST, craftersPanel, 15, SpringLayout.WEST, gamePanel);
-		springLayout.putConstraint(SpringLayout.SOUTH, craftersPanel, 701, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, craftersPanel, 994, SpringLayout.WEST, getContentPane());
-		SpringLayout sl_craftersPanel = new SpringLayout();
-		craftersPanel.setLayout(sl_craftersPanel);
-		craftersPanel.setEnabled(false);
-		gamePanel.add(craftersPanel, "Crafters");
-
-		guildPanelCrafters = new GuildPanel(screenHeight - 50, screenWidth / 4, GuildPanel.PanelType.CRAFTING);
-		sl_craftersPanel.putConstraint(SpringLayout.NORTH, guildPanelCrafters, largePanelGap, SpringLayout.NORTH,
-				craftersPanel);
-		sl_craftersPanel.putConstraint(SpringLayout.WEST, guildPanelCrafters, largePanelGap, SpringLayout.WEST,
-				craftersPanel);
-		sl_craftersPanel.putConstraint(SpringLayout.SOUTH, guildPanelCrafters, -40, SpringLayout.SOUTH, craftersPanel);
-		sl_craftersPanel.putConstraint(SpringLayout.EAST, guildPanelCrafters, 310, SpringLayout.WEST, craftersPanel);
-		craftersPanel.add(guildPanelCrafters);
-
-		minigameController = new MinigameController(screenWidth - 330, screenHeight / 2 - 40);
-		craftersPanel.add(minigameController);
-
 		overviewPanel = new GUIElements.MyPanel(true);
 		springLayout.putConstraint(SpringLayout.NORTH, overviewPanel, 5, SpringLayout.NORTH, gamePanel);
 		springLayout.putConstraint(SpringLayout.WEST, overviewPanel, 20, SpringLayout.WEST, gamePanel);
@@ -232,8 +201,6 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 		overviewPanel.setLayout(sl_overviewPanel);
 		overviewPanel.setEnabled(false);
 		gamePanel.add(overviewPanel, "Overview");
-
-		updateSpringConstraints();
 	}
 
 	public static boolean resizing() {

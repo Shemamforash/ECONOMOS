@@ -49,16 +49,26 @@ public class GuildPanel extends GUIElements.MyPanel {
 		setup();
 	}
 
+	public ArrayList<Resource> getUnlockedResources(){
+		ArrayList<Resource> unlockedResources = new ArrayList<Resource>();
+		for(Resource r : resources){
+			if(r.unlocked()){
+				unlockedResources.add(r);
+			}
+		}
+		return unlockedResources;
+	}
+	
 	public void setup() {
 		GUIElements.MyPanel guildButtonPanel = new GUIElements.MyPanel(true);
 		guildButtonPanel.setLayout(new GridLayout(1, 4));
 		guildButtonPanel.add(new JLabel("Filter by:"));
 		GUIElements.MyButton sortByGuildButton = new GUIElements.MyButton("Guild", true);
-		sortByGuildButton.addActionListener(e -> updateMyList(convertToButtonList(sortByGuild(resources))));
+		sortByGuildButton.addActionListener(e -> updateMyList(convertToButtonList(sortByGuild(getUnlockedResources()))));
 		guildButtonPanel.add(sortByGuildButton);
 		
 		GUIElements.MyButton sortByRarityButton = new GUIElements.MyButton("Rarity", true);
-		sortByRarityButton.addActionListener(e -> updateMyList(convertToButtonList(sortByRarity(resources))));
+		sortByRarityButton.addActionListener(e -> updateMyList(convertToButtonList(sortByRarity(getUnlockedResources()))));
 		guildButtonPanel.add(sortByRarityButton);
 		
 		GUIElements.MyButton sortByBothButton = new GUIElements.MyButton("Both", true);
@@ -86,7 +96,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 
 		this.add(guildButtonPanel);
 		resourceList.setLayout(new GridBagLayout());
-		updateMyList(convertToButtonList(sortByGuild(resources)));
+		updateMyList(convertToButtonList(sortByGuild(getUnlockedResources())));
 	}
 
 	public ArrayList<GUIElements.MyButton> convertToButtonList(ArrayList<SortedCategory> sortedList) {
@@ -119,7 +129,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 
 	public ArrayList<GUIElements.MyButton> sortByBoth() {
 		ArrayList<SortedCategory> superCategories = new ArrayList<SortedCategory>();
-		for (SortedCategory s : sortByGuild(resources)) {
+		for (SortedCategory s : sortByGuild(getUnlockedResources())) {
 			ArrayList<Resource> resourcesInCategory = s.getResources();
 			superCategories.add(new SortedCategory(s.getCategory(), sortByRarity(resourcesInCategory)));
 		}
@@ -141,7 +151,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 			for (Resource r : listToSort) {
 				if (r.getRarity().equals(category)) {
 					sorted.addResource(r);
-				} else if (r.getType().equals(category)) {
+				} else if (r.getGuild().equals(category)) {
 					sorted.addResource(r);
 				}
 			}
@@ -182,21 +192,23 @@ public class GuildPanel extends GUIElements.MyPanel {
 
 		public ArrayList<GUIElements.MyButton> getButtons() {
 			ArrayList<GUIElements.MyButton> buttons = new ArrayList<GUIElements.MyButton>();
-			buttons.add(new GUIElements.MyButton(category, true));
-			buttons.addAll(subsortAlphabetically(resourcesInCategory));
+			if(resourcesInCategory.size() > 0){
+				buttons.add(new GUIElements.MyButton(category, true));
+				buttons.addAll(subsortAlphabetically(resourcesInCategory));
+			}
 			return buttons;
 		}
 
-		private ArrayList<GUIElements.MyButton> subsortAlphabetically(ArrayList<? extends Resource> resources) {
+		private ArrayList<GUIElements.MyButton> subsortAlphabetically(ArrayList<? extends Resource> sublist) {
 			ArrayList<GUIElements.MyButton> buttons = new ArrayList<GUIElements.MyButton>();
 			Comparator<Resource> alphabetComparator = new Comparator<Resource>() {
 				public int compare(Resource one, Resource other) {
 					return one.getName().compareTo(other.getName());
 				}
 			};
-			Collections.sort(resources, alphabetComparator);
+			Collections.sort(sublist, alphabetComparator);
 			boolean setDarker = true;
-			for (Resource r : resources) {
+			for (Resource r : sublist) {
 				buttons.add(new ResourceButton(r, true, setDarker));
 				setDarker = !setDarker;
 			}
@@ -241,11 +253,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 				setForeground(Color.white);
 			}
 			thisButton = this;
-			this.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					setSelectedResource(thisButton);
-				}
-			});
+			this.addActionListener(e -> setSelectedResource(thisButton));
 		}
 
 		public String getResourceName() {

@@ -35,11 +35,15 @@ public class CRTemp {
 	public CRTemp(String recipe, CraftingResource craftingResource) {
 		this.recipe = recipe;
 		this.craftingResource = craftingResource;
+		assignPrerequisites();
 	}
 
 	public void convertRecipe() {
 		for (RecipePart p : temporaryRecipe) {
 			craftingResource.addPrerequisite(p.getResource(), p.getQuantity());
+		}
+		if(craftingResource.getRarity().equals(DataParser.getCraftingRarities().get(0))){
+			craftingResource.unlock();
 		}
 	}
 
@@ -50,13 +54,17 @@ public class CRTemp {
 			}
 			String lookup = recipe.substring(0, 6);
 			String recipePartId = lookup.substring(0, 4);
+			if(recipePartId.startsWith("ST03")){
+				System.out.println(recipePartId);
+				System.out.println(DataParser.findResource(recipePartId).getName());
+			}
 			int recipePartQuantity = Integer.valueOf(lookup.substring(5, 6));
 			recipe = recipe.substring(6);
 			Resource r = DataParser.findResource(recipePartId);
 			if (r != null) {
 				temporaryRecipe.add(new RecipePart(r, recipePartQuantity));
 			} else {
-				System.out.println("Recipe part not found. Recipe will fail.");
+				System.out.println(craftingResource.getName() + " " + recipePartId + "Recipe part not found. Recipe will fail.");
 			}
 		}
 	}

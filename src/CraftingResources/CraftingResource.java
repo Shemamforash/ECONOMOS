@@ -2,6 +2,7 @@ package CraftingResources;
 
 import java.util.ArrayList;
 
+import DataImportExport.DataParser;
 import MerchantResources.MarketController;
 import MerchantResources.Resource;
 import economos.Main;
@@ -11,9 +12,18 @@ public class CraftingResource extends Resource {
 	private ArrayList<RequisiteResource>	requisiteResources = new ArrayList<RequisiteResource>();
 	private int					value, cost, quantity = 0;
 
-	public CraftingResource(String name, String id, String type, String rarity, String description, int cost) {
-		super(name, id, description, type, rarity);
+	public CraftingResource(String name, String id, String guild, String rarity, String description, int cost) {
+		super(name, id, description, guild, rarity, ResourceType.CRAFTING);
 		this.cost = cost;
+	}
+	
+	public void unlock(){
+		super.unlock();
+		for(RequisiteResource r : requisiteResources){
+			if(r.getResource().getType() == ResourceType.MERCHANT){
+				r.getResource().unlock();
+			}
+		}
 	}
 	
 	public void addPrerequisite(Resource r, int quantity){
@@ -79,6 +89,10 @@ public class CraftingResource extends Resource {
 				}
 				return false;
 			}
+		}
+		
+		public Resource getResource(){
+			return resource;
 		}
 	}
 

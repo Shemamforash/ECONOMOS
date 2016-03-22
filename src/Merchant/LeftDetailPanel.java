@@ -38,7 +38,7 @@ public class LeftDetailPanel extends DetailPanel {
 
 	public void selectedResourceChanged(MarketResource m) {
 		if (m != null) {
-			typeTextField.setText(m.getType());
+			typeTextField.setText(m.getGuild());
 			nameTextField.setText(m.getName());
 			rarityTextField.setText(m.getRarity());
 			switch (m.getRarity()) {

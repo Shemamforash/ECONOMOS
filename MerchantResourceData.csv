@@ -98,26 +98,26 @@ Exotic Matter,Mercer,Legendary,ME17,0,160,1
 Bifrostite,Mercer,Legendary,ME18,0,160,1
 Helenite,Mercer,Legendary,ME19,0,53.33333333,3
 NP Hard Solutions,Mercer,Legendary,ME20,0,80,2
-BioPlastic,Smelter,Commonplace,SM01,Simple iron base metals.,2.380952381,21
-Sulphur,Smelter,Commonplace,SM02,Corrosion and abrasion. Solvent. Explosives.,1.851851852,27
-Silicates,Smelter,Commonplace,SM03,Textiles. Antimicrobials. Nitrogenous base.,2.083333333,24
-Pure Water,Smelter,Commonplace,SM04,Structural support.,2,25
-Memorite,Smelter,Unusual,SM05,Base for electronic circuits.,4.444444444,18
-Superlubricants,Smelter,Unusual,SM06,Hydrogen storage.,4.210526316,19
-Superconductors,Smelter,Unusual,SM07,Electronics.,6.666666667,12
-Coloured Amber,Smelter,Unusual,SM08,Fertilisers.,6.153846154,13
-Warpalloy,Smelter,Soughtafter,SM09,High strength natural magnets.,10.90909091,11
-Staballoy,Smelter,Soughtafter,SM10,Military and civilian blades.,8.571428571,14
-Ambroids,Smelter,Soughtafter,SM11,Memory retention for deformable structures.,9.230769231,13
-Fungal Foam,Smelter,Soughtafter,SM12,Base metal for artillery.,8,15
-Crystalline Organisms,Smelter,Coveted,SM13,Perfect light absorption.,26.66666667,6
-Frost Birch,Smelter,Coveted,SM14,Low temperature superconduting.,22.85714286,7
-Dark Matter,Smelter,Coveted,SM15,Rare amber alloy used to make warp coils.,22.85714286,7
-Ultradarks,Smelter,Coveted,SM16,Extremely strong and light material. Brittle.,20,8
-Impermite,Smelter,Legendary,SM17,Antientropic alloy. Ship construction.,160,1
-Tempereal Gland,Smelter,Legendary,SM18,Very expensive alloy of gold; silver and amber.,160,1
-Transreal Alloys,Smelter,Legendary,SM19,Not fully understood.,80,2
-Lustre,Smelter,Legendary,SM20,Alloy with proton retaining properties.,160,1
+BioPlastic,Smelter,Commonplace,ST01,Simple iron base metals.,2.380952381,21
+Sulphur,Smelter,Commonplace,ST02,Corrosion and abrasion. Solvent. Explosives.,1.851851852,27
+Silicates,Smelter,Commonplace,ST03,Textiles. Antimicrobials. Nitrogenous base.,2.083333333,24
+Pure Water,Smelter,Commonplace,ST04,Structural support.,2,25
+Memorite,Smelter,Unusual,ST05,Base for electronic circuits.,4.444444444,18
+Superlubricants,Smelter,Unusual,ST06,Hydrogen storage.,4.210526316,19
+Superconductors,Smelter,Unusual,ST07,Electronics.,6.666666667,12
+Coloured Amber,Smelter,Unusual,ST08,Fertilisers.,6.153846154,13
+Warpalloy,Smelter,Soughtafter,ST09,High strength natural magnets.,10.90909091,11
+Staballoy,Smelter,Soughtafter,ST10,Military and civilian blades.,8.571428571,14
+Ambroids,Smelter,Soughtafter,ST11,Memory retention for deformable structures.,9.230769231,13
+Fungal Foam,Smelter,Soughtafter,ST12,Base metal for artillery.,8,15
+Crystalline Organisms,Smelter,Coveted,ST13,Perfect light absorption.,26.66666667,6
+Frost Birch,Smelter,Coveted,ST14,Low temperature superconduting.,22.85714286,7
+Dark Matter,Smelter,Coveted,ST15,Rare amber alloy used to make warp coils.,22.85714286,7
+Ultradarks,Smelter,Coveted,ST16,Extremely strong and light material. Brittle.,20,8
+Impermite,Smelter,Legendary,ST17,Antientropic alloy. Ship construction.,160,1
+Tempereal Gland,Smelter,Legendary,ST18,Very expensive alloy of gold; silver and amber.,160,1
+Transreal Alloys,Smelter,Legendary,ST19,Not fully understood.,80,2
+Lustre,Smelter,Legendary,ST20,Alloy with proton retaining properties.,160,1
 Engine Housing,Designer,Commonplace,DE01,0,1.851851852,27
 Modular Hull,Designer,Commonplace,DE02,0,2.083333333,24
 Gyro Thrusters,Designer,Commonplace,DE03,0,2.173913043,23

@@ -27,7 +27,7 @@ public class MerchantsPanel extends GUIElements.MyPanel implements UpdateListene
 		springLayout = new SpringLayout();
 		setLayout(springLayout);
 
-		guilds = new GuildPanel(EconomosGUI.screenHeight() - 50, EconomosGUI.screenWidth() / 4, MarketController.getMarketResources());
+		guilds = new GuildPanel(EconomosGUI.screenHeight() - 50, EconomosGUI.screenWidth() / 4, GuildPanel.PanelType.MERCHANT);
 		add(guilds);
 
 		bodyPanel = new GUIElements.MyPanel(true);

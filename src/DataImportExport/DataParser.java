@@ -9,63 +9,57 @@ import MerchantResources.MerchantResource;
 import MerchantResources.Resource;
 
 public class DataParser {
-	private File								craftingResourceFile	= new File("CraftingResourceData.csv");
-	private File								merchantResourceFile	= new File("MerchantResourceData.csv");
-	private static ArrayList<String>			craftingTypes				= new ArrayList<String>();
-	private static ArrayList<String>			merchantTypes				= new ArrayList<String>();
-	private static ArrayList<MarketResource>	allMarketResources	= new ArrayList<MarketResource>();
-	private static ArrayList<CraftingResource>	craftingResources	= new ArrayList<CraftingResource>();
+	private File craftingResourceFile = new File("CraftingResourceData.csv");
+	private File merchantResourceFile = new File("MerchantResourceData.csv");
+	private static ArrayList<String> craftingTypes = new ArrayList<String>();
+	private static ArrayList<String> merchantTypes = new ArrayList<String>();
+	private static ArrayList<String> merchantRarities = new ArrayList<String>();
+	private static ArrayList<String> craftingRarities = new ArrayList<String>();
+	private static ArrayList<MarketResource> allMarketResources = new ArrayList<MarketResource>();
+	private static ArrayList<CraftingResource> craftingResources = new ArrayList<CraftingResource>();
 
-	public void readMerchantData(BufferedReader reader) throws IOException{
-		String[] rarities = new String[]{"Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary"};
+	public void readMerchantData(BufferedReader reader) throws IOException {
 		String next = " ";
-		int counter = 0, currentRarity = 0;
-		String currentType = null;
 		while (true) {
 			next = reader.readLine();
 			if (next == null) {
 				break;
 			}
 			String[] arr = next.split(",");
-			if (arr[0].equals("TYPE")) {
-				merchantTypes.add(arr[1]);
-				currentType = arr[1];
-				counter = 0;
-				currentRarity = 0;
-			} else {
-				String name = arr[0];
-				String id = arr[1];
-				String description = arr[2];
-				float price = Float.parseFloat(arr[3]);
-				float supply = Float.parseFloat(arr[4]);
-				allMarketResources.add(new MarketResource(id, name, currentType, rarities[currentRarity], description, supply, price));
-				++counter;
-				if(counter % 4 == 0){
-					++currentRarity;
-				}
+			String name = arr[0];
+			String type = arr[1];
+			if(!merchantTypes.contains(type)){
+				merchantTypes.add(type);
 			}
+			String rarity = arr[2];
+			if(!merchantRarities.contains(rarity)){
+				merchantRarities.add(rarity);
+			}
+			String id = arr[3];
+			String description = arr[4];
+			float price = Float.parseFloat(arr[5]);
+			float supply = Float.parseFloat(arr[6]);
+			allMarketResources.add(
+					new MarketResource(id, name, type, rarity, description, supply, price));
 		}
 	}
-	
-	public static Resource findResource(String id){
-		for(CraftingResource r : craftingResources){
-			if(r.getID().equals(id)){
+
+	public static Resource findResource(String id) {
+		for (CraftingResource r : craftingResources) {
+			if (r.getID().equals(id)) {
 				return r;
 			}
 		}
-		for(MarketResource m : allMarketResources){
-			if(m.getID().equals(id)){
+		for (MarketResource m : allMarketResources) {
+			if (m.getID().equals(id)) {
 				return m;
 			}
 		}
 		return null;
 	}
-	
-	public void readCraftingData(BufferedReader reader) throws IOException{
-		String[] rarities = new String[]{"Dabbler", "Apprentice", "Journeyman", "Master", "Adept"};
+
+	public void readCraftingData(BufferedReader reader) throws IOException {
 		String next = " ";
-		int counter = 0, currentRarity = 0;
-		String currentType = null;
 		ArrayList<CRTemp> temporaryCraftingResources = new ArrayList<CRTemp>();
 		while (true) {
 			next = reader.readLine();
@@ -73,31 +67,27 @@ public class DataParser {
 				break;
 			}
 			String[] arr = next.split(",");
-			if (arr[0].equals("TYPE")) {
-				craftingTypes.add(arr[1]);
-				currentType = arr[1];
-				currentRarity = 0;
-				counter = 0;
-			} else {
-				String name = arr[0];
-				String id = arr[1];
-				String recipe = arr[2];
-				int cost = Integer.parseInt(arr[3]);
-				CraftingResource c = new CraftingResource(name, id, currentType, rarities[currentRarity], "", cost);
-				craftingResources.add(c);
-				temporaryCraftingResources.add(new CRTemp(recipe, c));
-				++counter;
-				if(counter % 8 == 0){
-					++currentRarity;
-				}
+			String name = arr[0];
+			String type = arr[1];
+			if(!craftingTypes.contains(type)){
+				craftingTypes.add(type);
 			}
+			String rarity = arr[2];
+			if(!craftingRarities.contains(rarity)){
+				craftingRarities.add(rarity);
+			}
+			String id = arr[3];
+			String recipe = arr[4];
+			int cost = Integer.parseInt(arr[5]);
+			CraftingResource c = new CraftingResource(name, id, type, rarity, "", cost);
+			craftingResources.add(c);
+			temporaryCraftingResources.add(new CRTemp(recipe, c));
 		}
-		for(CRTemp t : temporaryCraftingResources){
+		for (CRTemp t : temporaryCraftingResources) {
 			t.convertRecipe();
 		}
 	}
-	
-	
+
 	public DataParser() throws IOException {
 		FileReader reader = null;
 		try {
@@ -115,22 +105,30 @@ public class DataParser {
 	public static ArrayList<String> getMerchantTypes() {
 		return merchantTypes;
 	}
-	
+
 	public static ArrayList<String> getCraftingTypes() {
 		return craftingTypes;
 	}
 
+	public static ArrayList<String> getMerchantRarities() {
+		return merchantRarities;
+	}
+	
+	public static ArrayList<String> getCraftingRarities() {
+		return craftingRarities;
+	}
+	
 	public static ArrayList<MarketResource> getAllMarketResources() {
 		return allMarketResources;
 	}
-	
-	public static ArrayList<CraftingResource> getCraftingResources(){
+
+	public static ArrayList<CraftingResource> getCraftingResources() {
 		return craftingResources;
 	}
 
 	public static ArrayList<MerchantResource> getUserResources() {
 		ArrayList<MerchantResource> userResources = new ArrayList<MerchantResource>();
-		for(MarketResource r : allMarketResources){
+		for (MarketResource r : allMarketResources) {
 			MerchantResource userResource = new MerchantResource(r);
 			userResources.add(userResource);
 		}

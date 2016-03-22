@@ -7,11 +7,15 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import CraftingResources.CraftingController;
 import CraftingResources.CraftingResource;
+import DataImportExport.DataParser;
 import MerchantResources.MarketController;
 import MerchantResources.MarketResource;
 import MerchantResources.MerchantResource;
@@ -23,15 +27,25 @@ import economos.SelectedResourceCaller;
 public class GuildPanel extends GUIElements.MyPanel {
 	private GUIElements.MyPanel resourceList = new GUIElements.MyPanel(false);
 	private int height, width;
-	private JButton selectedResourceButton, selectedGuildButton;
+	private JButton selectedResourceButton;
 	private JScrollPane resourceScrollPane;
-	private ResourceMap<? extends Resource> resourceMap;
+	private ArrayList<? extends Resource> resources;
+	private PanelType panelType;
 
-	public GuildPanel(int height, int width, ResourceMap<? extends Resource> resourceMap) {
+	public enum PanelType {
+		CRAFTING, MERCHANT
+	};
+
+	public GuildPanel(int height, int width, PanelType panelType) {
 		super(true);
 		this.height = height;
 		this.width = width;
-		this.resourceMap = resourceMap;
+		this.panelType = panelType;
+		if (panelType == PanelType.CRAFTING) {
+			resources = CraftingController.getCraftingResources().getResources();
+		} else {
+			resources = MarketController.getMarketResources().getResources();
+		}
 		setup();
 	}
 
@@ -39,10 +53,18 @@ public class GuildPanel extends GUIElements.MyPanel {
 		GUIElements.MyPanel guildButtonPanel = new GUIElements.MyPanel(true);
 		guildButtonPanel.setLayout(new GridLayout(1, 4));
 		guildButtonPanel.add(new JLabel("Filter by:"));
-		guildButtonPanel.add(new GUIElements.MyButton("Guild", true));
-		guildButtonPanel.add(new GUIElements.MyButton("Rarity", true));
-		guildButtonPanel.add(new GUIElements.MyButton("Both", true));
+		GUIElements.MyButton sortByGuildButton = new GUIElements.MyButton("Guild", true);
+		sortByGuildButton.addActionListener(e -> updateMyList(convertToButtonList(sortByGuild(resources))));
+		guildButtonPanel.add(sortByGuildButton);
 		
+		GUIElements.MyButton sortByRarityButton = new GUIElements.MyButton("Rarity", true);
+		sortByRarityButton.addActionListener(e -> updateMyList(convertToButtonList(sortByRarity(resources))));
+		guildButtonPanel.add(sortByRarityButton);
+		
+		GUIElements.MyButton sortByBothButton = new GUIElements.MyButton("Both", true);
+		sortByBothButton.addActionListener(e -> updateMyList(sortByBoth()));
+		guildButtonPanel.add(sortByBothButton);
+
 		SpringLayout sl_listPanel = new SpringLayout();
 		setLayout(sl_listPanel);
 
@@ -64,10 +86,125 @@ public class GuildPanel extends GUIElements.MyPanel {
 
 		this.add(guildButtonPanel);
 		resourceList.setLayout(new GridBagLayout());
-		updateMyList();
+		updateMyList(convertToButtonList(sortByGuild(resources)));
 	}
 
-	public void updateMyList() {
+	public ArrayList<GUIElements.MyButton> convertToButtonList(ArrayList<SortedCategory> sortedList) {
+		ArrayList<GUIElements.MyButton> buttons = new ArrayList<GUIElements.MyButton>();
+		for (SortedCategory s : sortedList) {
+			buttons.addAll(s.getButtons());
+		}
+		return buttons;
+	}
+
+	public ArrayList<SortedCategory> sortByRarity(ArrayList<? extends Resource> listToSort) {
+		ArrayList<String> rarities;
+		if (panelType == PanelType.CRAFTING) {
+			rarities = DataParser.getCraftingRarities();
+		} else {
+			rarities = DataParser.getMerchantRarities();
+		}
+		return sort(rarities, listToSort);
+	}
+
+	public ArrayList<SortedCategory> sortByGuild(ArrayList<? extends Resource> listToSort) {
+		ArrayList<String> guilds;
+		if (panelType == PanelType.CRAFTING) {
+			guilds = DataParser.getCraftingTypes();
+		} else {
+			guilds = DataParser.getMerchantTypes();
+		}
+		return sort(guilds, listToSort);
+	}
+
+	public ArrayList<GUIElements.MyButton> sortByBoth() {
+		ArrayList<SortedCategory> superCategories = new ArrayList<SortedCategory>();
+		for (SortedCategory s : sortByGuild(resources)) {
+			ArrayList<Resource> resourcesInCategory = s.getResources();
+			superCategories.add(new SortedCategory(s.getCategory(), sortByRarity(resourcesInCategory)));
+		}
+		ArrayList<GUIElements.MyButton> buttons = new ArrayList<GUIElements.MyButton>();
+		for (SortedCategory s : superCategories) {
+			buttons.add(new GUIElements.MyButton(s.getCategory(), true));
+			for (SortedCategory subs : s.getSubCategories()) {
+				buttons.addAll(subs.getButtons());
+			}
+		}
+		return buttons;
+	}
+
+	public ArrayList<SortedCategory> sort(ArrayList<String> sortingCategories,
+			ArrayList<? extends Resource> listToSort) {
+		ArrayList<SortedCategory> sortedCategories = new ArrayList<SortedCategory>();
+		for (String category : sortingCategories) {
+			SortedCategory sorted = new SortedCategory(category);
+			for (Resource r : listToSort) {
+				if (r.getRarity().equals(category)) {
+					sorted.addResource(r);
+				} else if (r.getType().equals(category)) {
+					sorted.addResource(r);
+				}
+			}
+			sortedCategories.add(sorted);
+		}
+		return sortedCategories;
+	}
+
+	private class SortedCategory {
+		private String category;
+		private ArrayList<Resource> resourcesInCategory = new ArrayList<Resource>();
+		private ArrayList<SortedCategory> subCategories = new ArrayList<SortedCategory>();
+
+		public SortedCategory(String category) {
+			this.category = category;
+		}
+
+		public SortedCategory(String category, ArrayList<SortedCategory> subCategories) {
+			this.category = category;
+			this.subCategories = subCategories;
+		}
+
+		public ArrayList<SortedCategory> getSubCategories() {
+			return subCategories;
+		}
+
+		public void addResource(Resource r) {
+			resourcesInCategory.add(r);
+		}
+
+		public String getCategory() {
+			return category;
+		}
+
+		public ArrayList<Resource> getResources() {
+			return resourcesInCategory;
+		}
+
+		public ArrayList<GUIElements.MyButton> getButtons() {
+			ArrayList<GUIElements.MyButton> buttons = new ArrayList<GUIElements.MyButton>();
+			buttons.add(new GUIElements.MyButton(category, true));
+			buttons.addAll(subsortAlphabetically(resourcesInCategory));
+			return buttons;
+		}
+
+		private ArrayList<GUIElements.MyButton> subsortAlphabetically(ArrayList<? extends Resource> resources) {
+			ArrayList<GUIElements.MyButton> buttons = new ArrayList<GUIElements.MyButton>();
+			Comparator<Resource> alphabetComparator = new Comparator<Resource>() {
+				public int compare(Resource one, Resource other) {
+					return one.getName().compareTo(other.getName());
+				}
+			};
+			Collections.sort(resources, alphabetComparator);
+			boolean setDarker = true;
+			for (Resource r : resources) {
+				buttons.add(new ResourceButton(r, true, setDarker));
+				setDarker = !setDarker;
+			}
+			return buttons;
+		}
+	}
+
+	public void updateMyList(ArrayList<GUIElements.MyButton> buttonList) {
 		resourceList.removeAll();
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.gridx = 0;
@@ -75,24 +212,8 @@ public class GuildPanel extends GUIElements.MyPanel {
 		gc.ipady = height / 30 + 10;
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		gc.weightx = 1;
-		ArrayList<? extends Resource> arr = resourceMap.getResources();
-		String[] rarities = new String[] { "Commonplace", "Unusual", "Soughtafter", "Coveted", "Legendary" };
-		int ctr = 0;
-		boolean setDarker = false;
-		for (int i = 0; i < arr.size(); ++i) {
-			setDarker = !setDarker;
-			ResourceButton tempButton;
-			if (i % 4 == 0) {
-				if(ctr == 5){
-					ctr = 0;
-				}
-				tempButton = new ResourceButton(rarities[ctr], false, setDarker);
-				resourceList.add(tempButton, gc);
-				++gc.gridy;
-				++ctr;
-			}
-			tempButton = new ResourceButton(arr.get(i).getName(), true, setDarker);
-			resourceList.add(tempButton, gc);
+		for (GUIElements.MyButton b : buttonList) {
+			resourceList.add(b, gc);
 			++gc.gridy;
 		}
 		resourceList.validate();
@@ -111,11 +232,11 @@ public class GuildPanel extends GUIElements.MyPanel {
 
 	private class ResourceButton extends GUIElements.MyButton {
 		private ResourceButton thisButton;
-		private String resourceName;
+		private Resource resource;
 
-		public ResourceButton(String text, boolean enabled, boolean darker) {
+		public ResourceButton(Resource resource, boolean enabled, boolean darker) {
 			super("", enabled, new Color(30, 30, 30), new Color(25, 25, 25), true);
-			resourceName = text;
+			this.resource = resource;
 			if (!enabled) {
 				setForeground(Color.white);
 			}
@@ -128,7 +249,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 		}
 
 		public String getResourceName() {
-			return resourceName;
+			return resource.getName();
 		}
 
 		public void paintComponent(Graphics g) {
@@ -146,23 +267,20 @@ public class GuildPanel extends GUIElements.MyPanel {
 				g.setColor(Color.white);
 				yOffset = 6;
 			}
-			g.drawString(resourceName, 10, getHeight() / 2 + yOffset);
-
-			Resource r = resourceMap.getResource(resourceName);
-			if (r != null) {
-				g.setFont(thisButton.getFont().deriveFont(10f));
-				g.setColor(new Color(200, 200, 200));
-				String str;
-				if(r.getClass().getName().equals("MerchantResources.MarketResource")){
-					BigDecimal price = new BigDecimal(((MarketResource)r).getAveragePrice());
-					BigDecimal roundedPrice = price.setScale(2, BigDecimal.ROUND_HALF_UP);
-					str = "C" + roundedPrice + " (D" + ((MarketResource)r).getDemand() + "/ S" + ((MarketResource)r).getSupply() + ")";
-				} else {
-					str = "C" + ((CraftingResource)r).getValue();
-				}
-				int stringLength = (int) g.getFontMetrics().getStringBounds(str, g).getWidth();
-				g.drawString(str, getWidth() - (stringLength + 10), getHeight() / 2 + 5);
+			g.drawString(resource.getName(), 10, getHeight() / 2 + yOffset);
+			g.setFont(thisButton.getFont().deriveFont(10f));
+			g.setColor(new Color(200, 200, 200));
+			String str;
+			if (panelType == PanelType.MERCHANT) {
+				BigDecimal price = new BigDecimal(((MarketResource) resource).getAveragePrice());
+				BigDecimal roundedPrice = price.setScale(2, BigDecimal.ROUND_HALF_UP);
+				str = "C" + roundedPrice + " (D" + ((MarketResource) resource).getDemand() + "/ S"
+						+ ((MarketResource) resource).getSupply() + ")";
+			} else {
+				str = "C" + ((CraftingResource) resource).getValue();
 			}
+			int stringLength = (int) g.getFontMetrics().getStringBounds(str, g).getWidth();
+			g.drawString(str, getWidth() - (stringLength + 10), getHeight() / 2 + 5);
 		}
 	}
 }

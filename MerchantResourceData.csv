@@ -1,168 +1,160 @@
-TYPE,Spicer,,,
-Hormones,SP01,Increased response time,2.17,23
-Panacea,SP02,Heals wounds,1.79,28
-Oxytocin,SP03,Mental soothing,2.08,24
-Lubricants,SP04,For industrial use,1.92,26
-Neverclear,SP05,Medicinal alcohol,4.21,19
-Aphroditus,SP06,Aphrodisiac and sensory enhancer,4,20
-Nectar,SP07,Psychotropic drug,4.44,18
-Orpheus Slumber,SP08,Sleep inducer,3.64,22
-Attenuated Viruses,SP09,Natural cleaning fluid,8.57,14
-Immunosuppressants,SP10,Industrial precursor to GMOs,8.57,14
-Morteks,SP11,Prevents fear responses,7.5,16
-Antiballistic Serum,SP12,Natural gel with antiballistic properties,7.5,16
-Confusia,SP13,Clears confusion and mental health issues,20,8
-Proteins,SP14,Natural lighting,32,5
-Bacterial Payloads,SP15,Can contain smoke and pollutants,17.78,9
-Ambrosia,SP16,Amber based nootropic drug,22.86,7
-Chronomorph,SP17,Slows users perception of time,40,4
-Epiphos,SP18,Allows greater concentration and insight,40,4
-Nidrfoenix,SP19,Can resuscitate recently deceased,53.33,3
-Athelas,SP20,Very rare tobacco alternative,40,4
-TYPE,Weaver,,,
-Wire,WE01,Food transportation. Precursor.,1.85,27
-Cloth,WE02,Weaving. Clothing.,2,25
-Elastics,WE03,Thread. Insulation. Comfort. Bandages.,1.92,26
-Leather,WE04,Temperature control. Civilian clothing.,1.85,27
-eFabric,WE05,Expensive clothing. Military applications.,4.21,19
-Aramid,WE06,Sports wear. Underarmour. Protection.,4,20
-Linen,WE07,Rugs. Decoration. Clothing.,3.81,21
-Cotton,WE08,Industrial and commercial applications.,3.81,21
-Silk,WE09,Luxury clothing.,8.57,14
-Cashmere,WE10,Luxury clothing.,8,15
-Soft Leather,WE11,Luxury clothing.,8.57,14
-Adamantis,WE12,Armour. Civilian defense clothing.,9.23,13
-Nydian Fur,WE13,Luxury clothing.,16,10
-Mokros Skin,WE14,Armour. Decoration.,16,10
-Plaited Amber,WE15,Amber-based. Wear resistant. Luxury clothing.,26.67,6
-Nagl Hide,WE16,Trophies. Luxury clothing.,17.78,9
-Boreal Gossamer,WE17,Luxury clothing.,53.33,3
-Woven Metal,WE18,Military and industrial applications. Luxury clothing.,53.33,3
-Liquid Cloth,WE19,Luxury clothing.,40,4
-Hera's Tears,WE20,Luxury clothing. Decoration.,53.33,3
-TYPE,Temperer,,,
-Clay,TE01,Industrial applications. Base for other materials.,2.08,24
-Carbon Fibre,TE02,Strong structural material.,2,25
-Silica Glass,TE03,Ordinary glass.,2.27,22
-Alumina,TE04,Purification. Catalysis. Base for other materials.,1.92,26
-Hologlass,TE05,3D displays and laser refractors.,4.44,18
-Nanotubes,TE06,High tensile strength applications.,4.71,17
-Dilatants,TE07,Very high temperature heat absorbers.,4,20
-Boron-Carbide,TE08,Structural reinforcement.,4,20
-Vac-Glass,TE09,Ship windows.,9.23,13
-Selfsetting Ceramics,TE10,Data storage.,8.57,14
-Graphene,TE11,Medical. Military. Civilian. Electronics.,13.33,9
-Ceramic Cloth,TE12,Low weight/cost structural material.,9.23,13
-Pellucidic Glass,TE13,Wearproof heat absorbers.,16,10
-Ceramic Solvent,TE14,Self illuminating glass. Displays.,20,8
-Trinitite,TE15,Safe radioactive material storage.,20,8
-ElectroActive Glass,TE16,Extreme heat resistance and transparency.,22.86,7
-Permacarbon,TE17,Laser light promotion/protection.,80,2
-Obsidian,TE18,Optics. Jewellery.,80,2
-Semisolids,TE19,Mouldable/bendable yet strong products.,80,2
-Photophilic Glass,TE20,Photon capture and storage.,160,1
-TYPE,Purifier,,,
-Simple Metals,PU01,0,2.27,22
-Carbon,PU02,Chemical rocket fuel. Oxygen storage.,2.38,21
-Alkalines,PU03,0,2,25
-Metalloids,PU04,0,2.38,21
-Ductile Metals,PU05,0,4.44,18
-Conductors,PU06,0,4.21,19
-Resilient Metals,PU07,Basic conductor. Heat dissapator.,4,20
-Reactive Gases,PU08,0,3.81,21
-Inert Gases,PU09,0,8,15
-Semi-Precious Metals,PU10,0,10,12
-Industry Grade Metals,PU11,Fusion generators.,10.91,11
-Catalytic Metals,PU12,0,7.5,16
-Earth Alkalines,PU13,0,17.78,9
-Resistive Metals,PU14,0,16,10
-Precious Metals,PU15,Fusion reactors. Superconductor component.,40,4
-Fuseable Isotopes,PU16,0,22.86,7
-Radioactives,PU17,0,40,4
-Cobalt,PU18,Radioactive sources. Military. Scientific.,80,2
-Tartarium,PU19,0,80,2
-Iridis,PU20,0,53.33,3
-TYPE,Mercer,0,0,0
-Unstable Compounds,ME01,0,2.17,23
-Construction Materials,ME02,0,2,25
-Bonding Agents,ME03,0,1.92,26
-Circuit Boards,ME04,0,2,25
-Stressless Bolts,ME05,0,3.81,21
-Precious Gems,ME06,0,4,20
-High Precision Motors,ME07,0,4.21,19
-Parallel Processors,ME08,0,4.21,19
-Organic Data Storage,ME09,0,8,15
-Volcanic Earth,ME10,0,8.57,14
-Partical Shield Projector,ME11,0,8,15
-Neural Networks,ME12,0,8.57,14
-Hermetic Walls,ME13,0,20,8
-Genetic Algorithms,ME14,0,17.78,9
-Apsum,ME15,0,22.86,7
-Ambronite,ME16,0,32,5
-Exotic Matter,ME17,0,160,1
-Bifrostite,ME18,0,160,1
-Helenite,ME19,0,53.33,3
-NP Hard Solutions,ME20,0,80,2
-TYPE,Smelter,,,
-BioPlastic,SM01,Simple iron base metals.,2.38,21
-Sulphur,SM02,Corrosion and abrasion. Solvent. Explosives.,1.85,27
-Silicates,SM03,Textiles. Antimicrobials. Nitrogenous base.,2.08,24
-Pure Water,SM04,Structural support.,2,25
-Memorite,SM05,Base for electronic circuits.,4.44,18
-Superlubricants,SM06,Hydrogen storage.,4.21,19
-Superconductors,SM07,Electronics.,6.67,12
-Coloured Amber,SM08,Fertilisers.,6.15,13
-Warpalloy,SM09,High strength natural magnets.,10.91,11
-Staballoy,SM10,Military and civilian blades.,8.57,14
-Ambroids,SM11,Memory retention for deformable structures.,9.23,13
-Fungal Foam,SM12,Base metal for artillery.,8,15
-Crystalline Organisms,SM13,Perfect light absorption.,26.67,6
-Frost Birch,SM14,Low temperature superconduting.,22.86,7
-Dark Matter,SM15,Rare amber alloy used to make warp coils.,22.86,7
-Ultradarks,SM16,Extremely strong and light material. Brittle.,20,8
-Impermite,SM17,Antientropic alloy. Ship construction.,160,1
-Tempereal Gland,SM18,Very expensive alloy of gold; silver and amber.,160,1
-Transreal Alloys,SM19,Not fully understood.,80,2
-Lustre,SM20,Alloy with proton retaining properties.,160,1
-TYPE,Designer,,,
-Engine Housing,DE01,0,1.85,27
-Modular Hull,DE02,0,2.08,24
-Gyro Thrusters,DE03,0,2.17,23
-Beam Laser,DE04,0,2,25
-Cryo Resistant Electronics,DE05,0,3.81,21
-Ship Computer,DE06,0,4,20
-Percept Array,DE07,DNA synthesis. Acids. Anti bacterials.,4,20
-Harvesting Machinery,DE08,0,3.81,21
-Advanced Drive Shield,DE09,0,7.5,16
-Power Management,DE10,Industrial applications. Material and chemical production.,10.91,11
-Weapon Mounts,DE11,Explosives. Material production.,10,12
-Long Distance Comms,DE12,Jewellery.,7.5,16
-Warp Shielding,DE13,Dye. Jewellery.,17.78,9
-Crash Couches,DE14,0,17.78,9
-Intensive Scanners,DE15,0,17.78,9
-Life Support Systems,DE16,Amber infused metals. Jewellery.,17.78,9
-High Altitude Weapons,DE17,0,40,4
-Highly Tolerant Mechanics,DE18,0,160,1
-Miniaturised Components,DE19,0,53.33,3
-Ultra Long Distance Comms,DE20,Jewellery. Some minor industrial applications.,40,4
-TYPE,Crofter,,,
-Algae,CR01,Cheap protein source.,2.17,23
-Cereals,CR02,Cheap carbohydrate source.,2.17,23
-Legumes,CR03,Cheap fibre and vitamin source.,2,25
-Syrup,CR04,Cheap sugar source.,2.17,23
-Chocolate,CR05,Luxury cooking and foodstuff.,3.81,21
-Soybeans,CR06,High protein source and base for complex meals.,4.21,19
-Auroch Meat,CR07,Used for meat simulation. Does not go off.,4,20
-Coffee,CR08,Expensive foodstuff. Base for puddings.,4.21,19
-Micoprotein,CR09,Most widely available meat.,8,15
-Eggs,CR10,Fruit used for making alcoholic beverages.,8.57,14
-Fruit,CR11,Reasonable rare drink.,9.23,13
-Nattslangen,CR12,All purpose cooking spice.,8,15
-Saffron,CR13,Very rare cooking ingredient.,16,10
-Oliolis,CR14,Fragrant oil for cooking.,32,5
-Lychnusberry,CR15,Rare and refreshing berry with healing properties.,20,8
-Nutmeg,CR16,Very dark root used in fermentation.,16,10
-Worldspice,CR17,Universally rare spice used in restaurants.,53.33,3
-Summer Dust,CR18,Lentil like bean used in stews and curries.,40,4
-Pearls of Uriel,CR19,Very rare caviar from fish on Uriel III.,40,4
-Melculum Sac,CR20,Fruit sack filled with fruit juice.,40,4
+Hormones,Spicer,Commonplace,SP01,Increased response time,2.173913043,23
+Panacea,Spicer,Commonplace,SP02,Heals wounds,1.785714286,28
+Oxytocin,Spicer,Commonplace,SP03,Mental soothing,2.083333333,24
+Lubricants,Spicer,Commonplace,SP04,For industrial use,1.923076923,26
+Neverclear,Spicer,Unusual,SP05,Medicinal alcohol,4.210526316,19
+Aphroditus,Spicer,Unusual,SP06,Aphrodisiac and sensory enhancer,4,20
+Nectar,Spicer,Unusual,SP07,Psychotropic drug,4.444444444,18
+Orpheus Slumber,Spicer,Unusual,SP08,Sleep inducer,3.636363636,22
+Attenuated Viruses,Spicer,Soughtafter,SP09,Natural cleaning fluid,8.571428571,14
+Immunosuppressants,Spicer,Soughtafter,SP10,Industrial precursor to GMOs,8.571428571,14
+Morteks,Spicer,Soughtafter,SP11,Prevents fear responses,7.5,16
+Antiballistic Serum,Spicer,Soughtafter,SP12,Natural gel with antiballistic properties,7.5,16
+Confusia,Spicer,Coveted,SP13,Clears confusion and mental health issues,20,8
+Proteins,Spicer,Coveted,SP14,Natural lighting,32,5
+Bacterial Payloads,Spicer,Coveted,SP15,Can contain smoke and pollutants,17.77777778,9
+Ambrosia,Spicer,Coveted,SP16,Amber based nootropic drug,22.85714286,7
+Chronomorph,Spicer,Legendary,SP17,Slows users perception of time,40,4
+Epiphos,Spicer,Legendary,SP18,Allows greater concentration and insight,40,4
+Nidrfoenix,Spicer,Legendary,SP19,Can resuscitate recently deceased,53.33333333,3
+Athelas,Spicer,Legendary,SP20,Very rare tobacco alternative,40,4
+Wire,Weaver,Commonplace,WE01,Food transportation. Precursor.,1.851851852,27
+Cloth,Weaver,Commonplace,WE02,Weaving. Clothing.,2,25
+Elastics,Weaver,Commonplace,WE03,Thread. Insulation. Comfort. Bandages.,1.923076923,26
+Leather,Weaver,Commonplace,WE04,Temperature control. Civilian clothing.,1.851851852,27
+eFabric,Weaver,Unusual,WE05,Expensive clothing. Military applications.,4.210526316,19
+Aramid,Weaver,Unusual,WE06,Sports wear. Underarmour. Protection.,4,20
+Linen,Weaver,Unusual,WE07,Rugs. Decoration. Clothing.,3.80952381,21
+Cotton,Weaver,Unusual,WE08,Industrial and commercial applications.,3.80952381,21
+Silk,Weaver,Soughtafter,WE09,Luxury clothing.,8.571428571,14
+Cashmere,Weaver,Soughtafter,WE10,Luxury clothing.,8,15
+Soft Leather,Weaver,Soughtafter,WE11,Luxury clothing.,8.571428571,14
+Adamantis,Weaver,Soughtafter,WE12,Armour. Civilian defense clothing.,9.230769231,13
+Nydian Fur,Weaver,Coveted,WE13,Luxury clothing.,16,10
+Mokros Skin,Weaver,Coveted,WE14,Armour. Decoration.,16,10
+Plaited Amber,Weaver,Coveted,WE15,Amber-based. Wear resistant. Luxury clothing.,26.66666667,6
+Nagl Hide,Weaver,Coveted,WE16,Trophies. Luxury clothing.,17.77777778,9
+Boreal Gossamer,Weaver,Legendary,WE17,Luxury clothing.,53.33333333,3
+Woven Metal,Weaver,Legendary,WE18,Military and industrial applications. Luxury clothing.,53.33333333,3
+Liquid Cloth,Weaver,Legendary,WE19,Luxury clothing.,40,4
+Hera's Tears,Weaver,Legendary,WE20,Luxury clothing. Decoration.,53.33333333,3
+Clay,Temperer,Commonplace,TE01,Industrial applications. Base for other materials.,2.083333333,24
+Carbon Fibre,Temperer,Commonplace,TE02,Strong structural material.,2,25
+Silica Glass,Temperer,Commonplace,TE03,Ordinary glass.,2.272727273,22
+Alumina,Temperer,Commonplace,TE04,Purification. Catalysis. Base for other materials.,1.923076923,26
+Hologlass,Temperer,Unusual,TE05,3D displays and laser refractors.,4.444444444,18
+Nanotubes,Temperer,Unusual,TE06,High tensile strength applications.,4.705882353,17
+Dilatants,Temperer,Unusual,TE07,Very high temperature heat absorbers.,4,20
+Boron-Carbide,Temperer,Unusual,TE08,Structural reinforcement.,4,20
+Vac-Glass,Temperer,Soughtafter,TE09,Ship windows.,9.230769231,13
+Selfsetting Ceramics,Temperer,Soughtafter,TE10,Data storage.,8.571428571,14
+Graphene,Temperer,Soughtafter,TE11,Medical. Military. Civilian. Electronics.,13.33333333,9
+Ceramic Cloth,Temperer,Soughtafter,TE12,Low weight/cost structural material.,9.230769231,13
+Pellucidic Glass,Temperer,Coveted,TE13,Wearproof heat absorbers.,16,10
+Ceramic Solvent,Temperer,Coveted,TE14,Self illuminating glass. Displays.,20,8
+Trinitite,Temperer,Coveted,TE15,Safe radioactive material storage.,20,8
+ElectroActive Glass,Temperer,Coveted,TE16,Extreme heat resistance and transparency.,22.85714286,7
+Permacarbon,Temperer,Legendary,TE17,Laser light promotion/protection.,80,2
+Obsidian,Temperer,Legendary,TE18,Optics. Jewellery.,80,2
+Semisolids,Temperer,Legendary,TE19,Mouldable/bendable yet strong products.,80,2
+Photophilic Glass,Temperer,Legendary,TE20,Photon capture and storage.,160,1
+Simple Metals,Purifier,Commonplace,PU01,0,2.272727273,22
+Carbon,Purifier,Commonplace,PU02,Chemical rocket fuel. Oxygen storage.,2.380952381,21
+Alkalines,Purifier,Commonplace,PU03,0,2,25
+Metalloids,Purifier,Commonplace,PU04,0,2.380952381,21
+Ductile Metals,Purifier,Unusual,PU05,0,4.444444444,18
+Conductors,Purifier,Unusual,PU06,0,4.210526316,19
+Resilient Metals,Purifier,Unusual,PU07,Basic conductor. Heat dissapator.,4,20
+Reactive Gases,Purifier,Unusual,PU08,0,3.80952381,21
+Inert Gases,Purifier,Soughtafter,PU09,0,8,15
+Semi-Precious Metals,Purifier,Soughtafter,PU10,0,10,12
+Industry Grade Metals,Purifier,Soughtafter,PU11,Fusion generators.,10.90909091,11
+Catalytic Metals,Purifier,Soughtafter,PU12,0,7.5,16
+Earth Alkalines,Purifier,Coveted,PU13,0,17.77777778,9
+Resistive Metals,Purifier,Coveted,PU14,0,16,10
+Precious Metals,Purifier,Coveted,PU15,Fusion reactors. Superconductor component.,40,4
+Fuseable Isotopes,Purifier,Coveted,PU16,0,22.85714286,7
+Radioactives,Purifier,Legendary,PU17,0,40,4
+Cobalt,Purifier,Legendary,PU18,Radioactive sources. Military. Scientific.,80,2
+Tartarium,Purifier,Legendary,PU19,0,80,2
+Iridis,Purifier,Legendary,PU20,0,53.33333333,3
+Unstable Compounds,Mercer,Commonplace,ME01,0,2.173913043,23
+Construction Materials,Mercer,Commonplace,ME02,0,2,25
+Bonding Agents,Mercer,Commonplace,ME03,0,1.923076923,26
+Circuit Boards,Mercer,Commonplace,ME04,0,2,25
+Stressless Bolts,Mercer,Unusual,ME05,0,3.80952381,21
+Precious Gems,Mercer,Unusual,ME06,0,4,20
+High Precision Motors,Mercer,Unusual,ME07,0,4.210526316,19
+Parallel Processors,Mercer,Unusual,ME08,0,4.210526316,19
+Organic Data Storage,Mercer,Soughtafter,ME09,0,8,15
+Volcanic Earth,Mercer,Soughtafter,ME10,0,8.571428571,14
+Partical Shield Projector,Mercer,Soughtafter,ME11,0,8,15
+Neural Networks,Mercer,Soughtafter,ME12,0,8.571428571,14
+Hermetic Walls,Mercer,Coveted,ME13,0,20,8
+Genetic Algorithms,Mercer,Coveted,ME14,0,17.77777778,9
+Apsum,Mercer,Coveted,ME15,0,22.85714286,7
+Ambronite,Mercer,Coveted,ME16,0,32,5
+Exotic Matter,Mercer,Legendary,ME17,0,160,1
+Bifrostite,Mercer,Legendary,ME18,0,160,1
+Helenite,Mercer,Legendary,ME19,0,53.33333333,3
+NP Hard Solutions,Mercer,Legendary,ME20,0,80,2
+BioPlastic,Smelter,Commonplace,SM01,Simple iron base metals.,2.380952381,21
+Sulphur,Smelter,Commonplace,SM02,Corrosion and abrasion. Solvent. Explosives.,1.851851852,27
+Silicates,Smelter,Commonplace,SM03,Textiles. Antimicrobials. Nitrogenous base.,2.083333333,24
+Pure Water,Smelter,Commonplace,SM04,Structural support.,2,25
+Memorite,Smelter,Unusual,SM05,Base for electronic circuits.,4.444444444,18
+Superlubricants,Smelter,Unusual,SM06,Hydrogen storage.,4.210526316,19
+Superconductors,Smelter,Unusual,SM07,Electronics.,6.666666667,12
+Coloured Amber,Smelter,Unusual,SM08,Fertilisers.,6.153846154,13
+Warpalloy,Smelter,Soughtafter,SM09,High strength natural magnets.,10.90909091,11
+Staballoy,Smelter,Soughtafter,SM10,Military and civilian blades.,8.571428571,14
+Ambroids,Smelter,Soughtafter,SM11,Memory retention for deformable structures.,9.230769231,13
+Fungal Foam,Smelter,Soughtafter,SM12,Base metal for artillery.,8,15
+Crystalline Organisms,Smelter,Coveted,SM13,Perfect light absorption.,26.66666667,6
+Frost Birch,Smelter,Coveted,SM14,Low temperature superconduting.,22.85714286,7
+Dark Matter,Smelter,Coveted,SM15,Rare amber alloy used to make warp coils.,22.85714286,7
+Ultradarks,Smelter,Coveted,SM16,Extremely strong and light material. Brittle.,20,8
+Impermite,Smelter,Legendary,SM17,Antientropic alloy. Ship construction.,160,1
+Tempereal Gland,Smelter,Legendary,SM18,Very expensive alloy of gold; silver and amber.,160,1
+Transreal Alloys,Smelter,Legendary,SM19,Not fully understood.,80,2
+Lustre,Smelter,Legendary,SM20,Alloy with proton retaining properties.,160,1
+Engine Housing,Designer,Commonplace,DE01,0,1.851851852,27
+Modular Hull,Designer,Commonplace,DE02,0,2.083333333,24
+Gyro Thrusters,Designer,Commonplace,DE03,0,2.173913043,23
+Beam Laser,Designer,Commonplace,DE04,0,2,25
+Cryo Resistant Electronics,Designer,Unusual,DE05,0,3.80952381,21
+Ship Computer,Designer,Unusual,DE06,0,4,20
+Percept Array,Designer,Unusual,DE07,DNA synthesis. Acids. Anti bacterials.,4,20
+Harvesting Machinery,Designer,Unusual,DE08,0,3.80952381,21
+Advanced Drive Shield,Designer,Soughtafter,DE09,0,7.5,16
+Power Management,Designer,Soughtafter,DE10,Industrial applications. Material and chemical production.,10.90909091,11
+Weapon Mounts,Designer,Soughtafter,DE11,Explosives. Material production.,10,12
+Long Distance Comms,Designer,Soughtafter,DE12,Jewellery.,7.5,16
+Warp Shielding,Designer,Coveted,DE13,Dye. Jewellery.,17.77777778,9
+Crash Couches,Designer,Coveted,DE14,0,17.77777778,9
+Intensive Scanners,Designer,Coveted,DE15,0,17.77777778,9
+Life Support Systems,Designer,Coveted,DE16,Amber infused metals. Jewellery.,17.77777778,9
+High Altitude Weapons,Designer,Legendary,DE17,0,40,4
+Highly Tolerant Mechanics,Designer,Legendary,DE18,0,160,1
+Miniaturised Components,Designer,Legendary,DE19,0,53.33333333,3
+Ultra Long Distance Comms,Designer,Legendary,DE20,Jewellery. Some minor industrial applications.,40,4
+Algae,Crofter,Commonplace,CR01,Cheap protein source.,2.173913043,23
+Cereals,Crofter,Commonplace,CR02,Cheap carbohydrate source.,2.173913043,23
+Legumes,Crofter,Commonplace,CR03,Cheap fibre and vitamin source.,2,25
+Syrup,Crofter,Commonplace,CR04,Cheap sugar source.,2.173913043,23
+Chocolate,Crofter,Unusual,CR05,Luxury cooking and foodstuff.,3.80952381,21
+Soybeans,Crofter,Unusual,CR06,High protein source and base for complex meals.,4.210526316,19
+Auroch Meat,Crofter,Unusual,CR07,Used for meat simulation. Does not go off.,4,20
+Coffee,Crofter,Unusual,CR08,Expensive foodstuff. Base for puddings.,4.210526316,19
+Micoprotein,Crofter,Soughtafter,CR09,Most widely available meat.,8,15
+Eggs,Crofter,Soughtafter,CR10,Fruit used for making alcoholic beverages.,8.571428571,14
+Fruit,Crofter,Soughtafter,CR11,Reasonable rare drink.,9.230769231,13
+Nattslangen,Crofter,Soughtafter,CR12,All purpose cooking spice.,8,15
+Saffron,Crofter,Coveted,CR13,Very rare cooking ingredient.,16,10
+Oliolis,Crofter,Coveted,CR14,Fragrant oil for cooking.,32,5
+Lychnusberry,Crofter,Coveted,CR15,Rare and refreshing berry with healing properties.,20,8
+Nutmeg,Crofter,Coveted,CR16,Very dark root used in fermentation.,16,10
+Worldspice,Crofter,Legendary,CR17,Universally rare spice used in restaurants.,53.33333333,3
+Summer Dust,Crofter,Legendary,CR18,Lentil like bean used in stews and curries.,40,4
+Pearls of Uriel,Crofter,Legendary,CR19,Very rare caviar from fish on Uriel III.,40,4
+Melculum Sac,Crofter,Legendary,CR20,Fruit sack filled with fruit juice.,40,4

@@ -20,9 +20,9 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 	private float						maxPrice, minPrice, maxDemand, minDemand, maxSupply, minSupply, averagePrice, supply, demand;
 	private float						price;
 	
-	private NoisyCurveGenerator supplyCurve = new NoisyCurveGenerator(0.002f, 0.8f);
-	private NoisyCurveGenerator demandCurve = new NoisyCurveGenerator(0.0045f, 0.8f);
-	private NoisyCurveGenerator noiseCurve = new NoisyCurveGenerator(0.2f, 0.1f);
+	private NoisyCurveGenerator supplyCurve = new NoisyCurveGenerator(0.001f, 0.8f, 4);
+	private NoisyCurveGenerator demandCurve = new NoisyCurveGenerator(0.0045f, 0.8f, 4);
+//	private NoisyCurveGenerator noiseCurve = new NoisyCurveGenerator(0.08f, 0.02f);
 
 	public MarketResource(String id, String name, String guild, String rarity, String description, float baseSupply, float basePrice) {
 		super(name, id, description, guild, rarity, ResourceType.MERCHANT);
@@ -52,11 +52,7 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 
 	private void updateResource() {
 		putPrice();
-//		float tempDemand = ((ticks - 1) * demand + desiredThisTick) / ticks;
 		++ticks;
-//		if (tempDemand >= 0) {
-//			demand = tempDemand;
-//		}
 		desiredThisTick = 0;
 	}
 	
@@ -70,38 +66,26 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 	}
 
 	public float getPricePerUnit() {
-
-//		if (supply < baseSupply * 0.1f && demand > baseSupply * 0.5f) {
-//			supply = baseSupply * 0.1f;
-//		}
-//		if (demand < supply && supply < baseSupply * 20) {
-//			supply = demand;
-//		} else {
-			supply = (supplyCurve.getPoint());// + noiseCurve.getPoint());
-			clampToRange(supply);
-			supply = supply * baseSupply / 4f + baseSupply;
-			
-			demand = (demandCurve.getPoint());// + noiseCurve.getPoint());
-			clampToRange(demand);
-			demand = demand * baseSupply / 4f + baseSupply;
-			
-			if(getName().equals("Oxytocin")){
-				System.out.println(supply + " " + demand);
+		supply = (supplyCurve.getPoint());// + noiseCurve.getPoint();
+		clampToRange(supply);
+		supply = supply * baseSupply / 4f + baseSupply;
+		
+		demand = (demandCurve.getPoint());// + noiseCurve.getPoint();
+		clampToRange(demand);
+		demand = demand * baseSupply / 4f + baseSupply;
+		
+		if(supply > demand){
+			float difference = supply - demand;
+			stockPile += difference;
+		}
+		if(demand > supply){
+			float difference = demand - supply;
+			if(stockPile >= difference && stockPile > 0){
+				supply += difference;
+				stockPile -= difference;
 			}
-			
-			if(supply > demand){
-				float difference = supply - demand;
-				supply = supply - difference;
-				stockPile += difference;
-			}
-			return demand / supply * basePrice;
-//		}
-//		if (demand == 0) {
-//			demand = 1;
-//		}
-//		if (demand / supply * basePrice < 1) {
-//			return 1;
-//		}
+		}
+		return demand / supply * basePrice;
 	}
 
 	public void adjustMaxMinPrices() {
@@ -150,7 +134,7 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		price = getPricePerUnit();
 
 		boolean recordData = false;
-		if (ticks % 4 == 0) {
+		if (ticks % 2 == 0) {
 			recordData = true;
 		}
 

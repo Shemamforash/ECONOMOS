@@ -7,9 +7,19 @@ public class NoisyCurveGenerator {
 	private Random					random	= new Random();
 	private int[] hash = new int[256];
 	private float frequency, amplitude;
+	private NoisyCurveGenerator octave;
+	
+	private int hashMask = 255, time;
 
-	private int hashMask = 255, time = 0;
-
+	public NoisyCurveGenerator(float frequency, float amplitude, int octaves) {
+		this.amplitude = amplitude;
+		this.frequency = frequency;
+		if(octaves != 0){
+			octave = new NoisyCurveGenerator(frequency * 2, amplitude / 2, octaves - 1);
+		}
+		createHash();
+	}
+	
 	private void createHash(){
 		for(int i = 0; i < 256; ++i){
 			hash[i] = i;
@@ -51,17 +61,13 @@ public class NoisyCurveGenerator {
 		return part;
 	}
 	
-	public NoisyCurveGenerator(float frequency, float amplitude) {
-		this.amplitude = amplitude;
-		this.frequency = frequency;
-		createHash();
-	}
-	
 	public float getPoint() {
-		if(time % 256 == 0){
-//			createHash();
-		}
 		++time;
-		return createNoise();
+		float noise = createNoise() * amplitude;
+		float octaveNoise = 1;
+		if(octave != null){
+			octaveNoise = octave.getPoint();
+		}
+		return octaveNoise + noise;
 	}
 }

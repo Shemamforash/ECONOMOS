@@ -1,6 +1,6 @@
 package economos;
 
-import MerchantResources.MarketResource;
+import MarketSimulator.MarketResource;
 
 public interface SelectedResourceListener {	
 	public void selectedResourceChanged(MarketResource m);

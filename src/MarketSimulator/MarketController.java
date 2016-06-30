@@ -1,8 +1,11 @@
-package MerchantResources;
+package MarketSimulator;
 
 import java.util.*;
 
 import DataImportExport.DataParser;
+import MerchantResources.MerchantResource;
+import MerchantResources.Resource;
+import MerchantResources.ResourceMap;
 import economos.User;
 
 public class MarketController {

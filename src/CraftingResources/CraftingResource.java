@@ -3,7 +3,7 @@ package CraftingResources;
 import java.util.ArrayList;
 
 import DataImportExport.DataParser;
-import MerchantResources.MarketController;
+import MarketSimulator.MarketController;
 import MerchantResources.Resource;
 import economos.Main;
 import economos.Player;

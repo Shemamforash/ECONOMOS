@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import CraftingResources.CraftingResource;
-import MerchantResources.MarketResource;
+import MarketSimulator.MarketResource;
 import MerchantResources.MerchantResource;
 import MerchantResources.Resource;
 

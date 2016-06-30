@@ -20,7 +20,6 @@ public class Main {
 
 	private void start() {
 		loadData();
-		createAI();
 		startGUI();
 		loop();
 	}
@@ -47,13 +46,6 @@ public class Main {
 			System.exit(0);
 		}
 		player = new Player("Sam");
-	}
-
-	// Create some AI
-	private void createAI() {
-		for (int i = 0; i < 5; ++i) {
-			AI ai = new AI("Some ai" + i);
-		}
 	}
 
 	// Start the gameloop- this will try to run at 60fps.

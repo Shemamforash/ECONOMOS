@@ -2,6 +2,8 @@ package MerchantResources;
 
 import java.util.ArrayList;
 
+import MarketSimulator.MarketResource;
+
 public class MerchantResource {
 	private MarketResource marketResource;
 	private int bought = 0, sold = 0, quantity = 0;

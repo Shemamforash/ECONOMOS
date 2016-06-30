@@ -6,8 +6,8 @@ import java.text.NumberFormat;
 import java.util.*;
 import javax.swing.*;
 
-import MerchantResources.MarketController;
-import MerchantResources.MarketResource;
+import MarketSimulator.MarketController;
+import MarketSimulator.MarketResource;
 import MerchantResources.MerchantResource;
 import economos.SelectedResourceCaller;
 import economos.SelectedResourceListener;
@@ -65,7 +65,7 @@ public class GraphPanel extends JPanel implements SelectedResourceListener, Upda
 			BufferedImage bImg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 			bGraphics = bImg.createGraphics();
 			drawGrid();
-			float pricePerPixel = (float) this.getHeight() / (marketResource.getMaxPrice() - marketResource.getMinPrice());
+			float pricePerPixel = (float)this.getHeight() / (marketResource.getMaxPrice() - marketResource.getMinPrice());
 			((Graphics2D) bGraphics).setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
 
 			plotLine(pricePerPixel, 1, marketResource.getMinPrice());

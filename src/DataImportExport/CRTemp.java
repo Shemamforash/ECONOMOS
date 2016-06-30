@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import CraftingResources.CraftingController;
 import CraftingResources.CraftingResource;
 import CraftingResources.CraftingResource.RequisiteResource;
-import MerchantResources.MarketController;
-import MerchantResources.MarketResource;
+import MarketSimulator.MarketController;
+import MarketSimulator.MarketResource;
 import MerchantResources.Resource;
 
 public class CRTemp {

@@ -1,10 +1,12 @@
-package MerchantResources;
+package MarketSimulator;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import MerchantResources.Resource;
+import MerchantResources.Resource.ResourceType;
 import economos.Main;
 import economos.UpdateCaller;
 import economos.UpdateListener;
@@ -12,20 +14,20 @@ import economos.UpdateListener;
 public class MarketResource extends Resource implements Comparable<MarketResource> {
 	private ArrayList<MarketSnapshot>	marketHistory	= new ArrayList<MarketSnapshot>();
 
-	private float							baseSupply, basePrice, desiredThisTick;
-	private int ticks = 1;
+	private float						baseSupply, basePrice, desiredThisTick;
+	private int							ticks			= 1,
+												stockPile = 0;
 	private float						maxPrice, minPrice, maxDemand, minDemand, maxSupply, minSupply, averagePrice, supply, demand;
-	private float						price, trend;
-	float								changeTrend		= 1, changeTrendModifier = 0f;													// between 0 and 1
-	int									timer			= 0, timerMax;																	// timer to ensure non constant decrease
-	int									trendDirection	= 1;																			// true is up/false is down
-	private Random						rnd				= new Random();
+	private float						price;
+	
+	private NoisyCurveGenerator supplyCurve = new NoisyCurveGenerator(0.002f, 0.8f);
+	private NoisyCurveGenerator demandCurve = new NoisyCurveGenerator(0.0045f, 0.8f);
+	private NoisyCurveGenerator noiseCurve = new NoisyCurveGenerator(0.2f, 0.1f);
 
 	public MarketResource(String id, String name, String guild, String rarity, String description, float baseSupply, float basePrice) {
 		super(name, id, description, guild, rarity, ResourceType.MERCHANT);
 		this.baseSupply = baseSupply;
 		this.basePrice = basePrice;
-		timerMax = rnd.nextInt(1000) + 500;
 		supply = baseSupply;
 		demand = baseSupply;
 		desiredThisTick = baseSupply;
@@ -50,59 +52,56 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 
 	private void updateResource() {
 		putPrice();
-		float tempDemand = ((ticks - 1) * demand + desiredThisTick) / ticks;
+//		float tempDemand = ((ticks - 1) * demand + desiredThisTick) / ticks;
 		++ticks;
-		if (tempDemand >= 0) {
-			demand = tempDemand;
-		}
+//		if (tempDemand >= 0) {
+//			demand = tempDemand;
+//		}
 		desiredThisTick = 0;
 	}
-
-	private float getSupplyChange() {
-		if (timerMax < timer) {
-			changeTrend = -changeTrend;
-			timer = 0;
-			timerMax = rnd.nextInt(400);
+	
+	private float clampToRange(float num){
+		if(num > 1){
+			return 1;
+		} else if(num < -1){
+			return -1;
 		}
-
-		++timer;
-
-		float temp = (float) (Math.pow(rnd.nextFloat(), 2)) * 2f - 1f;
-		if (changeTrendModifier + temp < -1f || changeTrendModifier + temp > 1f) {
-			changeTrendModifier = changeTrendModifier - temp;
-		} else {
-			changeTrendModifier = changeTrendModifier + temp;
-		}
-
-		float supplyChange = 0.03f * baseSupply;
-
-		if ((changeTrend * changeTrendModifier > 0 && supply >= baseSupply * 20f) || (changeTrend * changeTrendModifier < 0 && supply <= baseSupply * 0.2f)) {
-			changeTrend = -changeTrend;
-		}
-
-		changeTrendModifier = changeTrend * changeTrendModifier;
-
-		supplyChange = supplyChange * changeTrendModifier;
-
-		return supply + supplyChange;
+		return num;
 	}
 
 	public float getPricePerUnit() {
-		if (supply < baseSupply * 0.1f && demand > baseSupply * 0.5f) {
-			supply = baseSupply * 0.1f;
-		}
-		if (demand < supply && supply < baseSupply * 20) {
-			supply = demand;
-		} else {
-			supply = getSupplyChange();
-		}
-		if (demand == 0) {
-			demand = 1;
-		}
-		if (demand / supply * basePrice < 1) {
-			return 1;
-		}
-		return (demand / supply * basePrice) / 100;
+
+//		if (supply < baseSupply * 0.1f && demand > baseSupply * 0.5f) {
+//			supply = baseSupply * 0.1f;
+//		}
+//		if (demand < supply && supply < baseSupply * 20) {
+//			supply = demand;
+//		} else {
+			supply = (supplyCurve.getPoint());// + noiseCurve.getPoint());
+			clampToRange(supply);
+			supply = supply * baseSupply / 4f + baseSupply;
+			
+			demand = (demandCurve.getPoint());// + noiseCurve.getPoint());
+			clampToRange(demand);
+			demand = demand * baseSupply / 4f + baseSupply;
+			
+			if(getName().equals("Oxytocin")){
+				System.out.println(supply + " " + demand);
+			}
+			
+			if(supply > demand){
+				float difference = supply - demand;
+				supply = supply - difference;
+				stockPile += difference;
+			}
+			return demand / supply * basePrice;
+//		}
+//		if (demand == 0) {
+//			demand = 1;
+//		}
+//		if (demand / supply * basePrice < 1) {
+//			return 1;
+//		}
 	}
 
 	public void adjustMaxMinPrices() {
@@ -164,23 +163,13 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 				marketHistory.remove(0);
 			}
 		}
+		adjustMaxMinPrices();
 
 		totalPrice += price;
 		if (recordData) {
 			averagePrice = totalPrice / totalStoredPrices;
 			marketHistory.add(new MarketSnapshot(supply, demand, price));
 		}
-
-		int dx = marketHistory.size();
-		float angle, dy;
-		if (dx < 200) {
-			dy = marketHistory.get(dx - 1).getPrice() - marketHistory.get(0).getPrice();
-		} else {
-			dy = marketHistory.get(dx - 1).getPrice() - marketHistory.get(marketHistory.size() - 200).getPrice();
-		}
-		angle = (float) Math.toDegrees(Math.atan(dx / dy));
-		trend = angle / 90;
-		adjustMaxMinPrices();
 	}
 
 	public synchronized float getBuyPrice(int amount) {
@@ -248,10 +237,6 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		return (int) supply;
 	}
 
-	public synchronized float getTrend() {
-		return trend;
-	}
-
 	public synchronized void setSupplyRate(int supplyRate) {
 		this.supply += supplyRate;
 	}
@@ -274,7 +259,7 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 	}
 
 	public class MarketSnapshot {
-		private float	supply, demand, price;
+		private float supply, demand, price;
 
 		public MarketSnapshot(float supply, float demand, float price) {
 			this.supply = supply;

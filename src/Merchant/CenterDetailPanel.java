@@ -3,7 +3,7 @@ package Merchant;
 import java.awt.BorderLayout;
 
 import GUI.GUIElements;
-import MerchantResources.MarketResource;
+import MarketSimulator.MarketResource;
 import MerchantResources.MerchantResource;
 
 public class CenterDetailPanel extends DetailPanel{	

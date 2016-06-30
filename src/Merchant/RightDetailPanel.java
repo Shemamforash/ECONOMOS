@@ -7,8 +7,8 @@ import javax.swing.SpringLayout;
 
 import GUI.EconomosGUI;
 import GUI.GUIElements;
-import MerchantResources.MarketController;
-import MerchantResources.MarketResource;
+import MarketSimulator.MarketController;
+import MarketSimulator.MarketResource;
 import MerchantResources.MerchantResource;
 import economos.Main;
 

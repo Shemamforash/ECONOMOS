@@ -7,7 +7,7 @@ import javax.swing.SpringLayout;
 
 import GUI.EconomosGUI;
 import GUI.GUIElements;
-import MerchantResources.MarketResource;
+import MarketSimulator.MarketResource;
 import MerchantResources.MerchantResource;
 
 public class LeftDetailPanel extends DetailPanel {

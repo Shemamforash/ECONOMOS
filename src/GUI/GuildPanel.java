@@ -1,16 +1,11 @@
 package GUI;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import CraftingResources.CraftingController;
@@ -18,10 +13,7 @@ import CraftingResources.CraftingResource;
 import DataImportExport.DataParser;
 import MarketSimulator.MarketController;
 import MarketSimulator.MarketResource;
-import MerchantResources.MerchantResource;
 import MerchantResources.Resource;
-import MerchantResources.ResourceMap;
-import economos.Main;
 import economos.SelectedResourceCaller;
 
 public class GuildPanel extends GUIElements.MyPanel {
@@ -42,9 +34,9 @@ public class GuildPanel extends GUIElements.MyPanel {
 		this.width = width;
 		this.panelType = panelType;
 		if (panelType == PanelType.CRAFTING) {
-			resources = CraftingController.getCraftingResources().getResources();
+			resources = CraftingController.getCraftingResources().resources();
 		} else {
-			resources = MarketController.getMarketResources().getResources();
+			resources = MarketController.getMarketResources().resources();
 		}
 		setup();
 	}
@@ -110,9 +102,9 @@ public class GuildPanel extends GUIElements.MyPanel {
 	public ArrayList<SortedCategory> sortByRarity(ArrayList<? extends Resource> listToSort) {
 		ArrayList<String> rarities;
 		if (panelType == PanelType.CRAFTING) {
-			rarities = DataParser.getCraftingRarities();
+			rarities = DataParser.craftingRarities();
 		} else {
-			rarities = DataParser.getMerchantRarities();
+			rarities = DataParser.merchantRarities();
 		}
 		return sort(rarities, listToSort);
 	}
@@ -120,9 +112,9 @@ public class GuildPanel extends GUIElements.MyPanel {
 	public ArrayList<SortedCategory> sortByGuild(ArrayList<? extends Resource> listToSort) {
 		ArrayList<String> guilds;
 		if (panelType == PanelType.CRAFTING) {
-			guilds = DataParser.getCraftingTypes();
+			guilds = DataParser.craftingTypes();
 		} else {
-			guilds = DataParser.getMerchantTypes();
+			guilds = DataParser.merchantTypes();
 		}
 		return sort(guilds, listToSort);
 	}
@@ -149,9 +141,9 @@ public class GuildPanel extends GUIElements.MyPanel {
 		for (String category : sortingCategories) {
 			SortedCategory sorted = new SortedCategory(category);
 			for (Resource r : listToSort) {
-				if (r.getRarity().equals(category)) {
+				if (r.rarity().equals(category)) {
 					sorted.addResource(r);
-				} else if (r.getGuild().equals(category)) {
+				} else if (r.guild().equals(category)) {
 					sorted.addResource(r);
 				}
 			}
@@ -203,7 +195,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 			ArrayList<GUIElements.MyButton> buttons = new ArrayList<GUIElements.MyButton>();
 			Comparator<Resource> alphabetComparator = new Comparator<Resource>() {
 				public int compare(Resource one, Resource other) {
-					return one.getName().compareTo(other.getName());
+					return one.name().compareTo(other.name());
 				}
 			};
 			Collections.sort(sublist, alphabetComparator);
@@ -257,7 +249,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 		}
 
 		public String getResourceName() {
-			return resource.getName();
+			return resource.name();
 		}
 
 		public void paintComponent(Graphics g) {
@@ -275,7 +267,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 				g.setColor(Color.white);
 				yOffset = 6;
 			}
-			g.drawString(resource.getName(), 10, getHeight() / 2 + yOffset);
+			g.drawString(resource.name(), 10, getHeight() / 2 + yOffset);
 			g.setFont(thisButton.getFont().deriveFont(10f));
 			g.setColor(new Color(200, 200, 200));
 			String str;
@@ -285,7 +277,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 				str = "C" + roundedPrice + " (D" + ((MarketResource) resource).getDemand() + "/ S"
 						+ ((MarketResource) resource).getSupply() + ")";
 			} else {
-				str = "C" + ((CraftingResource) resource).getValue();
+				str = "C" + ((CraftingResource) resource).value();
 			}
 			int stringLength = (int) g.getFontMetrics().getStringBounds(str, g).getWidth();
 			g.drawString(str, getWidth() - (stringLength + 10), getHeight() / 2 + 5);

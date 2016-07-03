@@ -37,40 +37,39 @@ public class MerchantResource {
 	 */
 	public float sell(int amount) {
 		sold += amount;
-		return breakDownPackets(amount, getMarketResource().getSellPrice(1));
+		return breakDownPackets(amount, marketResource().getSellPrice(1));
 	}
 
 	public void buy(int quantity, float price) {
-		getMarketResource().updateDesiredThisTick(quantity);
 		resourcePackets.add(new ResourcePacket(price, quantity));
 		averageBuy = ((averageBuy * bought) + (price * quantity)) / (bought + quantity);
 		bought += quantity;
-		averageProfit = getPredictedProfit(quantity, price);
+		averageProfit = predictedProfit(quantity, price);
 		this.quantity += quantity;											//TODO THIS IS THE ERRO :O
 	}
 
-	public float getPredictedProfit(int amount, float price) {
+	public float predictedProfit(int amount, float price) {
 		return averageProfit - price / (float) amount;
 	}
 
-	public MarketResource getMarketResource() {
+	public MarketResource marketResource() {
 		return marketResource;
 	}
 
-	public float getAverageProfit() {
+	public float averageProfit() {
 		return averageProfit;
 	}
 
-	public int getSold() {
+	public int sold() {
 		return sold;
 	}
 
-	public int getQuantity() {
+	public int quantity() {
 		return quantity;
 	}
 
-	public String getName() {
-		return marketResource.getName();
+	public String name() {
+		return marketResource.name();
 	}
 	
 	public float breakDownPackets(int amount, float value){
@@ -79,22 +78,22 @@ public class MerchantResource {
 		while (remaining > 0) {
 			for (int i = 0; i < resourcePackets.size(); ++i) {
 				ResourcePacket p = resourcePackets.get(i);
-				if (p.getQuantity() <= remaining) {
-					remaining -= p.getQuantity();
-					moneyGained = value * p.getQuantity();
-					averageSell = ((averageSell * sold) + (value * p.getQuantity())) / (sold - remaining);
+				if (p.quantity() <= remaining) {
+					remaining -= p.quantity();
+					moneyGained = value * p.quantity();
+					averageSell = ((averageSell * sold) + (value * p.quantity())) / (sold - remaining);
 					resourcePackets.remove(i);
 				}
 			}
 			if (resourcePackets.size() > 0) {
 				ResourcePacket p = resourcePackets.get(0);
-				for (int i = 0; i < p.getQuantity(); ++i) {
-					resourcePackets.add(new ResourcePacket(p.getPurchaseCost(), 1));
+				for (int i = 0; i < p.quantity(); ++i) {
+					resourcePackets.add(new ResourcePacket(p.purchaseCost(), 1));
 				}
 				resourcePackets.remove(0);
 			}
 		}
-		averageProfit = getPredictedProfit(amount, moneyGained);
+		averageProfit = predictedProfit(amount, moneyGained);
 		this.quantity -= amount;
 		return moneyGained;
 	}

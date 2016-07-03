@@ -1,17 +1,37 @@
 package economos;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import DataImportExport.DataParser;
 import MerchantResources.MerchantResource;
-import MerchantResources.ResourceMap;
 
-public class Player extends User{	
-	public Player(String name){
-		super(name);
+public class Player {
+	private static String name, playTime;
+	private static float money = 100f, moneyMade, moneySpent, value;
+	public static ArrayList<MerchantResource> userResources = DataParser.userResources();
+
+	public Player(String name) {
+		this.name = name;
+	}
+
+	public static float money() {
+		return money;
+	}
+
+	public static void updateMoney(float amount) {
+		money += amount;
+	}
+
+	public static String name(){
+		return name;
+	}
+
+	public static MerchantResource findUserResource(String name){
+		for(MerchantResource r : userResources){
+			if(r.name().equals(name)){
+				return r;
+			}
+		}
+		return null;
 	}	
 }

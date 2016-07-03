@@ -13,17 +13,16 @@ public class ResourceMap<T extends Resource> {
 	@SuppressWarnings("unchecked")
 	public ResourceMap(boolean isCraftingMap) {
 		ArrayList<T> resources;
-
 		if (isCraftingMap) {
-			types = DataParser.getCraftingTypes();
-			resources = (ArrayList<T>) DataParser.getCraftingResources();
+			types = DataParser.craftingTypes();
+			resources = (ArrayList<T>) DataParser.craftingResources();
 		} else {
-			types = DataParser.getMerchantTypes();
-			resources = (ArrayList<T>) DataParser.getAllMarketResources();
+			types = DataParser.merchantTypes();
+			resources = (ArrayList<T>) DataParser.marketResources();
 		}
 
 		for (int j = 0; j < resources.size(); ++j) {
-			resourceMap.put(resources.get(j).getName(), (T) resources.get(j));
+			resourceMap.put(resources.get(j).name(), (T) resources.get(j));
 		}
 	}
 
@@ -31,45 +30,14 @@ public class ResourceMap<T extends Resource> {
 		return types;
 	}
 
-	public T getResource(String name) {
+	public T resource(String name) {
 		if (resourceMap.containsKey(name)) {
 			return resourceMap.get(name);
 		}
 		return null;
 	}
 	
-	public ArrayList<T> getResources(){
+	public ArrayList<T> resources(){
 		return new ArrayList<T>(resourceMap.values());
 	}
-
-//	public ArrayList<T> getResourcesInType(String type) {
-//		ArrayList<T> vals = new ArrayList<T>(resourceMap.values());
-//		ArrayList<T> tempArr = new ArrayList<T>();
-//
-//		if (type == null) {
-//			return vals;
-//		} else {
-//			for (T r : vals) {
-//				if (r.getType().equals(type)) {
-//					tempArr.add(r);
-//				}
-//			}
-//		}
-//
-//		// int current = 0, ctr = 0;
-//		// while (!vals.isEmpty()) {
-//		// String resourceRarity = vals.get(current).getRarity();
-//		// if (resourceRarity.equals(rarities[ctr])) {
-//		// tempArr.add(vals.remove(current));
-//		// } else {
-//		// ++current;
-//		// }
-//		// if (current == vals.size()) {
-//		// current = 0;
-//		// ++ctr;
-//		// }
-//		// }
-//
-//		return tempArr;
-//	}
 }

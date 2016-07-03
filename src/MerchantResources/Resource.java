@@ -19,7 +19,7 @@ public abstract class Resource {
 		return unlocked;
 	}
 	
-	public ResourceType getType(){
+	public ResourceType type(){
 		return type;
 	}
 	
@@ -27,23 +27,23 @@ public abstract class Resource {
 		unlocked = true;
 	}
 	
-	public String getRarity(){
+	public String rarity(){
 		return rarity;
 	}
 	
-	public String getGuild(){
+	public String guild(){
 		return guild;
 	}
 	
-	public String getDescription(){
+	public String description(){
 		return description;
 	}
 	
-	public String getName(){
+	public String name(){
 		return name;
 	}
 
-	public String getID() {
+	public String id() {
 		return id;
 	}
 }

@@ -1,6 +1,5 @@
 package MarketSimulator;
 
-import java.util.LinkedList;
 import java.util.Random;
 
 public class NoisyCurveGenerator {
@@ -27,14 +26,11 @@ public class NoisyCurveGenerator {
 		shuffleArray(hash);
 	}
 	
-	private void shuffleArray(int[] array)
-	{
+	private void shuffleArray(int[] array)	{
 	    int index;
-	    for (int i = array.length - 1; i > 0; i--)
-	    {
+	    for (int i = array.length - 1; i > 0; i--) {
 	        index = random.nextInt(i + 1);
-	        if (index != i)
-	        {
+	        if (index != i) {
 	            array[index] ^= array[i];
 	            array[i] ^= array[index];
 	            array[index] ^= array[i];

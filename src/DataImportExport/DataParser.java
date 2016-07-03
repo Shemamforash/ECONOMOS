@@ -1,7 +1,7 @@
 package DataImportExport;
 
 import java.io.*;
-import java.util.*;
+import DataStructures.List;
 
 import CraftingResources.CraftingResource;
 import MarketSimulator.MarketResource;
@@ -9,14 +9,12 @@ import MerchantResources.MerchantResource;
 import MerchantResources.Resource;
 
 public class DataParser {
-	private File craftingResourceFile = new File("CraftingResourceData.csv");
-	private File merchantResourceFile = new File("MerchantResourceData.csv");
-	private static ArrayList<String> craftingTypes = new ArrayList<String>();
-	private static ArrayList<String> merchantTypes = new ArrayList<String>();
-	private static ArrayList<String> merchantRarities = new ArrayList<String>();
-	private static ArrayList<String> craftingRarities = new ArrayList<String>();
-	private static ArrayList<MarketResource> allMarketResources = new ArrayList<MarketResource>();
-	private static ArrayList<CraftingResource> craftingResources = new ArrayList<CraftingResource>();
+	private static List<String> craftingTypes = new List<String>();
+	private static List<String> merchantTypes = new List<String>();
+	private static List<String> merchantRarities = new List<String>();
+	private static List<String> craftingRarities = new List<String>();
+	private static List<MarketResource> marketResources = new List<MarketResource>();
+	private static List<CraftingResource> craftingResources = new List<CraftingResource>();
 
 	public void readMerchantData(BufferedReader reader) throws IOException {
 		String next = " ";
@@ -28,30 +26,25 @@ public class DataParser {
 			String[] arr = next.split(",");
 			String name = arr[0];
 			String type = arr[1];
-			if(!merchantTypes.contains(type)){
-				merchantTypes.add(type);
-			}
+			merchantTypes.addUnique(type);
 			String rarity = arr[2];
-			if(!merchantRarities.contains(rarity)){
-				merchantRarities.add(rarity);
-			}
+			merchantRarities.addUnique(type);
 			String id = arr[3];
 			String description = arr[4];
 			float price = Float.parseFloat(arr[5]);
 			float supply = Float.parseFloat(arr[6]);
-			allMarketResources.add(
-					new MarketResource(id, name, type, rarity, description, supply, price));
+			marketResources.add(new MarketResource(id, name, type, rarity, description, supply, price));
 		}
 	}
 
 	public static Resource findResource(String id) {
 		for (CraftingResource r : craftingResources) {
-			if (r.getID().equals(id)) {
+			if (r.id().equals(id)) {
 				return r;
 			}
 		}
-		for (MarketResource m : allMarketResources) {
-			if (m.getID().equals(id)) {
+		for (MarketResource m : marketResources) {
+			if (m.id().equals(id)) {
 				return m;
 			}
 		}
@@ -60,7 +53,7 @@ public class DataParser {
 
 	public void readCraftingData(BufferedReader reader) throws IOException {
 		String next = " ";
-		ArrayList<CRTemp> temporaryCraftingResources = new ArrayList<CRTemp>();
+		List<CRTemp> temporaryCraftingResources = new List<CRTemp>();
 		while (true) {
 			next = reader.readLine();
 			if (next == null) {
@@ -69,13 +62,9 @@ public class DataParser {
 			String[] arr = next.split(",");
 			String name = arr[0];
 			String type = arr[1];
-			if(!craftingTypes.contains(type)){
-				craftingTypes.add(type);
-			}
+			craftingTypes.addUnique(type);
 			String rarity = arr[2];
-			if(!craftingRarities.contains(rarity)){
-				craftingRarities.add(rarity);
-			}
+			craftingRarities.addUnique(rarity);
 			String id = arr[3];
 			String recipe = arr[4];
 			int cost = Integer.parseInt(arr[5]);
@@ -83,52 +72,58 @@ public class DataParser {
 			craftingResources.add(c);
 			temporaryCraftingResources.add(new CRTemp(recipe, c));
 		}
-		for (CRTemp t : temporaryCraftingResources) {
-			t.convertRecipe();
-		}
+		temporaryCraftingResources.forEach((t) -> t.convertRecipe());
 	}
 
+	/**
+	 * Read the resourcedata csv files from an input stream locating the files from the class loader
+     */
+	private void loadFile(String name) throws IOException {
+		InputStream reader = getClass().getClassLoader().getResourceAsStream(name);
+		readMerchantData(new BufferedReader(new InputStreamReader(reader)));
+		reader.close();
+	}
+
+	/**
+	 *
+	 */
 	public DataParser() throws IOException {
-		FileReader reader = null;
+		InputStream reader = null;
 		try {
-			reader = new FileReader(merchantResourceFile);
-			readMerchantData(new BufferedReader(reader));
-			reader.close();
-			reader = new FileReader(craftingResourceFile);
-			readCraftingData(new BufferedReader(reader));
-			reader.close();
+			loadFile("MerchantResourceData.csv");
+			loadFile("CraftingResourceData.csv");
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot find resource data file.");
 		}
 	}
 
-	public static ArrayList<String> getMerchantTypes() {
+	public static List<String> merchantTypes() {
 		return merchantTypes;
 	}
 
-	public static ArrayList<String> getCraftingTypes() {
+	public static List<String> craftingTypes() {
 		return craftingTypes;
 	}
 
-	public static ArrayList<String> getMerchantRarities() {
+	public static List<String> merchantRarities() {
 		return merchantRarities;
 	}
 	
-	public static ArrayList<String> getCraftingRarities() {
+	public static List<String> craftingRarities() {
 		return craftingRarities;
 	}
 	
-	public static ArrayList<MarketResource> getAllMarketResources() {
-		return allMarketResources;
+	public static List<MarketResource> marketResources() {
+		return marketResources;
 	}
 
-	public static ArrayList<CraftingResource> getCraftingResources() {
+	public static List<CraftingResource> craftingResources() {
 		return craftingResources;
 	}
 
-	public static ArrayList<MerchantResource> getUserResources() {
-		ArrayList<MerchantResource> userResources = new ArrayList<MerchantResource>();
-		for (MarketResource r : allMarketResources) {
+	public static List<MerchantResource> userResources() {
+		List<MerchantResource> userResources = new List<MerchantResource>();
+		for (MarketResource r : marketResources) {
 			MerchantResource userResource = new MerchantResource(r);
 			userResources.add(userResource);
 		}

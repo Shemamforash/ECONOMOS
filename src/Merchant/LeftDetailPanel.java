@@ -8,7 +8,6 @@ import javax.swing.SpringLayout;
 import GUI.EconomosGUI;
 import GUI.GUIElements;
 import MarketSimulator.MarketResource;
-import MerchantResources.MerchantResource;
 
 public class LeftDetailPanel extends DetailPanel {
 	private GUIElements.MyPanel iconPanel;
@@ -38,10 +37,10 @@ public class LeftDetailPanel extends DetailPanel {
 
 	public void selectedResourceChanged(MarketResource m) {
 		if (m != null) {
-			typeTextField.setText(m.getGuild());
-			nameTextField.setText(m.getName());
-			rarityTextField.setText(m.getRarity());
-			switch (m.getRarity()) {
+			typeTextField.setText(m.guild());
+			nameTextField.setText(m.name());
+			rarityTextField.setText(m.rarity());
+			switch (m.rarity()) {
 			case "Commonplace":
 				rarityTextField.setColor(new Color(165, 215, 230));
 				break;

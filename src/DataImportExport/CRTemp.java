@@ -2,11 +2,7 @@ package DataImportExport;
 
 import java.util.ArrayList;
 
-import CraftingResources.CraftingController;
 import CraftingResources.CraftingResource;
-import CraftingResources.CraftingResource.RequisiteResource;
-import MarketSimulator.MarketController;
-import MarketSimulator.MarketResource;
 import MerchantResources.Resource;
 
 public class CRTemp {
@@ -23,11 +19,10 @@ public class CRTemp {
 			this.quantity = quantity;
 		}
 
-		public Resource getResource() {
+		public Resource resource() {
 			return resource;
 		}
-
-		public int getQuantity() {
+		public int quantity() {
 			return quantity;
 		}
 	}
@@ -39,10 +34,8 @@ public class CRTemp {
 	}
 
 	public void convertRecipe() {
-		for (RecipePart p : temporaryRecipe) {
-			craftingResource.addPrerequisite(p.getResource(), p.getQuantity());
-		}
-		if(craftingResource.getRarity().equals(DataParser.getCraftingRarities().get(0))){
+		temporaryRecipe.forEach((p) -> craftingResource.addPrerequisite(p.resource(), p.quantity()));
+		if(craftingResource.rarity().equals(DataParser.craftingRarities().get(0))){
 			craftingResource.unlock();
 		}
 	}
@@ -60,12 +53,12 @@ public class CRTemp {
 			if (r != null) {
 				temporaryRecipe.add(new RecipePart(r, recipePartQuantity));
 			} else {
-				System.out.println(craftingResource.getName() + " " + recipePartId + "Recipe part not found. Recipe will fail.");
+				System.out.println(craftingResource.name() + " " + recipePartId + "Recipe part not found. Recipe will fail.");
 			}
 		}
 	}
 
-	public String getRecipe() {
+	public String recipe() {
 		return recipe;
 	}
 }

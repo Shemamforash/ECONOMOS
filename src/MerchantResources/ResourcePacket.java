@@ -1,9 +1,5 @@
 package MerchantResources;
 
-import java.util.Comparator;
-
-import economos.User;
-
 public class ResourcePacket implements Comparable<ResourcePacket>{
 	private float purchaseCost;
 	private int quantity;
@@ -13,27 +9,27 @@ public class ResourcePacket implements Comparable<ResourcePacket>{
 		this.quantity = quantity;
 	}
 	
-	public float getPurchaseCost(){
+	public float purchaseCost(){
 		return purchaseCost;
 	}
 	
-	public int getQuantity(){
+	public int quantity(){
 		return quantity;
 	}
 	
-	public float getPacketValue(){
+	public float value(){
 		return purchaseCost * quantity;
 	}
 
 	@Override
 	public int compareTo(ResourcePacket other) {
-		if(quantity > other.getQuantity()){
+		if(quantity > other.quantity()){
 			return -1;
-		} else if (quantity < other.getQuantity()){
+		} else if (quantity < other.quantity()){
 			return 1;
-		} else if (getPacketValue() > other.getPacketValue()){
+		} else if (value() > other.value()){
 			return -1;
-		} else if (getPacketValue() < other.getPacketValue()){
+		} else if (value() < other.value()){
 			return 1;
 		}
 		return 0;

@@ -2,8 +2,6 @@ package CraftingResources;
 
 import java.util.ArrayList;
 
-import DataImportExport.DataParser;
-import MarketSimulator.MarketController;
 import MerchantResources.Resource;
 import economos.Main;
 import economos.Player;
@@ -19,11 +17,11 @@ public class CraftingResource extends Resource {
 	
 	public void unlock(){
 		super.unlock();
-		for(RequisiteResource r : requisiteResources){
-			if(r.getResource().getType() == ResourceType.MERCHANT){
-				r.getResource().unlock();
+		requisiteResources.forEach((r) -> {
+			if(r.resource().type() == ResourceType.MERCHANT){
+				r.resource().unlock();
 			}
-		}
+		});
 	}
 	
 	public void addPrerequisite(Resource r, int quantity){
@@ -41,17 +39,13 @@ public class CraftingResource extends Resource {
 
 	public boolean canCraft(Player p) {
 		if (hasResources()) {
-			if (p.getMoney() >= cost) {
-				return true;
-			}
+			return (p.money() >= cost);
 		}
 		return false;
 	}
 
 	public void craft(Player p) {
-		for (RequisiteResource r : requisiteResources) {
-			r.reduceResource();
-		}
+		requisiteResources.forEach((r) -> r.reduceResource());
 		updateQuantity(1, 0);
 		p.updateMoney(-cost);
 	}
@@ -61,7 +55,7 @@ public class CraftingResource extends Resource {
 		p.updateMoney(value);
 	}
 	
-	public int getValue(){
+	public int value(){
 		return value;
 	}
 
@@ -71,7 +65,7 @@ public class CraftingResource extends Resource {
 		private boolean				hasMetRequirements;
 
 		public void reduceResource() {
-			Main.getPlayer().findUserResource(resource.getName()).consumeResource(quantity);
+			Main.getPlayer().findUserResource(resource.name()).consumeResource(quantity);
 		}
 
 		public RequisiteResource(Resource resource, int quantity) {
@@ -83,7 +77,7 @@ public class CraftingResource extends Resource {
 			if (hasMetRequirements) {
 				return true;
 			} else {
-				if (Main.getPlayer().findUserResource(resource.getName()).getQuantity() >= quantity) {
+				if (Main.getPlayer().findUserResource(resource.name()).quantity() >= quantity) {
 					hasMetRequirements = true;
 					return true;
 				}
@@ -91,12 +85,12 @@ public class CraftingResource extends Resource {
 			}
 		}
 		
-		public Resource getResource(){
+		public Resource resource(){
 			return resource;
 		}
 	}
 
-	public synchronized void updateQuantity(int amount, float price) {
+	public void updateQuantity(int amount, float price) {
 		quantity += amount;
 	}
 }

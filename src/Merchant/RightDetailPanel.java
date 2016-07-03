@@ -91,15 +91,15 @@ public class RightDetailPanel extends DetailPanel {
 
 	public void selectedResourceChanged(MarketResource m) {
 		currentResource = m;
-		MerchantResource userResource = Main.getPlayer().findUserResource(currentResource.getName());
+		MerchantResource userResource = Main.getPlayer().findUserResource(currentResource.name());
 		sellButton.reset();
 		buyButton.reset();
 		if(m != null && userResource != null){
 			demandSupplyTextField.setText("S/D: " + m.getSupply() + "/" + m.getDemand());
-			possessTextField.setText("OWN " + userResource.getQuantity());
+			possessTextField.setText("OWN " + userResource.quantity());
 			averagePriceTextField.setText("Average Price: C" + EconomosGUI.decimalFormatter().format(m.getAveragePrice()));
-			averageProfitTextField.setText("Average Profit: C" + EconomosGUI.decimalFormatter().format(userResource.getAverageProfit()));
-			soldTextField.setText("Sold " + userResource.getSold() + " units");
+			averageProfitTextField.setText("Average Profit: C" + EconomosGUI.decimalFormatter().format(userResource.averageProfit()));
+			soldTextField.setText("Sold " + userResource.sold() + " units");
 			try {
 				buyButton.setText("C" + EconomosGUI.decimalFormatter().format(currentResource.getBuyPrice(buyButton.getSelectedQuantity())));
 			} catch (NumberFormatException n) {

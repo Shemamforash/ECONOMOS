@@ -1,20 +1,15 @@
 package MarketSimulator;
 
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import MerchantResources.Resource;
-import MerchantResources.Resource.ResourceType;
-import economos.Main;
 import economos.UpdateCaller;
 import economos.UpdateListener;
 
 public class MarketResource extends Resource implements Comparable<MarketResource> {
 	private ArrayList<MarketSnapshot>	marketHistory	= new ArrayList<MarketSnapshot>();
 
-	private float						baseSupply, basePrice, desiredThisTick;
+	private float						baseSupply, basePrice;
 	private int							ticks			= 1,
 												stockPile = 0;
 	private float						maxPrice, minPrice, maxDemand, minDemand, maxSupply, minSupply, averagePrice, supply, demand;
@@ -22,7 +17,6 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 	
 	private NoisyCurveGenerator supplyCurve = new NoisyCurveGenerator(0.001f, 0.8f, 4);
 	private NoisyCurveGenerator demandCurve = new NoisyCurveGenerator(0.0045f, 0.8f, 4);
-//	private NoisyCurveGenerator noiseCurve = new NoisyCurveGenerator(0.08f, 0.02f);
 
 	public MarketResource(String id, String name, String guild, String rarity, String description, float baseSupply, float basePrice) {
 		super(name, id, description, guild, rarity, ResourceType.MERCHANT);
@@ -30,7 +24,6 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		this.basePrice = basePrice;
 		supply = baseSupply;
 		demand = baseSupply;
-		desiredThisTick = baseSupply;
 		price = getPricePerUnit();
 		marketHistory.add(new MarketSnapshot(supply, demand, price));
 		maxPrice = getPricePerUnit();
@@ -53,7 +46,6 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 	private void updateResource() {
 		putPrice();
 		++ticks;
-		desiredThisTick = 0;
 	}
 	
 	private float clampToRange(float num){
@@ -66,11 +58,11 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 	}
 
 	public float getPricePerUnit() {
-		supply = (supplyCurve.getPoint());// + noiseCurve.getPoint();
+		supply = (supplyCurve.getPoint());
 		clampToRange(supply);
 		supply = supply * baseSupply / 4f + baseSupply;
 		
-		demand = (demandCurve.getPoint());// + noiseCurve.getPoint();
+		demand = (demandCurve.getPoint());
 		clampToRange(demand);
 		demand = demand * baseSupply / 4f + baseSupply;
 		
@@ -134,7 +126,7 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		price = getPricePerUnit();
 
 		boolean recordData = false;
-		if (ticks % 2 == 0) {
+		if (ticks % 1 == 0) {
 			recordData = true;
 		}
 
@@ -156,11 +148,11 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		}
 	}
 
-	public synchronized float getBuyPrice(int amount) {
+	public float getBuyPrice(int amount) {
 		return price * amount;
 	}
 
-	public synchronized float getSellPrice(int quantity) {
+	public float getSellPrice(int quantity) {
 		if (quantity <= 0) {
 			return -1;
 		}
@@ -173,35 +165,35 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		}
 	}
 
-	public synchronized float getPriceDiff() {
+	public float getPriceDiff() {
 		return maxPrice - minPrice;
 	}
 
-	public synchronized float getMinPrice() {
+	public float getMinPrice() {
 		return minPrice;
 	}
 
-	public synchronized float getMaxPrice() {
+	public float getMaxPrice() {
 		return maxPrice;
 	}
 
-	public synchronized float getMaxSupply() {
+	public float getMaxSupply() {
 		return maxSupply;
 	}
 
-	public synchronized float getMinSupply() {
+	public float getMinSupply() {
 		return minSupply;
 	}
 
-	public synchronized float getMaxDemand() {
+	public float getMaxDemand() {
 		return maxDemand;
 	}
 
-	public synchronized float getMinDemand() {
+	public float getMinDemand() {
 		return minDemand;
 	}
 
-	public synchronized ArrayList<MarketSnapshot> getMarketHistory(int width) {
+	public ArrayList<MarketSnapshot> getMarketHistory(int width) {
 		int startPoint = marketHistory.size() - width;
 		if (startPoint < 0) {
 			startPoint = 0;
@@ -213,24 +205,20 @@ public class MarketResource extends Resource implements Comparable<MarketResourc
 		return arr;
 	}
 
-	public synchronized int getDemand() {
+	public int getDemand() {
 		return (int) demand;
 	}
 
-	public synchronized int getSupply() {
+	public int getSupply() {
 		return (int) supply;
 	}
 
-	public synchronized void setSupplyRate(int supplyRate) {
+	public void setSupplyRate(int supplyRate) {
 		this.supply += supplyRate;
 	}
 
-	public synchronized float getAveragePrice() {
+	public float getAveragePrice() {
 		return averagePrice;
-	}
-
-	public synchronized void updateDesiredThisTick(int amount) {
-		desiredThisTick += amount;
 	}
 
 	public int compareTo(MarketResource arg0) {

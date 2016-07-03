@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 
 import GUI.GUIElements;
 import MarketSimulator.MarketResource;
-import MerchantResources.MerchantResource;
 
 public class CenterDetailPanel extends DetailPanel{	
 	private GUIElements.MyTextArea descriptionTextArea;
@@ -20,7 +19,7 @@ public class CenterDetailPanel extends DetailPanel{
 
 	public void selectedResourceChanged(MarketResource m) {
 		if(m != null){
-			descriptionTextArea.setText(m.getDescription());
+			descriptionTextArea.setText(m.description());
 		} else {
 			descriptionTextArea.setText("");
 		}

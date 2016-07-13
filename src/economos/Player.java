@@ -7,7 +7,7 @@ import MerchantResources.MerchantResource;
 
 public class Player {
 	private static String name, playTime;
-	private static float money = 100f, moneyMade, moneySpent, value;
+	private static float money = 100000f, moneyMade, moneySpent, value;
 	public static ArrayList<MerchantResource> userResources = DataParser.userResources();
 
 	public Player(String name) {

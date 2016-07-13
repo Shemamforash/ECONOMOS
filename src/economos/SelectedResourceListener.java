@@ -1,8 +1,9 @@
 package economos;
 
 import MarketSimulator.MarketResource;
+import MerchantResources.Resource;
 
 public interface SelectedResourceListener {	
-	public void selectedResourceChanged(MarketResource m);
+	public void selectedResourceChanged(Resource m);
 	public void selectedGuildChanged(String g);
 }

@@ -4,6 +4,7 @@ import java.io.*;
 import DataStructures.List;
 
 import CraftingResources.CraftingResource;
+import MarketSimulator.Debug;
 import MarketSimulator.MarketResource;
 import MerchantResources.MerchantResource;
 import MerchantResources.Resource;
@@ -77,21 +78,16 @@ public class DataParser {
 
 	/**
 	 * Read the resourcedata csv files from an input stream locating the files from the class loader
-     */
-	private void loadFile(String name) throws IOException {
-		InputStream reader = getClass().getClassLoader().getResourceAsStream(name);
-		readMerchantData(new BufferedReader(new InputStreamReader(reader)));
-		reader.close();
-	}
-
-	/**
-	 *
 	 */
 	public DataParser() throws IOException {
 		InputStream reader = null;
 		try {
-			loadFile("MerchantResourceData.csv");
-			loadFile("CraftingResourceData.csv");
+			reader = getClass().getClassLoader().getResourceAsStream("MerchantResourceData.csv");
+			readMerchantData(new BufferedReader(new InputStreamReader(reader)));
+			reader.close();
+			reader = getClass().getClassLoader().getResourceAsStream("CraftingResourceData.csv");
+			readCraftingData(new BufferedReader(new InputStreamReader(reader)));
+			reader.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot find resource data file.");
 		}

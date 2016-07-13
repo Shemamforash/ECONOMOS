@@ -1,16 +1,17 @@
 package Merchant;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.SpringLayout;
 
+import GUI.DetailPanel;
 import GUI.EconomosGUI;
 import GUI.GUIElements;
+import GUI.GuildPanel;
+import MarketSimulator.Debug;
 import MarketSimulator.MarketController;
 import MarketSimulator.MarketResource;
 import MerchantResources.MerchantResource;
-import economos.Main;
+import MerchantResources.Resource;
+import economos.Player;
 
 public class RightDetailPanel extends DetailPanel {
 	private GUIElements.MyTextField possessTextField, boughtTextField, soldTextField, averageProfitTextField,
@@ -20,7 +21,7 @@ public class RightDetailPanel extends DetailPanel {
 	private static MarketResource		currentResource		= null;
 	
 	public RightDetailPanel(){
-		super();
+		super(GuildPanel.PanelType.MERCHANT);
 		possessTextField = new GUIElements.MyTextField();
 		possessTextField.setEditable(false);
 		possessTextField.setColumns(10);
@@ -62,22 +63,18 @@ public class RightDetailPanel extends DetailPanel {
 		demandSupplyTextField.setColumns(10);
 		add(demandSupplyTextField);
 
-		buyButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (currentResource != null) {
-					String response = MarketController.buyResource(buyButton.getSelectedQuantity(), currentResource, Main.getPlayer());
-					EconomosGUI.postNewHeadline(response);
-				}
+		buyButton.addActionListener(e -> {
+			if (currentResource != null) {
+				String response = MarketController.buyResource(buyButton.getSelectedQuantity(), currentResource);
+				EconomosGUI.postNewHeadline(response);
 			}
 		});
 		add(buyButton);
 
-		sellButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (currentResource != null) {
-					String response = MarketController.sellResource(sellButton.getSelectedQuantity(), currentResource, Main.getPlayer());
-					EconomosGUI.postNewHeadline(response);
-				}
+		sellButton.addActionListener(e -> {
+			if (currentResource != null) {
+				String response = MarketController.sellResource(sellButton.getSelectedQuantity(), currentResource);
+				EconomosGUI.postNewHeadline(response);
 			}
 		});
 
@@ -89,15 +86,12 @@ public class RightDetailPanel extends DetailPanel {
 		initialised = true;
 	}
 
-	public void selectedResourceChanged(MarketResource m) {
-		currentResource = m;
-		MerchantResource userResource = Main.getPlayer().findUserResource(currentResource.name());
-		sellButton.reset();
-		buyButton.reset();
-		if(m != null && userResource != null){
-			demandSupplyTextField.setText("S/D: " + m.getSupply() + "/" + m.getDemand());
+	private void updateText(){
+		if(currentResource != null){
+			MerchantResource userResource = Player.findUserResource(currentResource.name());
+			demandSupplyTextField.setText("S/D: " + currentResource.getSupply() + "/" + currentResource.getDemand());
 			possessTextField.setText("OWN " + userResource.quantity());
-			averagePriceTextField.setText("Average Price: C" + EconomosGUI.decimalFormatter().format(m.getAveragePrice()));
+			averagePriceTextField.setText("Average Price: C" + EconomosGUI.decimalFormatter().format(currentResource.getAveragePrice()));
 			averageProfitTextField.setText("Average Profit: C" + EconomosGUI.decimalFormatter().format(userResource.averageProfit()));
 			soldTextField.setText("Sold " + userResource.sold() + " units");
 			try {
@@ -120,6 +114,12 @@ public class RightDetailPanel extends DetailPanel {
 			sellButton.reset();
 			buyButton.reset();
 		}
+	}
+
+	public void selectedResourceChanged(Resource m) {
+		currentResource = (MarketResource) m;
+		sellButton.reset();
+		buyButton.reset();
 	}
 
 	public void selectedGuildChanged(String g) {
@@ -156,6 +156,7 @@ public class RightDetailPanel extends DetailPanel {
 
 		buyButton.updateConstraints(largeeHeight);
 		sellButton.updateConstraints(largeeHeight);
+		updateText();
 	}
 
 }

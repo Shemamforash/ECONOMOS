@@ -10,7 +10,6 @@ import GUI.EconomosGUI;
 public class Main {
 	private boolean running = true;
 	private float optimumFrameTime = 1000000000f / 60f;
-	private static Player player;
 	private EconomosGUI window;
 
 	public static void main(String[] args) {
@@ -45,7 +44,6 @@ public class Main {
 			System.out.println("Failed to load. Terminating");
 			System.exit(0);
 		}
-		player = new Player("Sam");
 	}
 
 	// Start the gameloop- this will try to run at 60fps.
@@ -73,9 +71,5 @@ public class Main {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	public static Player getPlayer() {
-		return player;
 	}
 }

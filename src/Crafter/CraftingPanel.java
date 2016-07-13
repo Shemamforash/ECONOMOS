@@ -14,6 +14,8 @@ public class CraftingPanel extends GUIElements.MyPanel implements UpdateListener
 	private GuildPanel guilds;
 	private GUIElements.MyPanel resourceDetailPanel, bodyPanel;
 	private SpringLayout springLayout;
+	private LeftDetailPanel leftDetailPanel;
+	private RightDetailPanel rightDetailPanel;
 	private boolean initialised = false;
 	private MinigameController minigameController;
 
@@ -40,6 +42,12 @@ public class CraftingPanel extends GUIElements.MyPanel implements UpdateListener
 		SpringLayout sl_resourceDetailPanel = new SpringLayout();
 		resourceDetailPanel.setLayout(sl_resourceDetailPanel);
 		bodyPanel.add(resourceDetailPanel);
+
+		leftDetailPanel = new LeftDetailPanel();
+		resourceDetailPanel.add(leftDetailPanel);
+
+		rightDetailPanel = new RightDetailPanel();
+		resourceDetailPanel.add(rightDetailPanel);
 
 		GUIElements.MyPanel resourceGraphPanel = new GUIElements.MyPanel(true);
 		sl_bodyPanel.putConstraint(SpringLayout.NORTH, resourceGraphPanel, EconomosGUI.largePanelGap(),
@@ -72,6 +80,23 @@ public class CraftingPanel extends GUIElements.MyPanel implements UpdateListener
 			springLayout.putConstraint(SpringLayout.SOUTH, resourceDetailPanel, resourcePanelHeight, SpringLayout.NORTH,
 					bodyPanel);
 			springLayout.putConstraint(SpringLayout.EAST, resourceDetailPanel, 0, SpringLayout.EAST, bodyPanel);
+
+			int leftPanelWidth = (int) (resourcePanelHeight / 2 * 1.3f);
+			springLayout = (SpringLayout) (resourceDetailPanel.getLayout());
+			springLayout.putConstraint(SpringLayout.NORTH, leftDetailPanel, 0, SpringLayout.NORTH, resourceDetailPanel);
+			springLayout.putConstraint(SpringLayout.WEST, leftDetailPanel, 0, SpringLayout.WEST, resourceDetailPanel);
+			springLayout.putConstraint(SpringLayout.SOUTH, leftDetailPanel, 0, SpringLayout.SOUTH, resourceDetailPanel);
+			springLayout.putConstraint(SpringLayout.EAST, leftDetailPanel, leftPanelWidth, SpringLayout.WEST,
+					resourceDetailPanel);
+
+			springLayout.putConstraint(SpringLayout.NORTH, rightDetailPanel, 0, SpringLayout.NORTH,
+					resourceDetailPanel);
+			springLayout.putConstraint(SpringLayout.WEST, rightDetailPanel, EconomosGUI.largePanelGap(),
+					SpringLayout.EAST, leftDetailPanel);
+			springLayout.putConstraint(SpringLayout.SOUTH, rightDetailPanel, 0, SpringLayout.SOUTH,
+					resourceDetailPanel);
+			springLayout.putConstraint(SpringLayout.EAST, rightDetailPanel, 0, SpringLayout.EAST, resourceDetailPanel);
+			repaint();
 
 			revalidate();
 //			minigameController.repaint();

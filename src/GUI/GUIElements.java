@@ -172,6 +172,7 @@ public class GUIElements {
 			setBackground(backgroundColor);
 			setForeground(Color.white);
 			setFont(new Font("Verdana", Font.BOLD, 12));
+			setEditable(false);
 			this.setBorder(emptyBorder);
 		}
 	}
@@ -205,14 +206,12 @@ public class GUIElements {
 			public MyButtonExtended(String s) {
 				super(s, true);
 				thisButton = this;
-				this.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
+				this.addActionListener(e -> {
 						if (lastButton != null) {
 							lastButton.setSelected(false);
 						}
 						lastButton = thisButton;
 						setSelected(true);
-					}
 				});
 			}
 		}

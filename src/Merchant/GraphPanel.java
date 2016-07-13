@@ -6,9 +6,11 @@ import java.text.NumberFormat;
 import java.util.*;
 import javax.swing.*;
 
+import GUI.GuildPanel;
 import MarketSimulator.MarketController;
 import MarketSimulator.MarketResource;
 import MerchantResources.MerchantResource;
+import MerchantResources.Resource;
 import economos.SelectedResourceCaller;
 import economos.SelectedResourceListener;
 import economos.UpdateCaller;
@@ -25,7 +27,7 @@ public class GraphPanel extends JPanel implements SelectedResourceListener, Upda
 		setBackground(new Color(30, 30, 30));
 		d.setMaximumFractionDigits(2);
 		UpdateCaller.addListener(this);
-		SelectedResourceCaller.addListener(this);
+		SelectedResourceCaller.addListener(this, GuildPanel.PanelType.MERCHANT);
 	}
 
 	public void drawGrid() {
@@ -123,8 +125,8 @@ public class GraphPanel extends JPanel implements SelectedResourceListener, Upda
 		}
 	}
 
-	public void selectedResourceChanged(MarketResource m) {
-		marketResource = m;		
+	public void selectedResourceChanged(Resource m) {
+		marketResource = (MarketResource) m;
 	}
 
 	public void selectedGuildChanged(String g) {

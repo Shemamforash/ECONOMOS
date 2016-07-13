@@ -2,13 +2,16 @@ package Merchant;
 
 import java.awt.BorderLayout;
 
+import GUI.DetailPanel;
 import GUI.GUIElements;
-import MarketSimulator.MarketResource;
+import GUI.GuildPanel;
+import MerchantResources.Resource;
 
-public class CenterDetailPanel extends DetailPanel{	
+public class CenterDetailPanel extends DetailPanel {
 	private GUIElements.MyTextArea descriptionTextArea;
 	
 	public CenterDetailPanel(){
+		super(GuildPanel.PanelType.MERCHANT);
 		setLayout(new BorderLayout());
 		descriptionTextArea = new GUIElements.MyTextArea();
 		descriptionTextArea.setLineWrap(true);
@@ -17,7 +20,7 @@ public class CenterDetailPanel extends DetailPanel{
 		add(descriptionTextArea, BorderLayout.CENTER);
 	}
 
-	public void selectedResourceChanged(MarketResource m) {
+	public void selectedResourceChanged(Resource m) {
 		if(m != null){
 			descriptionTextArea.setText(m.description());
 		} else {

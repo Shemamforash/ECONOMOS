@@ -1,5 +1,6 @@
 package CraftingResources;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import MerchantResources.Resource;
@@ -8,7 +9,7 @@ import economos.Player;
 
 public class CraftingResource extends Resource {
 	private ArrayList<RequisiteResource>	requisiteResources = new ArrayList<RequisiteResource>();
-	private int					value, cost, quantity = 0;
+	private int					value, cost, quantity = 0, sold = 0;
 
 	public CraftingResource(String name, String id, String guild, String rarity, String description, int cost) {
 		super(name, id, description, guild, rarity, ResourceType.CRAFTING);
@@ -37,27 +38,31 @@ public class CraftingResource extends Resource {
 		return true;
 	}
 
-	public boolean canCraft(Player p) {
+	public boolean canCraft() {
 		if (hasResources()) {
-			return (p.money() >= cost);
+			return (Player.money() >= cost);
 		}
 		return false;
 	}
 
-	public void craft(Player p) {
+	public void craft() {
 		requisiteResources.forEach((r) -> r.reduceResource());
 		updateQuantity(1, 0);
-		p.updateMoney(-cost);
+		Player.updateMoney(-cost);
 	}
 
-	public void sell(Player p) {
+	public void sell() {
 		updateQuantity(-1, 0);
-		p.updateMoney(value);
+		Player.updateMoney(value);
 	}
 	
 	public int value(){
 		return value;
 	}
+
+	public int quantity() { return quantity; }
+
+	public int sold() { return sold; }
 
 	public class RequisiteResource {
 		private Resource			resource;
@@ -65,7 +70,7 @@ public class CraftingResource extends Resource {
 		private boolean				hasMetRequirements;
 
 		public void reduceResource() {
-			Main.getPlayer().findUserResource(resource.name()).consumeResource(quantity);
+			Player.findUserResource(resource.name()).consumeResource(quantity);
 		}
 
 		public RequisiteResource(Resource resource, int quantity) {
@@ -77,7 +82,7 @@ public class CraftingResource extends Resource {
 			if (hasMetRequirements) {
 				return true;
 			} else {
-				if (Main.getPlayer().findUserResource(resource.name()).quantity() >= quantity) {
+				if (Player.findUserResource(resource.name()).quantity() >= quantity) {
 					hasMetRequirements = true;
 					return true;
 				}
@@ -88,6 +93,14 @@ public class CraftingResource extends Resource {
 		public Resource resource(){
 			return resource;
 		}
+
+		public int quantity() {
+			return quantity;
+		}
+	}
+
+	public ArrayList<RequisiteResource> requisiteResources() {
+		return requisiteResources;
 	}
 
 	public void updateQuantity(int amount, float price) {

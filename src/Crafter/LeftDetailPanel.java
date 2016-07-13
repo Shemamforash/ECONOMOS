@@ -1,22 +1,21 @@
-package Merchant;
+package Crafter;
 
-import java.awt.Color;
-import java.awt.FlowLayout;
-
-import javax.swing.SpringLayout;
-
-import GUI.DetailPanel;
 import GUI.EconomosGUI;
 import GUI.GUIElements;
 import GUI.GuildPanel;
+import MarketSimulator.Debug;
+import GUI.DetailPanel;
 import MerchantResources.Resource;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class LeftDetailPanel extends DetailPanel {
 	private GUIElements.MyPanel iconPanel;
 	private GUIElements.MyTextField typeTextField, nameTextField, rarityTextField;
 
 	public LeftDetailPanel() {
-		super(GuildPanel.PanelType.MERCHANT);
+		super(GuildPanel.PanelType.CRAFTING);
 		iconPanel = new GUIElements.MyPanel(true);
 		iconPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		add(iconPanel);

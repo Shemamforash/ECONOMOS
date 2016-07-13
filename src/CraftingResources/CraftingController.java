@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import MerchantResources.Resource;
 import MerchantResources.ResourceMap;
+import economos.SelectedResourceListener;
 
 public class CraftingController {
 	private static ArrayList<Guild> guilds = new ArrayList<Guild>();
 	private static String[] craftingLevels = new String[]{"Dabbler", "Apprentice", "Journeyman", "Master", "Adept"};
 	private static ResourceMap<CraftingResource> craftingResources = new ResourceMap<CraftingResource>(true);
-	
+	private static CraftingResource currentResource;
+
 	private class Guild{
 		private String name;
 		private int xp = 0;
@@ -23,7 +25,7 @@ public class CraftingController {
 		}
 	}
 
-	public static Resource findResource(String lookup) {
+	public static CraftingResource findResource(String lookup) {
 		return craftingResources.resource(lookup);
 	}
 	

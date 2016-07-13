@@ -1,8 +1,9 @@
-package Merchant;
+package GUI;
 
 import javax.swing.SpringLayout;
 
 import GUI.GUIElements;
+import GUI.GuildPanel;
 import economos.SelectedResourceCaller;
 import economos.SelectedResourceListener;
 import economos.UpdateCaller;
@@ -12,12 +13,12 @@ public abstract class DetailPanel extends GUIElements.MyPanel implements Selecte
 	protected SpringLayout springLayout;
 	public boolean initialised;
 	
-	public DetailPanel(){
+	public DetailPanel(GuildPanel.PanelType panelType){
 		super(true);
 		springLayout = new SpringLayout();
 		setLayout(springLayout);
 		UpdateCaller.addListener(this);
-		SelectedResourceCaller.addListener(this);
+		SelectedResourceCaller.addListener(this, panelType);
 	}
 	
 	public boolean isInitialised() {

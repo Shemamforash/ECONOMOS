@@ -1,7 +1,6 @@
-package GUI;
+package GUI.GuildPanel;
 
 import java.awt.*;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,29 +8,29 @@ import java.util.Comparator;
 import javax.swing.*;
 
 import CraftingResources.CraftingController;
-import CraftingResources.CraftingResource;
 import DataImportExport.DataParser;
+import GUI.GUIElements;
+import GUI.SubListPanel;
+import MarketSimulator.Debug;
 import MarketSimulator.MarketController;
-import MarketSimulator.MarketResource;
 import MerchantResources.Resource;
 import economos.SelectedResourceCaller;
 
 public class GuildPanel extends GUIElements.MyPanel {
-	private GUIElements.MyPanel resourceList = new GUIElements.MyPanel(false);
-	private int height, width;
-	private JButton selectedResourceButton;
-	private JScrollPane resourceScrollPane;
 	private ArrayList<? extends Resource> resources;
 	private PanelType panelType;
+	private SubListPanel subListPanel;
+	private GuildPanel guildPanel;
+	private JButton selectedResourceButton;
 
 	public enum PanelType {
 		CRAFTING, MERCHANT
 	};
 
-	public GuildPanel(int height, int width, PanelType panelType) {
+	public GuildPanel(int height, PanelType panelType) {
 		super(true);
-		this.height = height;
-		this.width = width;
+		guildPanel = this;
+		subListPanel = new SubListPanel(height, false);
 		this.panelType = panelType;
 		if (panelType == PanelType.CRAFTING) {
 			resources = CraftingController.getCraftingResources().resources();
@@ -70,25 +69,32 @@ public class GuildPanel extends GUIElements.MyPanel {
 		SpringLayout sl_listPanel = new SpringLayout();
 		setLayout(sl_listPanel);
 
-		resourceScrollPane = new JScrollPane(resourceList);
-		resourceScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		resourceScrollPane.getVerticalScrollBar().setUnitIncrement(10);
-		sl_listPanel.putConstraint(SpringLayout.NORTH, resourceScrollPane, 10, SpringLayout.SOUTH, guildButtonPanel);
-		sl_listPanel.putConstraint(SpringLayout.SOUTH, resourceScrollPane, 0, SpringLayout.SOUTH, this);
-		sl_listPanel.putConstraint(SpringLayout.WEST, resourceScrollPane, 0, SpringLayout.WEST, this);
-		sl_listPanel.putConstraint(SpringLayout.EAST, resourceScrollPane, 0, SpringLayout.EAST, this);
-		resourceScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
-		resourceScrollPane.setBorder(null);
-		this.add(resourceScrollPane);
-
 		sl_listPanel.putConstraint(SpringLayout.NORTH, guildButtonPanel, 0, SpringLayout.NORTH, this);
 		sl_listPanel.putConstraint(SpringLayout.WEST, guildButtonPanel, 0, SpringLayout.WEST, this);
-		sl_listPanel.putConstraint(SpringLayout.SOUTH, guildButtonPanel, width / 8, SpringLayout.NORTH, this);
+		sl_listPanel.putConstraint(SpringLayout.SOUTH, guildButtonPanel, 30, SpringLayout.NORTH, this);
 		sl_listPanel.putConstraint(SpringLayout.EAST, guildButtonPanel, 0, SpringLayout.EAST, this);
+		add(guildButtonPanel);
 
-		this.add(guildButtonPanel);
-		resourceList.setLayout(new GridBagLayout());
+		sl_listPanel.putConstraint(SpringLayout.NORTH, subListPanel, 0, SpringLayout.SOUTH, guildButtonPanel);
+		sl_listPanel.putConstraint(SpringLayout.WEST, subListPanel, 0, SpringLayout.WEST, this);
+		sl_listPanel.putConstraint(SpringLayout.SOUTH, subListPanel, 0, SpringLayout.SOUTH, this);
+		sl_listPanel.putConstraint(SpringLayout.EAST, subListPanel, 0, SpringLayout.EAST, this);
+		add(subListPanel);
+
 		updateMyList(convertToButtonList(sortByGuild(getUnlockedResources())));
+	}
+
+	public void updateMyList(ArrayList<GUIElements.MyButton> buttonList){
+		subListPanel.clear();
+		SubListPanel.MainPanel p = null;
+		for(GUIElements.MyButton b : buttonList) {
+			if(b.getClass().getTypeName().equals("GUI.GuildPanel.ResourceButton") && p != null) {
+				subListPanel.addSubPanel(p, b);
+			} else {
+				p = subListPanel.addMainPanelAsButton(b.getText());
+			}
+		}
+		subListPanel.update();
 	}
 
 	public ArrayList<GUIElements.MyButton> convertToButtonList(ArrayList<SortedCategory> sortedList) {
@@ -193,39 +199,18 @@ public class GuildPanel extends GUIElements.MyPanel {
 
 		private ArrayList<GUIElements.MyButton> subsortAlphabetically(ArrayList<? extends Resource> sublist) {
 			ArrayList<GUIElements.MyButton> buttons = new ArrayList<GUIElements.MyButton>();
-			Comparator<Resource> alphabetComparator = new Comparator<Resource>() {
-				public int compare(Resource one, Resource other) {
-					return one.name().compareTo(other.name());
-				}
-			};
+			Comparator<Resource> alphabetComparator = (Resource one, Resource other) -> one.name().compareTo(other.name());
 			Collections.sort(sublist, alphabetComparator);
 			boolean setDarker = true;
 			for (Resource r : sublist) {
-				buttons.add(new ResourceButton(r, true, setDarker));
+				buttons.add(new ResourceButton(r, true, setDarker, guildPanel));
 				setDarker = !setDarker;
 			}
 			return buttons;
 		}
 	}
 
-	public void updateMyList(ArrayList<GUIElements.MyButton> buttonList) {
-		resourceList.removeAll();
-		GridBagConstraints gc = new GridBagConstraints();
-		gc.gridx = 0;
-		gc.gridy = 0;
-		gc.ipady = height / 30 + 10;
-		gc.fill = GridBagConstraints.HORIZONTAL;
-		gc.weightx = 1;
-		for (GUIElements.MyButton b : buttonList) {
-			resourceList.add(b, gc);
-			++gc.gridy;
-		}
-		resourceList.validate();
-		resourceList.repaint();
-		resourceScrollPane.getViewport().revalidate();
-	}
-
-	private void setSelectedResource(ResourceButton b) {
+	public void setSelectedResource(ResourceButton b) {
 		if (selectedResourceButton != null) {
 			selectedResourceButton.setSelected(false);
 		}
@@ -234,53 +219,7 @@ public class GuildPanel extends GUIElements.MyPanel {
 		selectedResourceButton.setSelected(true);
 	}
 
-	private class ResourceButton extends GUIElements.MyButton {
-		private ResourceButton thisButton;
-		private Resource resource;
-
-		public ResourceButton(Resource resource, boolean enabled, boolean darker) {
-			super("", enabled, new Color(30, 30, 30), new Color(25, 25, 25), true);
-			this.resource = resource;
-			if (!enabled) {
-				setForeground(Color.white);
-			}
-			thisButton = this;
-			this.addActionListener(e -> setSelectedResource(thisButton));
-		}
-
-		public String getResourceName() {
-			return resource.name();
-		}
-
-		public void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-					RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-			int yOffset;
-			if (!isEnabled()) {
-				g.setFont(thisButton.getFont().deriveFont(14f));
-				g.setColor(new Color(255, 140, 0));
-				yOffset = 7;
-			} else {
-				g.setFont(thisButton.getFont().deriveFont(12f));
-				g.setColor(Color.white);
-				yOffset = 6;
-			}
-			g.drawString(resource.name(), 10, getHeight() / 2 + yOffset);
-			g.setFont(thisButton.getFont().deriveFont(10f));
-			g.setColor(new Color(200, 200, 200));
-			String str;
-			if (panelType == PanelType.MERCHANT) {
-				BigDecimal price = new BigDecimal(((MarketResource) resource).getAveragePrice());
-				BigDecimal roundedPrice = price.setScale(2, BigDecimal.ROUND_HALF_UP);
-				str = "C" + roundedPrice + " (D" + ((MarketResource) resource).getDemand() + "/ S"
-						+ ((MarketResource) resource).getSupply() + ")";
-			} else {
-				str = "C" + ((CraftingResource) resource).value();
-			}
-			int stringLength = (int) g.getFontMetrics().getStringBounds(str, g).getWidth();
-			g.drawString(str, getWidth() - (stringLength + 10), getHeight() / 2 + 5);
-		}
+	public PanelType getPanelType(){
+		return panelType;
 	}
 }

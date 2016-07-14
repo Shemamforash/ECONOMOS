@@ -24,7 +24,7 @@ public class CraftingResource extends Resource {
 		private final String text;
 		private final int level;
 
-		private Quality(final String text, final int level){
+		Quality(final String text, final int level){
 			this.text = text;
 			this.level = level;
 		}

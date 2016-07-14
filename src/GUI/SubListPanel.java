@@ -1,5 +1,7 @@
 package GUI;
 
+import MarketSimulator.Debug;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -61,11 +63,17 @@ public class SubListPanel <T extends JComponent> extends GUIElements.MyPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    public MainPanel addMainPanel(String title){
-        MainPanel p = new MainPanel(title);
+    public MainPanel addMainPanel(JComponent panel){
+        MainPanel p = new MainPanel(panel);
         mainPanels.add(p);
         return p;
     }
+
+	public MainPanel addMainPanelAsButton (String title){
+		MainPanel p = new MainPanel(title);
+		mainPanels.add(p);
+		return p;
+	}
 
     public void addSubPanel(MainPanel p, T subPanel) {
         p.add(subPanel);
@@ -73,21 +81,25 @@ public class SubListPanel <T extends JComponent> extends GUIElements.MyPanel {
 
     public class MainPanel {
         private ArrayList<T> subPanels = new ArrayList<T>();
-        private String title;
+        private JComponent panel;
         private boolean showContents;
         private T header;
 
-        public MainPanel(String title){
-            this.title = title;
-            GUIElements.MyButton b = new GUIElements.MyButton(title, true);
-            showContents = defaultVisible;
-            b.addActionListener(e -> {
-                showContents = !showContents;
-                subPanels.forEach(p -> p.setVisible(showContents));
-                scrollPane.revalidate();
-            });
-            header = (T)b;
+        public MainPanel(JComponent panel){
+            this.panel = panel;
+            header = (T) panel;
         }
+
+	    public MainPanel(String title) {
+		    GUIElements.MyButton b = new GUIElements.MyButton(title, true);
+		    showContents = defaultVisible;
+		    b.addActionListener(e -> {
+			    showContents = !showContents;
+			    subPanels.forEach(p -> p.setVisible(showContents));
+			    scrollPane.revalidate();
+		    });
+		    header = (T)b;
+	    }
 
         public T getHeader(){
             return header;

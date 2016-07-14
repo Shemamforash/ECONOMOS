@@ -4,7 +4,21 @@ public abstract class Resource {
 	private String name, id, description, guild, rarity;
 	private boolean unlocked = false;	
 	private ResourceType type;
-	public enum ResourceType { CRAFTING, MERCHANT };
+
+	public enum ResourceType {
+		CRAFTING("Crafting"),
+		MERCHANT("Merchant");
+
+		public final String category;
+
+		ResourceType(final String category) {
+			this.category = category;
+		}
+
+		public String toString() {
+			return category;
+		}
+	};
 	
 	public Resource(String name, String id, String description, String guild, String rarity, ResourceType type){
 		this.name = name;

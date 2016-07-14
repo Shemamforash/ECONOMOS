@@ -2,8 +2,7 @@ package GUI;
 
 import javax.swing.SpringLayout;
 
-import GUI.GUIElements;
-import GUI.GuildPanel;
+import GUI.GuildPanel.GuildPanel;
 import economos.SelectedResourceCaller;
 import economos.SelectedResourceListener;
 import economos.UpdateCaller;

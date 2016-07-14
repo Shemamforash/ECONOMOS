@@ -1,4 +1,4 @@
-package Crafter;
+package GUI.Crafter;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

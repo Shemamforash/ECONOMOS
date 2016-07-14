@@ -1,4 +1,4 @@
-package Crafter;
+package GUI.Crafter;
 
 import java.awt.GridLayout;
 
@@ -6,7 +6,7 @@ import javax.swing.SpringLayout;
 
 import GUI.EconomosGUI;
 import GUI.GUIElements;
-import GUI.GuildPanel;
+import GUI.GuildPanel.GuildPanel;
 import economos.UpdateCaller;
 import economos.UpdateListener;
 
@@ -23,8 +23,7 @@ public class CraftingPanel extends GUIElements.MyPanel implements UpdateListener
 		springLayout = new SpringLayout();
 		setLayout(springLayout);
 
-		guilds = new GuildPanel(EconomosGUI.screenHeight() - 50, EconomosGUI.screenWidth() / 4,
-				GuildPanel.PanelType.CRAFTING);
+		guilds = new GuildPanel(EconomosGUI.screenHeight() - 50, GuildPanel.PanelType.CRAFTING);
 		add(guilds);
 
 		bodyPanel = new GUIElements.MyPanel(true);

@@ -1,10 +1,10 @@
-package Merchant;
+package GUI.Merchant;
 
 import java.awt.BorderLayout;
 
 import GUI.DetailPanel;
 import GUI.GUIElements;
-import GUI.GuildPanel;
+import GUI.GuildPanel.GuildPanel;
 import MerchantResources.Resource;
 
 public class CenterDetailPanel extends DetailPanel {

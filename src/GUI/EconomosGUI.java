@@ -3,18 +3,13 @@ package GUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.*;
 
-import Crafter.CraftingPanel;
-import Crafter.MinigameController;
-import CraftingResources.CraftingController;
-import Merchant.MerchantsPanel;
+import GUI.Crafter.CraftingPanel;
+import GUI.Inventory.InventoryPanel;
+import GUI.Merchant.MerchantsPanel;
 import economos.UpdateCaller;
 import economos.UpdateListener;
 
@@ -25,6 +20,7 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 	private GUIElements.MyPanel gamePanel, overviewPanel, infoPanel;
 	private MerchantsPanel merchantsPanel;
 	private CraftingPanel craftersPanel;
+	private InventoryPanel inventoryPanel;
 	private static boolean resizing = false;
 	private static int screenWidth = 800, screenHeight = 600;
 	private static int largePanelGap = 15, smallPanelGap = 7;
@@ -64,8 +60,8 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 	public void receiveUpdate() {
 		int swlast = screenWidth;
 		int shlast = screenHeight;
-//		screenWidth = this.getWidth();
-//		screenHeight = this.getHeight();
+		screenWidth = this.getWidth();
+		screenHeight = this.getHeight();
 		if (screenWidth < 600) {
 			screenWidth = 600;
 		}
@@ -139,6 +135,13 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 		springLayout.putConstraint(SpringLayout.EAST, craftersPanel, 0, SpringLayout.EAST, getContentPane());
 		gamePanel.add(craftersPanel, "Crafters");
 
+		inventoryPanel = new InventoryPanel(getHeight());
+		springLayout.putConstraint(SpringLayout.NORTH, inventoryPanel, 0, SpringLayout.NORTH, gamePanel);
+		springLayout.putConstraint(SpringLayout.WEST, inventoryPanel, 0, SpringLayout.WEST, gamePanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, inventoryPanel, 0, SpringLayout.SOUTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, inventoryPanel, 0, SpringLayout.EAST, getContentPane());
+		gamePanel.add(inventoryPanel, "Inventory");
+
 		headlineTextField = new GUIElements.MyTextField();
 		sl_infoPanel.putConstraint(SpringLayout.NORTH, headlineTextField, 6, SpringLayout.NORTH, infoPanel);
 		sl_infoPanel.putConstraint(SpringLayout.WEST, headlineTextField, 6, SpringLayout.WEST, infoPanel);
@@ -148,13 +151,12 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 		headlineTextField.setColumns(largePanelGap);
 
 		GUIElements.MyButton merchantsPanelButton = new GUIElements.MyButton("Merchants", true);
-		merchantsPanelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		merchantsPanelButton.addActionListener(e -> {
 				CardLayout cardLayout = (CardLayout) gamePanel.getLayout();
 				cardLayout.show(gamePanel, "Merchants");
 				gamePanel.revalidate();
-			}
 		});
+
 		sl_infoPanel.putConstraint(SpringLayout.NORTH, merchantsPanelButton, 0, SpringLayout.NORTH, headlineTextField);
 		sl_infoPanel.putConstraint(SpringLayout.WEST, merchantsPanelButton, 6, SpringLayout.EAST, headlineTextField);
 		sl_infoPanel.putConstraint(SpringLayout.SOUTH, merchantsPanelButton, 0, SpringLayout.SOUTH, headlineTextField);
@@ -162,12 +164,10 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 		infoPanel.add(merchantsPanelButton);
 
 		GUIElements.MyButton craftersPanelButton = new GUIElements.MyButton("Crafters", true);
-		craftersPanelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		craftersPanelButton.addActionListener(e -> {
 				CardLayout cardLayout = (CardLayout) gamePanel.getLayout();
 				cardLayout.show(gamePanel, "Crafters");
 				gamePanel.revalidate();
-			}
 		});
 
 		sl_infoPanel.putConstraint(SpringLayout.NORTH, craftersPanelButton, 0, SpringLayout.NORTH,
@@ -178,12 +178,11 @@ public class EconomosGUI extends JFrame implements UpdateListener {
 		sl_infoPanel.putConstraint(SpringLayout.EAST, craftersPanelButton, 80, SpringLayout.EAST, merchantsPanelButton);
 		infoPanel.add(craftersPanelButton);
 
-		GUIElements.MyButton overviewPanelButton = new GUIElements.MyButton("Overview", true);
-		overviewPanelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		GUIElements.MyButton overviewPanelButton = new GUIElements.MyButton("Inventory", true);
+		overviewPanelButton.addActionListener(e -> {
 				CardLayout cardLayout = (CardLayout) gamePanel.getLayout();
-				cardLayout.show(gamePanel, "Overview");
-			}
+				cardLayout.show(gamePanel, "Inventory");
+				gamePanel.revalidate();
 		});
 		sl_infoPanel.putConstraint(SpringLayout.NORTH, overviewPanelButton, 0, SpringLayout.NORTH, craftersPanelButton);
 		sl_infoPanel.putConstraint(SpringLayout.WEST, overviewPanelButton, largePanelGap, SpringLayout.EAST,

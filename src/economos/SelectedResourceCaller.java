@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import CraftingResources.CraftingController;
 import CraftingResources.CraftingResource;
-import GUI.GuildPanel;
+import GUI.GuildPanel.GuildPanel;
 import MerchantResources.MerchantResource;
 
 public class SelectedResourceCaller {

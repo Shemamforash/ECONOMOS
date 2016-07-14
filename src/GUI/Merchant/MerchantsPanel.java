@@ -1,16 +1,12 @@
-package Merchant;
+package GUI.Merchant;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.SpringLayout;
 
 import GUI.*;
-import MerchantResources.*;
+import GUI.GuildPanel.GuildPanel;
+import MarketSimulator.Debug;
 import economos.*;
 
 public class MerchantsPanel extends GUIElements.MyPanel implements UpdateListener {
@@ -27,8 +23,7 @@ public class MerchantsPanel extends GUIElements.MyPanel implements UpdateListene
 		springLayout = new SpringLayout();
 		setLayout(springLayout);
 
-		guilds = new GuildPanel(EconomosGUI.screenHeight() - 50, EconomosGUI.screenWidth() / 4,
-				GuildPanel.PanelType.MERCHANT);
+		guilds = new GuildPanel(EconomosGUI.screenHeight() - 50, GuildPanel.PanelType.MERCHANT);
 		add(guilds);
 
 		bodyPanel = new GUIElements.MyPanel(true);

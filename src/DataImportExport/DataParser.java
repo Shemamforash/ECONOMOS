@@ -29,7 +29,7 @@ public class DataParser {
 			String type = arr[1];
 			merchantTypes.addUnique(type);
 			String rarity = arr[2];
-			merchantRarities.addUnique(type);
+			merchantRarities.addUnique(rarity);
 			String id = arr[3];
 			String description = arr[4];
 			float price = Float.parseFloat(arr[5]);

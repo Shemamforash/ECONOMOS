@@ -1,11 +1,11 @@
-package Crafter;
+package GUI.Crafter;
 
 import CraftingResources.CraftingController;
 import CraftingResources.CraftingResource;
 import GUI.EconomosGUI;
 import GUI.GUIElements;
 import GUI.DetailPanel;
-import GUI.GuildPanel;
+import GUI.GuildPanel.GuildPanel;
 import MerchantResources.Resource;
 import economos.Player;
 

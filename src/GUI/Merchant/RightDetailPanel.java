@@ -1,12 +1,11 @@
-package Merchant;
+package GUI.Merchant;
 
 import javax.swing.SpringLayout;
 
 import GUI.DetailPanel;
 import GUI.EconomosGUI;
 import GUI.GUIElements;
-import GUI.GuildPanel;
-import MarketSimulator.Debug;
+import GUI.GuildPanel.GuildPanel;
 import MarketSimulator.MarketController;
 import MarketSimulator.MarketResource;
 import MerchantResources.MerchantResource;

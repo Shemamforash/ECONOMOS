@@ -1,4 +1,4 @@
-package Merchant;
+package GUI.Merchant;
 
 import java.awt.*;
 import java.awt.image.*;
@@ -6,10 +6,9 @@ import java.text.NumberFormat;
 import java.util.*;
 import javax.swing.*;
 
-import GUI.GuildPanel;
+import GUI.GuildPanel.GuildPanel;
 import MarketSimulator.MarketController;
 import MarketSimulator.MarketResource;
-import MerchantResources.MerchantResource;
 import MerchantResources.Resource;
 import economos.SelectedResourceCaller;
 import economos.SelectedResourceListener;
